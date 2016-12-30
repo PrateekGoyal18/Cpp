@@ -1,0 +1,1308 @@
+//---------HOTEL RESERVATION SYSTEM--------------
+#include<iostream.h>
+#include<conio.h>
+#include<stdio.h>
+#include<string.h>
+#include<process.h>
+#include<ctype.h>
+#include<math.h>
+#include<fstream.h>
+#include<dos.h>
+#include<graphics.h>
+#include<stdlib.h>
+int no_of_cust=0;
+class BOX_CLASS
+{
+public:
+void DRAW_LINE(int,int,int,char);
+void DRAW_VER(int,int,int,char);
+void DRAW_BOX(int,int,int,int,char);
+}
+DRAW;
+void BOX_CLASS::DRAW_LINE(int column1,int column2,int row,char c)
+{
+for (column1;column1<=column2;column1++)
+{
+gotoxy(column1,row);
+cout<<c;
+}
+}
+// Function for vertical line draw
+void BOX_CLASS::DRAW_VER(int row1,int row2,int column,char c)
+{
+for (row1;row1<=row2;row1++)
+{
+gotoxy(column,row1);
+cout<<c;
+}
+}
+void BOX_CLASS::DRAW_BOX(int column1,int row1,int column2,int row2,char c)
+{
+char ch=218;
+char c1,c2,c3,c4;
+char l1=196,l2=179;
+if(c==ch)
+{
+c1=218;
+c2=191;
+c3=192;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+c4=217;
+l1=196;
+l2=179;
+}
+else
+{
+c1=c;
+c2=c;
+c3=c;
+c4=c;
+l1=c;
+c2=c;
+}
+gotoxy(column1,row1);
+cout<<c1;
+gotoxy(column2,row1);
+cout<<c2;
+gotoxy(column1,row2);
+cout<<c3;
+gotoxy(column2,row2);
+cout<<c4;
+column1++;
+column2--;
+DRAW_LINE(column1,column2,row1,l1); //Horizontal line
+DRAW_LINE(column1,column2,row2,l1);
+column1--;
+column2++;
+row1++;
+row2--;
+DRAW_VER(row1,row2,column1,l2); // Vertical line
+DRAW_VER(row1,row2,column2,l2);
+}
+void security(void)
+{
+clrscr();
+char pass[20];
+char username[20];
+gotoxy(20,12);
+cout<<"USER NAME : ";
+gets(username);
+if(!(strcmp(username,"ADMINISTRATOR"))||!(strcmp(username,"ADMINISTRATOR")))
+{
+for(int i=0;i<5;i++)
+{
+gotoxy(1,20);
+clreol();
+gotoxy(1,22);
+clreol();
+gotoxy(20,14);
+clreol();
+cout<<"ENTER USER PASSWORD : ";
+gets(pass);
+if((strcmp(pass,"KHUSHI"))&&(strcmp(pass,"KHUSHI")))
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+{
+if(i<3)
+{
+gotoxy(15,20);
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!";
+getch();
+}
+if(i==3)
+{
+gotoxy(25,20);
+cout<<" INCORRECT PASSWORD !!!";
+gotoxy(15,22);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE!!!" ;
+getch();
+}
+if(i==4)
+{
+exit(0);
+}
+}
+else
+{
+break;
+}
+}
+}
+else
+{
+if(!(strcmp(username,"ADMINISTRATOR"))||!(strcmp(username,"ADMINISTRATOR")))
+{
+for(int j=0;j<5;j++)
+{
+gotoxy(1,20);
+clreol();
+gotoxy(1,22);
+clreol();
+gotoxy(20,14);
+//clreol();
+gotoxy(20,14);
+cout<<"ENTER USER PASSWORD : ";
+gets(pass);
+if((strcmp(pass,"KHUSHI"))&&(strcmp(pass,"KHUSHI")))
+{
+if(j<3)
+{
+gotoxy(15,20);
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!";
+getch();
+}
+if(j==3)
+{
+gotoxy(25,20);
+cout<<" INCORRECT PASSWORD !!!";
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+gotoxy(15,22);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE!!!" ;
+getch();
+}
+if(j==4)
+{
+exit(0);
+}
+}
+else
+{
+break;
+}
+exit(0);
+} // end of for loop
+}
+else
+{
+exit(0);
+}
+}
+}
+int val_rm(int y)
+{
+int f=0;
+do
+{
+if(y>31 || y<1)
+{
+clrscr();
+gotoxy(1,25);
+cout<<"ENTER ROOM NO. BETWEEN 1-30";
+gotoxy(34,12);
+cout<<"ENTER THE ROOM NO. ";
+cin>>y;
+f=1;
+}
+else
+f=0;
+}while(f==1);
+return y;
+}
+float val_adv(float x)
+{
+int f=0;
+do
+{
+if(x>500)
+f=1;
+else
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+{
+gotoxy(3,17);
+clreol();
+cout<<"ENTER THE ADVANCE :";
+gotoxy(40,17);
+cout<<"³";
+gotoxy(22,17);
+cin>>x;
+f=0;
+}
+}while(f==0);
+return x;
+}
+void val_name(char n[21])
+{
+int f=0;
+do
+{
+if(strlen(n)==0)
+f=1;
+for(int i=0;n[i]!='\0';++i)
+{
+if((n[i]>=65&&n[i]<=90)||(n[i]>=97&&n[i]<=122)||n[i]==46||n[i]==' ')
+f=0;
+else
+{
+f=1;
+break;
+}
+}
+if(f==1)
+{
+gotoxy(2,25);
+clreol();
+cout<<"INVALID NAME ! ENTER AGAIN ";
+gotoxy(3,4);
+clreol();
+gotoxy(40,4);
+cout<<"³";
+gotoxy(3,4);
+cout<<"NAME :";
+gets(n);
+}
+}while(f==1);
+}
+class address
+{
+public:
+int h_no;
+char coln[21];
+char city[21];
+void ad_ini();
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+void get_ad(void);
+void disp_ad(int c,int r);
+};
+void address::ad_ini()
+{
+h_no=0;
+for(int i=0;i<21;++i)
+{
+coln[i]=' ';
+city[i]=' ';
+}
+}
+void address::disp_ad(int c,int r)
+{
+gotoxy(c,r+1);
+cout<<"ADDRESS : ";
+gotoxy(c+1,r+2);
+cout<<"House No. : "<<h_no;
+gotoxy(c+1,r+3);
+cout<<"Colony : ";
+puts(coln);
+gotoxy(c+1,r+4);
+cout<<"City : ";
+puts(city);
+}
+void address::get_ad(void)
+{
+ad_ini();
+gotoxy(3,6);
+cout<<"ADDRESS : ";
+gotoxy(4,7);
+cout<<"House No. : ";
+cin>>h_no;
+gotoxy(4,8);
+cout<<"Colony : ";
+gets(coln);
+gotoxy(4,9);
+cout<<"City : ";
+gets(city);
+}
+class customer
+{
+public:
+char name[21];
+address addr;
+struct date dt;
+int rm_charge;
+double charge;
+char t_rm;
+int rm_no;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+double adv;
+int x;
+void get_cust(void);
+void display(int c,int r);
+void cust_ini();
+};
+void customer::display(int c,int r)
+{
+struct date i;
+getdate(&i);
+gotoxy(c,r);
+cout<<"NAME :";
+puts(name);
+addr.disp_ad(c,r+1);
+gotoxy(c,r+7);
+cout<<"DATE OF COMING :";
+printf("%d",dt.da_day);
+printf("-%d",dt.da_mon);
+printf("-%d",dt.da_year);
+gotoxy(c,r+8);
+cout<<"CURRENT DATE :";
+printf("%d",i.da_day);
+printf("-%d",i.da_mon);
+printf("-%d",i.da_year);
+gotoxy(c,r+10);
+switch(t_rm)
+{
+case 'N':cout<<"TYPE OF ROOM : NORMAL";
+break;
+case 'S':cout<<"TYPE OF ROOM : SEMI-DELUXE";
+break;
+case 'D':cout<<"TYPE OF ROOM : DELUXE";
+break;
+}
+gotoxy(c,r+11);
+cout<<"ROOM NO : "<<rm_no;
+gotoxy(c,r+13);
+cout<<"CHARGE PER DAY :"<<rm_charge;
+gotoxy(c,r+14);
+cout<<"ADVANCE PAID :"<<adv;
+}
+void customer::cust_ini()
+{
+addr.ad_ini();
+for(int i=0;i<21;++i)
+name[i]=' ';
+charge=0;
+rm_charge=0;
+t_rm=' ';
+rm_no=0;
+adv=0;
+x=0;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+}
+void customer::get_cust(void)
+{
+cust_ini();
+++no_of_cust;
+getdate(&dt);
+gotoxy(3,2);
+cout<<"ENTER CUSTOMER NO."<<no_of_cust<<" DETAILS ";
+gotoxy(3,4);
+cout<<"NAME :";
+gets(name);
+val_name(name);
+addr.get_ad();
+gotoxy(3,11);
+cout<<"ROOM TYPE : AMOUNT PER DAY";
+gotoxy(3,12);
+cout<<"N.NORMAL : Rs.500";
+gotoxy(3,13);
+cout<<"S.SEMI-DELUXE : Rs.1000";
+gotoxy(3,14);
+cout<<"D.DELUXE : Rs.1500";
+gotoxy(3,15);
+cout<<"ENTER TYPE OF ROOM(N/S/D) :";
+t_rm=getch();
+t_rm=toupper(t_rm);
+}
+class OPERATE
+{
+customer cust;
+char pos[31];
+int no_day(void);
+void cust_in(void);
+void cust_out(void);
+void cust_order(void);
+void cust_disp(void);
+void list(void);
+void cust_modify(void);
+public:
+void work(void);
+void line_ver(int , int , int , char );
+OPERATE(void);
+};
+OPERATE::OPERATE(void)
+{
+ifstream f;
+f.open("HOTEL.DAT",ios::in|ios::binary);
+f.seekg(0);
+while(f.read((char *)&cust,sizeof(cust)))
+{
+pos[cust.rm_no]='F';
+++no_of_cust;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+}
+for(int i=1;i<31;++i)
+if(pos[i]!='F')
+pos[i]='V';
+f.close();
+}
+int OPERATE::no_day(void)
+{
+int n=0;
+struct date d;
+getdate(&d);
+int a[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};
+if(d.da_mon==cust.dt.da_mon)
+n=d.da_day-cust.dt.da_day+1;
+else
+{
+for(int i=cust.dt.da_mon;i<=d.da_mon;++i)
+{
+if(i==cust.dt.da_mon)
+n+=(a[i]-cust.dt.da_day+1);
+else
+{
+if(i==d.da_mon)
+n+=d.da_day;
+else
+n+=a[i];
+}
+}
+}
+return n;
+}
+void erase()
+{
+int border[]={-5,-5,650,-5,650,500,-5,500};
+setfillstyle(SOLID_FILL,128);
+fillpoly(4,border);
+}
+void erase1()
+{
+int border[]={-5,-5,650,-5,650,500,-5,500};
+setfillstyle(SOLID_FILL,10);
+fillpoly(4,border);
+}
+void OPERATE :: line_ver(int row1, int row2, int column, char c)
+{
+for(;row1<=row2;row1++)
+{
+gotoxy(column, row1);
+cout<<c;
+}
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+}
+void OPERATE::work()
+{
+textbackground(CYAN);
+textcolor(BLACK);
+clrscr();
+int ii,jj;
+char aa[] = " H*O*T*E*L ";
+char bb[] = " M*A*N*A*G*E*M*E*N*T ";
+for(ii=0;ii<=79l;ii++)
+line_ver(1,25,ii,179);
+gotoxy(1,11);
+clreol();
+gotoxy(1,13);
+clreol();
+jj = 63;
+for(ii=1;ii<=43;ii++)
+{
+delay(200);
+gotoxy(1,12);
+clreol();
+gotoxy(ii,12);
+cout<<bb;
+gotoxy(jj,12);
+cout<<aa;
+jj--;
+gotoxy(1,1);
+}
+nosound();
+char n;
+clrscr();
+int gdriver = DETECT, gmode, errorcode;
+initgraph(&gdriver, &gmode, "");
+errorcode = graphresult();
+if (errorcode != grOk)
+{
+printf("Graphics error: %s\n", grapherrormsg(errorcode));
+printf("Press any key to halt:");
+getch();
+exit(1);
+}
+for(int i=1;i<=200;i++)
+{
+setcolor(i);
+erase();
+settextstyle(10, HORIZ_DIR, 3);
+outtextxy(80,i,"WELCOME");
+outtextxy(280,i,"TO");
+outtextxy(350,i,"OUR");
+outtextxy(450,i,"HOTEL");
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+delay(15);
+}
+textbackground(CYAN);
+delay(1200);
+erase1();
+delay(200);
+erase();
+for(i=1;i<=250;i++)
+{
+setcolor(9+i);
+erase();
+outtextxy(i,140,"Designed by :-");
+outtextxy(450-i,200,"ANKIT KHEMKA");
+outtextxy(435-i,270,"RAHUL UPADHYAY");
+outtextxy(550-i,340,"XII");
+// sound(500+i);
+}
+nosound();
+security();
+clrscr();
+int a=320;
+int b=250;
+for(i=0;i<=1000;i++)
+{
+putpixel(rand()%(a+=1),rand()%(b+=1),i);
+delay(3);
+}
+delay(500);
+closegraph();
+do
+{ clrscr();
+DRAW.DRAW_BOX(1,1,79,24,218);
+DRAW.DRAW_BOX(24,4,55,19,218);
+gotoxy(36,7);
+cout<<"MENU";
+gotoxy(30,9);
+cout<<"1.CUSTOMER IN ";
+gotoxy(30,10);
+cout<<"2.CUSTOMER OUT";
+gotoxy(30,11);
+cout<<"3.ORDER";
+gotoxy(30,12);
+cout<<"4.DISPLAY CUSTOMER";
+gotoxy(30,13);
+cout<<"5.LIST";
+gotoxy(30,14);
+cout<<"6.MODIFY";
+gotoxy(30,15);
+cout<<"7.EXIT";
+gotoxy(30,17);
+cout<<"ENTER YOUR CHOICE :";
+gotoxy(50,17);
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+n=getch();
+switch(n)
+{
+case '1':cust_in();
+break;
+case '2':cust_out();
+break;
+case '3':cust_order();
+break;
+case '4':cust_disp();
+break;
+case '5':list();
+break;
+case '6':cust_modify();
+break;
+case '7':exit(0);
+break;
+default:gotoxy(2,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf("Invaild Choice Enter Again.......!!\a");
+delay(1000);
+textcolor(BLACK);
+textbackground(CYAN);
+}
+}while(n!='7');
+}
+void OPERATE::cust_modify(void)
+{
+int x,i=1;
+struct date p;
+getdate(&p);
+clrscr();
+customer c;
+c.cust_ini();
+fstream file,l;
+file.open("HOTEL.DAT",ios::in|ios::binary);
+gotoxy(34,12);
+cout<<"ENTER THE ROOM NO :";
+cin>>x;
+x=val_rm(x);
+if(pos[x]=='V')
+{
+clrscr();
+gotoxy(35,13);
+cout<<"ROOM VACANT !";
+getch();
+return;
+}
+file.seekg(0);
+for(;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+if(cust.rm_no==x)
+{
+char ch;
+clrscr();
+DRAW.DRAW_BOX(1,1,40,24,'Ú');
+gotoxy(3,2);
+cout<<"DETAILS OF CUSTOMER NO. :"<<i;
+cust.display(3,4);
+gotoxy(3,19);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(3,20);
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(3,21);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+gotoxy(43,11);
+cout<<"DO YOU WANT TO MODIFY RECORD ?";
+gotoxy(43,12);
+cout<<"ENTER YOUR CHOICE(y/n):";
+ch=getch();
+if(ch=='y'||ch=='Y')
+{
+clrscr();
+DRAW.DRAW_BOX(1,1,79,24,'Ú');
+DRAW.DRAW_VER(2,23,40,'³');
+DRAW.DRAW_LINE(2,78,3,'Ä');
+gotoxy(40,3);
+cout<<"Å";
+gotoxy(1,3);
+cout<<"Ã";
+gotoxy(79,3);
+cout<<"´";
+gotoxy(40,24);
+cout<<"Á";
+gotoxy(11,2);
+cout<<"PREVIOUS RECORD";
+gotoxy(47,2);
+cout<<"RECORD FOR MODIFICATION";
+gotoxy(33,1);
+cout<<"CUSTOMER NO."<<i;
+cust.display(3,5);
+gotoxy(3,19);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(3,20);
+cout<<"ORDER CHARE :"
+<<cust.charge;
+gotoxy(3,21);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+c=cust;
+gotoxy(42,5);
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+cout<<"NAME :";
+puts(c.name);
+gotoxy(42,7);
+cout<<"ADDRESS :";
+gotoxy(43,8);
+cout<<"HOUSE NO :ÄÄ";
+gotoxy(2,25);
+cout<<"PRESS 0 FOR SAME :";
+gotoxy(53,8);
+cin>>c.addr.h_no;
+if(c.addr.h_no==0)
+{
+c.addr.h_no=cust.addr.h_no;
+}
+gotoxy(53,8);
+clreol();
+cout<<c.addr.h_no;
+gotoxy(79,8);
+cout<<"³";
+gotoxy(2,25);
+clreol();
+cout<<"JUST PRESS ENTER FOR SAME ";
+gotoxy(43,9);
+cout<<"COLONY :ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(53,9);
+gets(c.addr.coln);
+if(strlen(c.addr.coln)==0)
+{
+for(int i=0;cust.addr.coln[i]!='\0';++i)
+c.addr.coln[i]=cust.addr.coln[i];
+}
+gotoxy(53,9);
+clreol();
+puts(c.addr.coln);
+gotoxy(79,9);
+cout<<"³";
+gotoxy(43,10);
+cout<<"CITY :ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(53,10);
+gets(c.addr.city);
+if(strlen(c.addr.city)==0)
+{
+for(int i=0;cust.addr.city[i]!='\0';++i)
+c.addr.city[i]=cust.addr.city[i];
+}
+gotoxy(53,10);
+clreol();
+puts(c.addr.city);
+gotoxy(79,10);
+cout<<"³";
+gotoxy(42,12);
+cout<<"DATE OF COMING :";
+printf("%d",cust.dt.da_day);
+printf("-%d",cust.dt.da_mon);
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+printf("-%d",cust.dt.da_year);
+gotoxy(42,13);
+cout<<"CURRENT DATE :";
+printf("%d",p.da_day);
+printf("-%d",p.da_mon);
+printf("-%d",p.da_year);
+gotoxy(42,15);
+cout<<"TYPE OF ROOM :Ä";
+gotoxy(2,25);
+clreol();
+cout<<"N.NORMAL/500 S.SEMI-DELUXE/1000 D.DELUXE/1500 ";
+gotoxy(56,15);
+c.t_rm=getch();
+c.t_rm=toupper(c.t_rm);
+int f=1,r=0;
+while(f==1)
+{
+if(r==1)
+{
+gotoxy(49,25);
+clreol();
+cout<<"WRONG TYPE ENTERED ! ENTER AGAIN.";
+gotoxy(42,15);
+clreol();
+gotoxy(79,15);
+cout<<"³";
+gotoxy(42,15);
+cout<<"TYPE OF ROOM :Ä";
+gotoxy(56,15);
+c.t_rm=getch();
+c.t_rm=toupper(c.t_rm);
+}
+if(r==2)
+{
+gotoxy(49,25);
+clreol();
+cout<<"NO ROOM VACANT OF THIS TYPE !";
+gotoxy(42,15);
+clreol();
+gotoxy(79,15);
+cout<<"³";
+gotoxy(42,15);
+cout<<"TYPE OF ROOM :Ä";
+gotoxy(56,15);
+c.t_rm=getch();
+c.t_rm=toupper(c.t_rm);
+}
+switch(c.t_rm)
+{
+case 'N':for(i=1;i<11;++i)
+{
+if(pos[i]=='V'&&i!=cust.rm_no)
+{
+pos[i]='F';
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+pos[c.rm_no]='V';
+c.charge+=(no_day()-c.x)*c.rm_charge;
+if(c.t_rm==cust.t_rm)
+c.x=no_day();
+else
+c.x=no_day()-1;
+c.rm_no=i;
+c.rm_charge=500;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+break;
+case 'S':for(i=11;i<21;++i)
+{
+if(pos[i]=='V'&&i!=cust.rm_no)
+{
+pos[i]='F';
+pos[c.rm_no]='V';
+c.charge+=(no_day()-c.x)*c.rm_charge;
+if(c.t_rm==cust.t_rm)
+c.x=no_day();
+else
+c.x=no_day()-1;
+c.rm_no=i;
+c.rm_charge=1000;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+break;
+case 'D':for(i=21;i<31;++i)
+{
+if(pos[i]=='V'&&i!=cust.rm_no)
+{
+pos[i]='F';
+pos[c.rm_no]='V';
+c.charge+=(no_day()-c.x)*c.rm_charge;
+if(c.t_rm==cust.t_rm)
+c.x=no_day();
+else
+c.x=no_day()-1;
+c.rm_no=i;
+c.rm_charge=1500;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+break;
+default:f=1;r=1;
+}
+}
+gotoxy(2,25);
+clreol();
+gotoxy(56,15);
+clreol();
+switch(c.t_rm)
+{
+case 'N':cout<<"NORMAL";
+break;
+case 'S':cout<<"SEMI-DELUXE";
+break;
+case 'D':cout<<"DELUXE";
+break;
+}
+gotoxy(79,15);
+cout<<"³";
+gotoxy(42,16);
+cout<<"ROOM NO :";
+cout<<c.rm_no;
+gotoxy(42,18);
+cout<<"CHARGE PER DAY :";
+cout<<c.rm_charge;
+gotoxy(42,19);
+cout<<"ADVANCE PAID :";
+cout<<c.adv;
+gotoxy(42,20);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(42,21);
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(42,22);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+l.open("TEMP.DAT",ios::out|ios::binary);
+file.seekg(0);
+l.seekp(0);
+for(int i=1;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(cust.rm_no==x)
+{
+l.write((char*)&c,sizeof(c));
+}
+else
+l.write((char*)&cust,sizeof(cust));
+}
+l.close();
+remove("HOTEL.DAT");
+rename("TEMP.DAT","HOTEL.DAT");
+getch();
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+break;
+}
+}
+}
+file.close();
+}
+void OPERATE::cust_out(void)
+{
+clrscr();
+struct date s;
+getdate(&s);
+int x,i=1;
+char r;
+fstream f,file;
+file.open("HOTEL.DAT",ios::in|ios::binary);
+gotoxy(34,12);
+cout<<"ENTER THE ROOM NO :";
+cin>>x;
+x=val_rm(x);
+if(pos[x]=='V')
+{
+clrscr();
+gotoxy(35,13);
+cout<<"ROOM VACANT !";
+getch();
+return;
+}
+int flag=0;
+file.seekg(0);
+for(;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(cust.rm_no==x)
+{
+clrscr();
+DRAW.DRAW_BOX(1,1,40,24,'#');
+gotoxy(3,3);
+cout<<"YOU ARE LEAVEING CUSTOMER NO."<<i;
+cust.display(3,5);
+gotoxy(3,20);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(3,21);
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(3,22);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+gotoxy(43,11);
+cout<<"ARE YOU SURE ?";
+gotoxy(43,12);
+cout<<"ENTER YOUR CHOICE(Y/N) :";
+r=getch();
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+if(r=='y' || r=='Y')
+{ flag=1;
+--no_of_cust;
+pos[cust.rm_no]='V';
+clrscr();
+DRAW.DRAW_BOX(1,1,40,24,'#');
+gotoxy(3,2);
+cout<<"CUSTOMER WITH DETAILS OUT :";
+cust.display(3,4);
+gotoxy(4,20);
+double p;
+p=(no_day()-cust.x)*cust.rm_charge+cust.charge-cust.adv;
+if(p>0)
+cout<<"TOTAL AMOUNT TO BE PAID :"<<p;
+else
+cout<<"AMOUNT TO BE REFUNDED :"<<(-1)*p;
+getch();
+break;
+}
+}
+}
+if(flag==1)
+{
+f.open("TEMP.DAT",ios::out|ios::binary);
+f.seekp(0);
+file.seekg(0);
+for(i=1;i<=(no_of_cust+1);++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(cust.rm_no!=x)
+{
+f.write((char*)&cust,sizeof(cust));
+}
+}
+f.close();
+remove("HOTEL.DAT");
+rename("TEMP.DAT","HOTEL.DAT");
+}
+file.close();
+}
+void OPERATE::cust_disp(void)
+{
+int x,i=1;
+clrscr();
+fstream file;
+file.open("HOTEL.DAT",ios::in|ios::binary);
+gotoxy(34,12);
+cout<<"ENTER THE ROOM NO :";
+cin>>x;
+x=val_rm(x);
+if(pos[x]=='V')
+{
+clrscr();
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+gotoxy(35,13);
+cout<<"ROOM VACANT !";
+getch();
+return;
+}
+file.seekg(0);
+for(;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(cust.rm_no==x)
+{
+clrscr();
+DRAW.DRAW_BOX(1,1,40,24,'Ú');
+gotoxy(3,2);
+cout<<"DETAILS OF CUSTOMER NO."<<i;
+cust.display(3,4);
+gotoxy(3,19);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(3,20);
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(3,21);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+getch();
+break;
+}
+}
+file.close();
+}
+void OPERATE::cust_in(void)
+{
+fstream file;
+file.open("HOTEL.DAT",ios::app|ios::binary);
+char ch;
+do
+{
+int i=1,f=1,r=0,p;
+clrscr();
+DRAW.DRAW_BOX(1,1,40,24,'Ú');
+cust.get_cust();
+while(f==1)
+{
+if(r==1)
+{
+gotoxy(2,25);
+clreol();
+cout<<"WRONG TYPE ENTERED !";
+cout<<"ENTER AGAIN.";
+gotoxy(30,15);
+clreol();
+gotoxy(40,15);
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+cout<<"³";
+gotoxy(30,15);
+cust.t_rm=getch();
+cust.t_rm=toupper(cust.t_rm);
+}
+if(r==2)
+{
+gotoxy(2,25);
+clreol();
+cout<<"NO ROOM VACANT OF THIS TYPE !";
+cout<<"ENTER AGAIN.";
+gotoxy(30,15);
+clreol();
+gotoxy(40,15);
+cout<<"³";
+gotoxy(30,15);
+cust.t_rm=getch();
+cust.t_rm=toupper(cust.t_rm);
+}
+switch(cust.t_rm)
+{
+case 'N':for(i=1;i<11;++i)
+{
+if(pos[i]=='V')
+{
+pos[i]='F';
+cust.rm_no=i;
+cust.rm_charge=500;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+break;
+case 'S':for(i=11;i<21;++i)
+{
+if(pos[i]=='V')
+{
+pos[i]='F';
+cust.rm_no=i;
+cust.rm_charge=1000;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+break;
+case 'D':for(i=21;i<31;++i)
+{
+if(pos[i]=='V')
+{
+pos[i]='F';
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+cust.rm_no=i;
+cust.rm_charge=1500;
+f=0;
+break;
+}
+}
+if(f==1)
+r=2;
+break;
+default :f=1,r=1;
+}
+}
+gotoxy(30,15);
+clreol();
+switch(cust.t_rm)
+{
+case 'N':cout<<"NORMAL";
+break;
+case 'S':cout<<"SEMI-DELUXE";
+break;
+case 'D':cout<<"DELUXE";
+break;
+}
+gotoxy(40,15);
+cout<<"³";
+gotoxy(2,25);
+clreol();
+cout<<"ENTER ADVANCE GREATER THAN 500.";
+gotoxy(3,17);
+cout<<"ENTER THE ADVANCE :";
+cin>>cust.adv;
+cust.adv=val_adv(cust.adv);
+gotoxy(2,25);
+clreol();
+p=(no_of_cust-1)*sizeof(cust);
+gotoxy(3,19);
+cout<<"YOU HAVE BEEN ALLOCATED ROOM NO. :"<<cust.rm_no;
+getch();
+file.seekp(p,ios::beg);
+file.write((char*)&cust,sizeof(cust));
+gotoxy(43,11);
+cout<<"DO YOU WANT TO CONTINUE IT(y/n)? ";
+gotoxy(43,12);
+cout<<"ENTER YOUR CHOICE :";
+ch=getch();
+}while(ch=='y' || ch=='Y');
+file.close();
+}
+void OPERATE::list(void)
+{
+fstream file;
+file.open("HOTEL.DAT",ios::in|ios::binary);
+if(no_of_cust==0)
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+{
+clrscr();
+gotoxy(35,13);
+cout<<"LIST EMPTY!";
+getch();
+return;
+}
+file.seekg(0);
+for(int i=1;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(i%2==0)
+{
+gotoxy(42,2);
+cout<<"CUSTOMER NO."<<i;
+cust.display(42,4);
+gotoxy(42,19);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(42,20);
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(42,21);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+gotoxy(2,25);
+clreol();
+if(i==no_of_cust)
+cout<<"LIST OVER ! PRESS ANY KEY TO CONTINUE ";
+else
+cout<<"PRESS ANY KEY TO CONTINUE ";
+getch();
+}
+else
+{
+clrscr();
+if(i==no_of_cust)
+DRAW.DRAW_BOX(1,1,40,24,'Ú');
+else
+{
+DRAW.DRAW_BOX(1,1,79,24,'Ú');
+DRAW.DRAW_VER(1,24,40,'³');
+gotoxy(40,1);
+cout<<"Â";
+gotoxy(40,24);
+cout<<"Á";
+}
+gotoxy(3,2);
+cout<<"CUSTOMER NO."<<i;
+cust.display(3,4);
+gotoxy(3,19);
+cout<<"ROOM CHARGE :"
+<<(no_day()-cust.x)*cust.rm_charge;
+gotoxy(3,20);
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+cout<<"ORDER CHARGE :"
+<<cust.charge;
+gotoxy(3,21);
+cout<<"TOTAL CHARGE :"
+<<cust.charge+(no_day()-cust.x)*cust.rm_charge;
+if(i==no_of_cust)
+{
+gotoxy(2,25);
+clreol();
+cout<<"LIST OVER!";
+cout<<"PRESS ANY KEY TO CONTINUE ";
+getch();
+}
+}
+}
+file.close();
+}
+void OPERATE::cust_order(void)
+{
+clrscr();
+double x;
+int y,i;
+fstream file,f;
+file.open("HOTEL.DAT",ios::in|ios::binary);
+gotoxy(34,12);
+cout<<"ENTER THE ROOM NO. :";
+cin>>y;
+y=val_rm(y);
+if(pos[y]=='V')
+{
+clrscr();
+gotoxy(35,13);
+cout<<"ROOM VACANT !";
+getch();
+return;
+}
+f.open("TEMP.DAT",ios::out|ios::binary);
+gotoxy(2,25);
+cout<<"ENTER AMOUNT GREATER THAN 0 ";
+gotoxy(34,13);
+cout<<"ENTER THE AMOUNT :";
+cin>>x;
+int g=0;
+do
+{
+if(x>0)
+g=1;
+else
+{
+gotoxy(34,13);
+clreol();
+cout<<"ENTER THE AMOUNT :";
+cin>>x;
+file:///C/......Prateek/....Prateek/New%20folder/Hotel%20Management.txt[18-07-2016 19:55:13]
+g=0;
+}
+}while(g==0);
+file.seekg(0);
+f.seekp(0);
+for(i=1;i<=no_of_cust;++i)
+{
+file.read((char*)&cust,sizeof(cust));
+if(cust.rm_no==y)
+{
+cust.charge+=x;
+f.write((char*)&cust,sizeof(cust));
+}
+else
+f.write((char*)&cust,sizeof(cust));
+}
+f.close();
+remove("HOTEL.DAT");
+rename("TEMP.DAT","HOTEL.DAT");
+file.close();
+}
+int main()
+{
+OPERATE RK;
+RK.work();
+return 0;
+}

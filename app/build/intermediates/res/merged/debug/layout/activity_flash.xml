@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b7eeb5"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.user.cprojects.Flash">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="KEEP"
+        android:textSize="50dp"
+        android:layout_marginLeft="110dp"
+        android:id="@+id/t1"
+        android:layout_marginTop="150dp"
+        android:textColor="@android:color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="CALM"
+        android:textSize="50dp"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/text2"
+        android:layout_marginTop="210dp"
+        android:textColor="@android:color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="AND"
+        android:textSize="40dp"
+        android:layout_marginLeft="120dp"
+        android:id="@+id/text3"
+        android:layout_marginTop="270dp"
+        android:textColor="@android:color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="CODE"
+        android:textSize="50dp"
+        android:layout_marginLeft="100dp"
+        android:id="@+id/text4"
+        android:layout_marginTop="320dp"
+        android:textColor="@android:color/black"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="C++;"
+        android:textSize="50dp"
+        android:layout_marginLeft="120dp"
+        android:id="@+id/text5"
+        android:layout_marginTop="380dp"
+        android:textColor="@android:color/black"
+        />
+
+
+</android.support.design.widget.CoordinatorLayout>

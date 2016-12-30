@@ -1,0 +1,696 @@
+// ********** OPTICS **********
+// Project By - Mayank Sharma and Prateek Goyal
+#include <time.h>
+#include <dos.h>
+#include <graphics.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include<math.h>
+#include<conio.h>
+#include<iostream.h>
+int rt;
+float u,v,f,r,ob,m,im,x,y,x1,y1,r1,r2,mu;
+float yo4,yo3,yo2,yo1,yo0,yo,xx,yy,z,y0,e,n,k,x0,t,f0;
+introdxn()
+{
+int midx = getmaxx() / 2;
+int midy = getmaxy() / 2;
+setcolor(getmaxcolor());
+//settextstyle(1,VERT_DIR,1);
+//outtextxy(0,0,"");
+/* draw the circle */
+int col=rand();
+for(int i=1;i<=200;i++)
+{col=rand();
+setcolor(col);
+circle(midx, midy, i);
+setcolor(col+1);
+circle(midx, midy, 200-i);
+delay(25);
+setcolor(BLACK);
+//circle(midx, midy, i);
+circle(midx, midy, 200-i);}
+/* clean up */
+cleardevice();
+setcolor(WHITE);
+//getch();
+delay(20);
+//project wording starts here
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+circle(midx+4,midy+256,50);
+circle(midx+16,midy+64,50);
+circle(midx+64,midy+16,50);
+circle(midx+256,midy+4,50);
+delay(20);
+//getch();
+setbkcolor(WHITE);
+for(i=1;i<=120;i++)
+{
+col=rand();
+setbkcolor(BLACK);
+setcolor(col);
+settextstyle(TRIPLEX_FONT,HORIZ_DIR,3);
+outtextxy(midx-250,midy, "");
+setcolor(col+2+BLINK);
+outtextxy(midx-250,0+(i*2), " AUTHOR ");
+setcolor(col-2+BLINK);
+outtextxy(midx-250,476-(i*2)," & HER TEAM");
+delay(25);
+setcolor(BLACK);
+outtextxy(midx-250,0+(i*2), " AUTHOR ");
+outtextxy(midx-250,476-(i*2)," & HER TEAM");
+}
+cleardevice();
+setcolor(col);
+settextstyle(TRIPLEX_FONT,HORIZ_DIR,3);
+outtextxy(midx-250,midy, "PROJECT BY REETA SAHOO");
+//outtextxy(midx,midy,"PROJECT");
+delay(25);
+for(i=-200;i<=50;i++)
+while(!kbhit());
+{
+setbkcolor(BLACK);
+col=rand();
+setcolor(col+BLINK);
+settextstyle(TRIPLEX_FONT,HORIZ_DIR,3);
+outtextxy(midx-250,midy,"PROJECT BY AUTHOR & HER TEAM");
+setcolor(WHITE);
+outtextxy(midx-i,midy+175,"L O A D I N G...");
+delay(5);
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+setcolor(BLACK);
+outtextxy(midx-i,midy+175,"L O A D I N G...");
+}
+//gobbler.cpp
+setcolor(BLUE+BLINK);
+outtextxy(midx-50,midy+175,"Press Any Key To Continue...");
+time_t timer;
+struct tm *tblock;
+/* gets time of day */
+timer = time(NULL);
+/* converts date/time to a structure */
+tblock = gmtime(&timer);
+gotoxy(midx-50,midy+200);
+outtextxy(midx-50,midy+200,/*"Local time is: %s"*/ asctime(tblock));
+//return 0;
+getch();
+cleardevice();
+//page 3 of introduction begins here
+setcolor(WHITE);
+line(midx-50,midy+50,midx,midy-50);
+line(midx,midy-50,midx+50,midy+50);
+line(midx-50,midy+50,midx+50,midy+50);
+for(int z=1;z<=320;z++)
+{
+//triangle begins here
+setcolor(WHITE);
+line(midx-50,midy+50,midx,midy-50);
+line(midx,midy-50,midx+50,midy+50);
+line(midx-50,midy+50,midx+50,midy+50);
+//triangle ends
+//ray begins here
+setbkcolor(BLACK);
+setcolor(WHITE);
+line(0,0,z,z-75);
+delay(10);
+cleardevice();
+}
+//explosion begins here
+line(midx-50,midy+50,midx,midy-50);
+line(midx,midy-50,midx+50,midy+50);
+line(midx-50,midy+50,midx+50,midy+50);
+line(0,0,midx,midy);
+setcolor(9);
+line(midx,midy,midx+200,midy-120);
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+setcolor(10);
+line(midx,midy,midx+200,midy-80);
+setcolor(11);
+line(midx,midy,midx+200,midy-40);
+setcolor(12);
+line(midx,midy,midx+200,midy-0);
+setcolor(13);
+line(midx,midy,midx+200,midy+40);
+setcolor(14);
+line(midx,midy,midx+200,midy+80);
+//setcolor(RED);
+//line(midx,midy,midx+100,midy+75);
+getch();
+//
+setcolor(WHITE);
+settextstyle(3,HORIZ_DIR,6);
+outtextxy(midx+200,midy-160,"O");
+outtextxy(midx+200,midy-120,"P");
+outtextxy(midx+200,midy-80,"T");
+outtextxy(midx+200,midy-40,"I");
+outtextxy(midx+200,midy,"C");
+outtextxy(midx+200,midy+40,"S");
+getch();
+cleardevice();
+//closegraph();
+return 0;
+}
+//************************************************************************
+// ************************** PLANE MIRROR *******************************
+void plane()
+//FUNCTION FOR PLANE MIRROR
+{
+clrscr();
+cleardevice();
+cout<<"\n ENTER OBJECT DISTANCE ";
+cin>>u;
+//OBJECT DISTANCE :u
+cout<<"\n ENTER OBJECT SIZE ";
+cin>>ob;
+//OBJECT SIZE :ob
+line(0,200,getmaxx(),200);
+//principal axis :horizontal
+setcolor(GREEN);
+settextstyle(6,HORIZ_DIR,5);
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+setcolor(YELLOW);
+r=280-u;
+//x co-ordinate of obj foot
+line(280,250,280,150);
+//vertical plane mirror
+line(r,200,r,200-ob);
+//object -vertical line
+line(r,200-ob,280,215+ob);
+/*incident ray from tip of object to
+mirror = (280,arb pt on mirror)*/
+line(r,200-ob,280,200-ob);
+/*horizontal incident ray from object tip
+perpedicular to vertical mirror till it touches the
+mirror*/
+yo4=((((15+(2*ob))/u)*180) + 215 + ob);
+line(280,215+ob,100,yo4);
+setcolor(RED);
+line(280+u,200,280+u,200-ob);
+/*image-vertical line (280+u,200-ob)-tip to
+(280+u,200) till foot on principal axis*/
+setcolor(YELLOW);
+setlinestyle(1,0,0);
+line(280,200-ob,280+u,200-ob);
+/*incident horizontal ray behind the mirror*/
+line(280+u,200-ob,280,200+ob+15);
+/*incident dotted diagonal ray behind mirror
+from (280,arb) to tip of image (280+u,200-ob)*/
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"\n\n\n\n\n";
+cout<<"Details of image are :"<<endl;
+cout<<"1. Behind the Mirror"<<endl;
+cout<<"2. Virtual "<<endl;
+cout<<"3. Size : "<<ob<<endl;
+cout<<"4. Distance : "<<u<<endl;
+getch();
+}
+//
+// CONCAVE MIRROR : BEYOND FOCUS
+void normal()
+//function for object beyond f
+{
+r=(280+(2*f))-u;
+//x coordinate of object foot
+settextstyle(6,HORIZ_DIR,5);
+setcolor(YELLOW);
+arc(280,200,330,30,2*f);
+//mirror
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+setcolor(DARKGRAY);
+arc(280,200,330,30,(2*f)+1);
+//silvering of mirror
+line(0,200,getmaxx(),200);
+//principal horizontal axis
+setcolor(GREEN);
+line(r,200,r,200-ob);
+//object - vertical
+setcolor(14);
+v=((u*f)/(u-f));
+//image distance
+m=v/u;
+//magni
+im=m*ob;
+//image size
+x=pow(((4*f*f)-(ob*ob)),0.5)+280;
+//x coordinate of intn of mirror & incident ray
+setlinestyle(0,1,1);
+line(r,200-ob,x,200-ob);
+//parallel incident ray from tip of object
+y=(((100-x)*ob)/(280+f-x)) + 200-ob;
+//end y coordinate of ref ray
+line(x,200-ob,100,y);
+//reflected ray through focus
+setcolor(WHITE);
+y1=(200+im);
+/*y coordinate of intn of(incident ray thru f)
+& mirror*/
+x1=(sqrt(4*f*f)-(im*im)) + 280;
+/*x coordinate of intn of(incident ray thru f)
+& mirror*/
+line(r,200-ob,x1,y1);
+//incident ray from object to mirror thru focus
+line(100,200+im,x1,y1);
+//reflected ray from mirror to image parallel to principal axis
+setcolor(RED);
+line((280+(2*f)-v),200,(280+(2*f)-v),200+im);
+//image
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if(im<0) im=-im;
+if(v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+cout<<"Details of image are : "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1. In front of the mirror "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2. Real"<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3. Image size = "<<im<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t4.Image distance = "<<v<<endl;
+getch();
+}
+/*
+*/
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+/*CONCAVE MIRROR - INSIDE FOCUS*/
+void abnormal()
+{
+r=(280+(2*f))-u;
+//x co=ordinate of object foot
+settextstyle(6,HORIZ_DIR,5);
+setcolor(YELLOW);
+arc(280,200,330,30,2*f);
+//mirror
+setcolor(DARKGRAY);
+arc(280,200,330,30,((2*f)+1));
+//silvering of mirror
+line(0,200,getmaxx(),200);
+//principal axis - horizontal
+setcolor(GREEN);
+line(r,200,r,200-ob);
+//object - vertical
+setcolor(14);
+v=((u*f)/(u-f));
+//image distance
+m=(0-v)/u;
+//magnification
+im=m*ob;
+//image size
+x=pow(((4*f*f)-(ob*ob)),0.5)+280;
+//x coordinate of intersection of mirror and incident ray
+setlinestyle(0,1,1);
+line(r,200-ob,x,200-ob);
+//parallel incident ray from tip of object
+y=(((100-x)*ob)/(280+f-x))+200-ob;
+//end y coordinate of reflected ray
+line(x,200-ob,100,y);
+//reflected ray thru focus
+setcolor(WHITE);
+y1=(200+im);
+/*y coordinate of intersection of (incident ray
+thru f) & mirror*/
+x1=sqrt((4*f*f)-(im*im))+280;
+/*x coordinate of intersection of (incident ray
+thru f) & mirror*/
+setcolor(RED);
+line((280+(2*f)-v),200,(280+(2*f)-v),200-im);
+//image
+setlinestyle(1,0,0);
+line(x,200-ob,(280+(2*f)-v),200-im);
+line(280,200,(280+(2*f)-v),200-im);
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\tDETAILS OF IMAGE ARE : "<<endl;
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1. In Front of the mirror "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2. Size "<<im<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3. Image distance "<<v<<endl;
+getch();
+}
+/*
+*/
+/*CONCAVE MIRROR - AT FOCUS*/
+void focus()
+//for object at focus
+{
+r=(280+f);
+//x co=ordinate of object foot
+settextstyle(6,HORIZ_DIR,5);
+setcolor(WHITE);
+arc(280,200,320,40,2*f);
+//mirror
+setcolor(DARKGRAY);
+arc(280,200,330,30,((2*f)+1));
+//silvering of mirror
+line(0,200,getmaxx(),200);
+//principal axis - horizontal
+setcolor(GREEN);
+line(r,200,r,200-ob);
+//object - vertical
+setcolor(14);
+x=pow(((4*f*f)-(ob*ob)),0.5)+280;
+//x coordinate of intersection of mirror and incident ray
+setlinestyle(0,1,1);
+line(r,200-ob,x,200-ob);
+//parallel incident ray from tip of object
+y=(((100-x)*ob)/(280+f-x))+200-ob;
+//end y coordinate of reflected ray
+line(x,200-ob,100,y);
+//reflected ray thru focus
+xx=280+f;
+yy=(200+((ob/(0-f))*(xx-280)) );
+e=xx;
+n=yy;
+setcolor(6);
+do
+{
+yy=(200+((ob/(0-f))*(xx-280)) );
+/*yy=mxx + c form equation of line thru
+(280+f,200-ob) & (280,200)*/
+z=(((xx-280)*(xx-280))+((yy-200)*(yy-200)));
+/* z is the square of distance of (xx,yy) from
+centre that is (280,200)*/
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+}
+while(z<=(4*f));
+line(e,n,xx,yy);
+y0=(((ob/f)*280)+200);
+line(0,y0,r,200-ob);
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\tDETAILS OF IMAGE ARE : "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1. In Front of the mirror "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2. Real "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3. Highly Magnified "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3. Distance : Infinity "<<endl;
+getch();
+}
+/*
+*/
+/*CONVEX MIRROR - ONLY CASE*/
+void convex()
+//function for convex mirror - single case
+{
+f0=0-f;
+r=300-(2*f)-u;
+//x co=ordinate of object foot
+v=((u*f0)/(u-f0));
+m=(0-v)/u;
+im=ob*m;
+setcolor(WHITE);
+line(0,200,getmaxx(),200);
+//principal axis - horizontal
+setcolor(YELLOW);
+arc(300,200,135,225,2*f);
+//mirror center 300,200
+setcolor(GREEN);
+line(r,200,r,200-ob);
+//object on principle axis
+k=(pow(((4*f*f)-(ob*ob)),0.5));
+//temporary variable
+x0=300-k;
+/* x0 : x coordinate if intersection mirror
+and incident ray*/
+line(r,200-ob,x0,200-ob);
+//incident horizontal ray from tip of object to mirror
+setlinestyle(1,0,0);
+//dotted
+line(x0,200-ob,300-f,200);
+/*dotted line from (intersection of incident horizontal ray
+and mirror) to center of C behind the mirror */
+y0=((ob/(f-k))*(200-f)+200);
+// y coordinate of end of reflected ray
+setlinestyle(0,1,1);
+//normal style for solid line
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+line(r,200-ob,300,200);
+/*incident ray from tip of the object to the
+centre of C behind mirror*/
+t=(300-(2*f)-v);
+//x coordinate of foot of the image
+setcolor(RED);
+line(t,200,t,200-im);
+//image
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\tDETAILS OF IMAGE ARE : "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1. Behind the mirror "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2. Virtual "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3. Image Size "<<im<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t4. Image Distance "<<v<<endl;
+getch();
+}
+/****************************************************************************/
+// LENSES //
+biconvex()
+{
+//clrscr();
+//cleardevice();
+setcolor(WHITE);
+cout<<"\n Enter object distance ";
+cin>>u;
+cout<<"\n Enter object size" ;
+cin>>ob;
+line(0,200,getmaxx(),200);
+//principal axis - horizontal
+f0= ((mu-1)*((1/r1)+(1/r2)));
+f=1/f0;
+//focal length of lens
+if(f<=u)
+//beyond f or at f
+{
+arc(113,200,339,21,200);
+//left side of lens
+arc(487,200,159,201,200);
+//right side of lens
+setcolor(YELLOW);
+line(300-u,200,300-u,200-ob);
+//object - vertical
+line(300-u,200-ob,300,200-ob);
+//horizontal incident ray from tip of object
+line(300,200-ob,300+f,200);
+//thru focus
+yo=(((ob/f)*(250-f))+200);
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+//yo : end of y coordinate
+setcolor(GREEN);
+line(300+f,200,550,yo);
+line(300-u,200-ob,300,200);
+yo0=(((ob/u)*250)+200);
+line(300,200,550,yo0);
+v=((u*f)/(u-f));
+m=v/u;
+im=ob*m;
+setcolor(RED);
+if((u-f>3)||(f-u>3))
+{
+line(300+v,200,300+v,200+im);
+//image vertical
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"\tDETAILS OF IMAGE ARE : "<<endl;
+cout<<"\t1. On right side of lens "<<endl;
+cout<<"\t2. Real "<<endl;
+cout<<"\t3. Image Size "<<im<<endl;
+cout<<"\t4. Image Distance "<<v<<endl;
+getch();
+//if u=f no image line
+}
+else
+{
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if(im<0) im=-im;
+if(v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\tDetails of image are "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1.Highly Magnified "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2.Image Distance:At infinity"<<endl;
+}
+// BICONVEX _ INSIDE FOCUS
+}else
+{ arc(113,200,339,21,200);
+//lens-left
+arc(487,200,159,201,200);
+//lens-right
+setcolor(YELLOW);
+line(300-u,200,300-u,200-ob);
+//obj-vertical
+line(300-u,200-ob,300,200-ob);
+//horiz inci ray from tip of object
+line(300,200-ob,300+f,200);
+//refracted ray thru focus
+yo=(((ob/f)*(250-f))+200);
+yo0=(((ob/u)*250)+200);
+line(300,200,550,yo0);
+v=((u*f)/(u-f));
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+//image distance
+m=v/u;
+//image magnification
+im=ob*m;
+//image size
+setlinestyle(1,0,0);
+line(300-u,200-ob,300+v,200+im);
+line(300,200-ob,300+v,200+im);
+yo1=(((ob/f)*(-250-f)+200));
+line(300-u,200-ob,50,yo1);
+setcolor(RED);
+line(300+v,200,300+v,200+im);
+//image-vertical
+setlinestyle(0,1,1);
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if(im<0) im=-im;
+if(v<0) v=-v;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\tDetails of image are "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t1.On the Left side of lens "<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t2.Image Distance "<<v<<endl;
+cout<<"\t\t\t\t\t\t\t\t\t\t\t\t\t\t3.Image Size "<<im<<endl;
+getch();
+}
+}
+/***************************************************************************\
+/* LENS : BICONCAVE */
+void biconcave()
+{
+setcolor(WHITE);
+cout<<"\n Enter object distance ";
+cin>>u;
+cout<<"\n Enter object size" ;
+cin>>ob;
+line(0,200,getmaxx(),200);
+//principal axis - horizontal
+line(186,156,319,156);
+line(286,244,319,244);
+f0= ((mu-1)*((-1/r1)+(-1/r2)));
+f=1/f0;
+//focal length of lens
+arc(195,200,335,25,100);
+//left side of lens
+arc(410,200,155,205,100);
+//right side of lens
+line(300-u,200,300-u,200-ob);
+//object - vertical
+setcolor(GREEN);
+line(300-u,200-ob,300,200-ob);
+//horizontal incident ray from tip of object
+setcolor(YELLOW);
+setlinestyle(1,0,0);
+line(300,200-ob,300+f,200);
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+setlinestyle(0,1,1);
+line(300-u,200-ob,300,200);
+yo3=(((ob/u)*200)+200);
+line(300,200,550,yo3);
+v=((u*f)/(u-f));
+//image distance
+m=v/u;
+//magnification
+im=ob*m;
+//image size
+setcolor(RED);
+line(300+v,200,300+v,200+im);
+//image vertical
+yo2=((ob/f)*(200-f)+200);
+setlinestyle(0,1,1);
+setcolor(GREEN);
+line(300,200-ob,500,yo2);
+for(rt=0;rt<10;rt++)
+cout<<endl;
+if (im<0) im=-im;
+if (v<0) v=-v;
+cout<<"DETAILS OF IMAGE ARE : "<<endl;
+cout<<"1. On left side of lens "<<endl;
+cout<<"2. Virtual "<<endl;
+cout<<"3. Image Size "<<im<<endl;
+cout<<"4. Image Distance "<<v<<endl;
+getch();
+}
+main()
+{
+int hi1,hi2,hi3,hi4;
+char ch;
+int gdriver = DETECT, gmode, errorcode;
+initgraph(&gdriver, &gmode, "..\\BGI");
+introdxn();
+do
+{
+cleardevice();
+cout<<"\n 1.Mirror";
+cout<<"\n 2.Lens";
+cout<<"\n 3. Exit";
+cout<<endl;
+cin>>hi1;
+clrscr();
+cleardevice();
+if (hi1==3)
+exit(0);
+if(hi1==2)
+{
+cout<<"\n1.BICONVEX";
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+cout<<"\n2.BICONCAVE";
+cout<<endl;
+cin>>hi4;
+clrscr();
+cleardevice();
+cout<<"\n Enter radii of curvature of the 2 sides :"<<endl;
+cin>>r1;
+cin>>r2;
+cout<<"\n Enter refractive index : ";
+cin>>mu;
+if (hi4==1)
+biconvex();
+if (hi4==2)
+biconcave();
+}
+if(hi1==1)
+{
+cout<<"\n1.Plane Mirror";
+cout<<"\n2.Spherical Mirror";
+cout<<endl;
+cin>>hi2;
+cleardevice();
+clrscr();
+if (hi2==1)
+plane();
+cleardevice();
+if(hi2==2)
+{
+cout<<"\n1.Concave";
+cout<<"\n2.Convex";
+cout<<endl;
+cin>>hi3;
+cout<<"\nEnter object distance : ";
+cin>>u;
+cout<<"\nEnter focal length : ";
+cin>>f;
+cout<<"\nEnter Object size : ";
+cin>>ob;
+if(hi3==2) convex();
+if(hi3==1)
+{
+if (u>f) normal();
+if (u==f) focus();
+if (u<f) abnormal();
+}
+}
+}
+clrscr();
+cleardevice();
+getch();
+cout<<"\n Do you want to continue..... ?";
+cin>>ch;
+}
+file:///C/......Prateek/....Prateek/New%20folder/OPTICS.txt[18-07-2016 19:55:19]
+while(ch=='y' || ch=='Y');
+closegraph();
+}

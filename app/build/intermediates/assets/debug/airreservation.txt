@@ -1,0 +1,1261 @@
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+//**********************************************************
+// INCLUDED HEADER FILES
+//**********************************************************
+#include <iostream.h>
+#include <fstream.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <dos.h>
+#include <graphics.h>
+#include<process.h>
+#define dash'*'
+//**********************************************************
+// THIS CLASS DRAW LINES, BOXES, ETC.
+//**********************************************************
+class DRAW
+{
+public :
+void LINE_HOR(int, int, int, char) ;
+void LINE_VER(int, int, int, char) ;
+void BOX(int,int,int,int,char) ;
+} ;
+//*******************************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS RELATED TO TICKETS
+//*******************************************************************
+class TICKET
+{
+public :
+void ADDITION(void) ;
+void ENQUIRY(void) ;
+char *FLIGHTNO(int) ;
+private :
+void ADD_RECORD(char[10], char[15], char[15],long int,long int) ;
+protected :
+char fltno[10], from[15], to[15] ;
+long int ecofair, exefair ;
+} ;
+//************************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS RELATED TO //PASSENGERS
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+//************************************************************
+class PASSANGER
+{
+public :
+void ADD_RECORD(int, int, char[26], char[36], int, char, char) ;
+void DELETE_TICKET(int) ;
+int DELETE_FLIGHT(int) ;
+void LIST(void) ;
+int LAST_TICKETNO(void) ;
+int SEATS(int) ;
+int FOUND(int) ;
+char *NAME(int) ;
+protected :
+char Class, name[26], address[36], sex ;
+int slno, age, ticketno ;
+} ;
+//*****************************************************************
+// THIS IS DERIVED CLASS WHICH CONTROL ALL THE FUNCTIONS
+// RELATED TO RESERVATION, CANCELLATION, ETC.
+//*****************************************************************
+class RESERVE : public TICKET, public PASSANGER
+{
+public :
+void RESERVATION(void) ;
+void CANCELLATION(void) ;
+void DISPLAY_TICKET(void) ;
+void DELETE_ALL(void) ;
+} ;
+//********************************************************
+// FUNCTION TO DRAW HORIZONTAL LINE
+//********************************************************
+void DRAW :: LINE_HOR(int column1, int column2, int row, char c)
+{
+for ( column1; column1<=column2; column1++ )
+{
+gotoxy(column1,row) ;
+cout <<c ;
+}
+}
+//**********************************************************
+// FUNCTION TO DRAW VERTICAL LINE
+//**********************************************************
+void DRAW :: LINE_VER(int row1, int row2, int column, char c)
+{
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+for ( row1; row1<=row2; row1++ )
+{
+gotoxy(column,row1) ;
+cout <<c ;
+}
+}
+//***********************************************************
+// FUNCTION TO DRAW BOX
+//***********************************************************
+void DRAW :: BOX(int column1, int row1, int column2, int row2, char c)
+{
+char ch=218 ;
+char c1, c2, c3, c4 ;
+char l1=196, l2=179 ;
+if (c == ch)
+{
+c1=218 ;
+c2=191 ;
+c3=192 ;
+c4=217 ;
+l1 = 196 ;
+l2 = 179 ;
+}
+else
+{
+c1=c ;
+c2=c ;
+c3=c ;
+c4=c ;
+l1 = c ;
+l2 = c ;
+}
+gotoxy(column1,row1) ;
+cout <<c1 ;
+gotoxy(column2,row1) ;
+cout <<c2 ;
+gotoxy(column1,row2) ;
+cout <<c3 ;
+gotoxy(column2,row2) ;
+cout <<c4 ;
+column1++ ;
+column2-- ;
+LINE_HOR(column1,column2,row1,l1) ;
+LINE_HOR(column1,column2,row2,l1) ;
+column1-- ;
+column2++ ;
+row1++ ;
+row2-- ;
+LINE_VER(row1,row2,column1,l2) ;
+LINE_VER(row1,row2,column2,l2) ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+//*******************************************************************
+// FUNCTION TO ADD GIVEN DATA IN THE TICKET FILE(TICKET.DAT)
+//*******************************************************************
+void TICKET :: ADD_RECORD(char t_fltno[10], char t_from[15], char t_to[15], long int t_ecofair, long int t_exefair)
+{
+fstream file ;
+file.open("TICKET1.DAT", ios::app) ;
+strcpy(fltno,t_fltno) ;
+strcpy(from,t_from) ;
+strcpy(to,t_to) ;
+ecofair = t_ecofair ;
+exefair = t_exefair ;
+file.write((char *) this, sizeof(TICKET)) ;
+file.close() ;
+}
+//***********************************************************
+// FUNCTION TO RETURNS FLIGHT NO. FOR THE GIVEN S.NO
+//***********************************************************
+char *TICKET :: FLIGHTNO(int sno)
+{
+fstream file ;
+file.open("TICKET1.DAT", ios::in) ;
+int count=1 ;
+while (file.read((char *) this, sizeof(TICKET)))
+{
+if (sno == count)
+break ;
+count++ ;
+}
+file.close() ;
+return fltno ;
+}
+//**************************************************************
+// FUNCTION TO GIVES DATA TO ADD RECORDS IN TICEKT FILE
+//**************************************************************
+void TICKET :: ADDITION(void)
+{
+fstream file ;
+file.open("TICKET1.DAT", ios::in) ;
+if (!file.fail())
+return ;
+file.close() ;
+ADD_RECORD("KL146","DELHI","FRANKFURT",22000,45000) ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+ADD_RECORD("KL146","NEW YORK","DELHI",23300,34000) ;
+ADD_RECORD("KL156","DELHI","SYDNEY",67999,68999) ;
+ADD_RECORD("KL156","KOLKATA","BRAZIL",32900,34990) ;
+ADD_RECORD("KL166","DELHI","MUNICH",29100,30000) ;
+ADD_RECORD("KL166","MAURITIUS","DELHI",10000,11111) ;
+ADD_RECORD("KL176","MUMBAI","DUBLIN",9999,11999) ;
+ADD_RECORD("KL176","KOLKATA","MUNICH",33330,34440) ;
+ADD_RECORD("KL186","MUMBAI","SWITZERLAND",18000,20000) ;
+ADD_RECORD("KL186","PARIS","MUMBAI",18800,22200) ;
+ADD_RECORD("KL196","KOLKATA","NORWAY",16000,17999) ;
+ADD_RECORD("KL196","LOS ANGELES","KOLKATA",11999,15999) ;
+}
+//**********************************************************
+// FUNCTION TO DISPLAY LIST OF FLIGHTS
+//**********************************************************
+void TICKET :: ENQUIRY(void)
+{
+clrscr() ;
+fstream file ;
+file.open("TICKET1.DAT", ios::in) ;
+DRAW d ;
+d.BOX(1,2,80,24,218) ;
+d.LINE_HOR(2,79,4,196) ;
+d.LINE_HOR(2,79,6,196) ;
+d.LINE_HOR(2,79,22,196) ;
+textcolor(LIGHTGRAY+BLINK) ;
+gotoxy(30,3) ;
+cout<<("LIST OF THE FLIGHTS") ;
+textcolor(LIGHTGRAY) ;
+textcolor(BLACK) ; textbackground(WHITE) ;
+for (int i=2; i<=79; i++)
+{
+gotoxy(i,5) ;
+cout<<(" ") ;
+}
+gotoxy(2,5) ;
+cout<<(" Sno. FLIGHT NO. FROM TO ECONOMIC FAIR EXECUTIVE FAIR") ;
+textcolor(LIGHTGRAY) ; textbackground(BLACK) ;
+int row=7, sno=1 ;
+while (file.read((char *) this, sizeof(TICKET)))
+{
+gotoxy(4,row) ;
+cout <<sno ;
+gotoxy(9,row) ;
+cout <<fltno ;
+gotoxy(20,row) ;
+cout <<from ;
+gotoxy(34,row) ;
+cout <<to ;
+gotoxy(52,row) ;
+cout <<ecofair ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+gotoxy(67,row) ;
+cout <<exefair ;
+row++ ;
+sno++ ;
+}
+file.close() ;
+}
+//**********************************************************
+// FUNCTION TO RESERVE TICKET FOR THE PASSANGER
+//**********************************************************
+void RESERVE :: RESERVATION(void)
+{
+clrscr() ;
+ENQUIRY() ;
+char t1[5], pclass, pname[26], paddress[36], psex, pfltno[10] ;
+int t2, valid, page, tno, sno ;
+PASSANGER p ;
+tno = p.LAST_TICKETNO() + 1 ;
+do
+{
+valid = 1 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"PRESS <ENTER> TO EXIT" ;
+gotoxy(3,20) ;
+cout <<" " ;
+gotoxy(3,20) ;
+cout <<"Enter Sno. of the FLIGHT : " ;
+gets(t1) ;
+t2 = atoi(t1) ;
+sno = t2 ;
+if (strlen(t1) == 0)
+return ;
+if (sno < 1 || sno > 12)
+{
+valid = 0 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"\7ENTER CORRECTLY" ;
+getch() ;
+}
+} while (!valid) ;
+int i=1 ;
+fstream file ;
+file.open("TICKET1.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(TICKET)))
+{
+if (sno == i)
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+break ;
+i++ ;
+}
+file.close() ;
+strcpy(pfltno,fltno) ;
+if (p.SEATS(sno) >= 250)
+{
+gotoxy(5,21) ;
+cout <<"\7Sorry! Seats are not available." ;
+getch() ;
+return ;
+}
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"E=ECONOMIC, X=EXECUTIVE or PRESS <ENTER> TO EXIT" ;
+do
+{
+gotoxy(3,21) ;
+cout <<" " ;
+gotoxy(3,21) ;
+cout <<"By which Class you want to travel : " ;
+pclass = getche() ;
+pclass = toupper(pclass) ;
+if (pclass == 13)
+return ;
+} while (pclass != 'E' && pclass != 'X') ;
+clrscr() ;
+gotoxy(72,3) ;
+cout <<"<0>=EXIT" ;
+gotoxy(34,2) ;
+cout <<"RESERVATION" ;
+gotoxy(5,5) ;
+cout <<"NAME : " ;
+gotoxy(5,6) ;
+cout <<"ADDRESS : " ;
+gotoxy(5,7) ;
+cout <<"SEX(M/F) : " ;
+gotoxy(5,8) ;
+cout <<"AGE : " ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"ENTER NAME OF THE PASSANGER" ;
+gotoxy(15,5) ; clreol() ;
+gets(pname) ;
+if (pname[0] == '0')
+return ;
+if (strlen(pname) < 1 || strlen(pname) > 25)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter Correctly (Range: 1..25)" ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+getch() ;
+}
+} while (!valid) ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"ENTER ADDRESS OF THE PASSANGER" ;
+gotoxy(15,6) ; clreol() ;
+gets(paddress) ;
+if (paddress[0] == '0')
+return ;
+if (strlen(paddress) < 1 || strlen(paddress) > 35)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter Correctly (Range: 1..35)" ;
+getch() ;
+}
+} while (!valid) ;
+do
+{
+gotoxy(5,25) ; clreol() ;
+cout <<"ENTER SEX OF THE PASSANGER" ;
+gotoxy(15,7) ; clreol() ;
+psex = getche() ;
+psex = toupper(psex) ;
+if (psex == '0')
+return ;
+} while (psex != 'M' && psex != 'F') ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"ENTER AGE OF THE PASSANGER" ;
+gotoxy(15,8) ; clreol() ;
+gets(t1) ;
+t2 = atoi(t1) ;
+page = t2 ;
+if (t1[0] == '0')
+return ;
+if (page < 1 || page > 100)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7ENTER CORRECTLY" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+DRAW d ;
+d.BOX(15,5,66,21,'*') ;
+d.LINE_HOR(16,65,7,'*') ;
+gotoxy(33,6) ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+cout <<"Ticket no. " <<tno ;
+gotoxy(17,9) ;
+cout <<from <<" to " <<to ;
+gotoxy(45,9) ;
+cout <<"Flight no. " <<pfltno ;
+gotoxy(20,11) ;
+cout <<"Passanger Name : " <<pname ;
+gotoxy(20,13) ;
+cout <<"Address : " <<paddress ;
+gotoxy(20,15) ;
+cout <<"Sex : " <<psex ;
+gotoxy(20,17) ;
+cout <<"Age : " <<page ;
+gotoxy(45,19) ;
+if (pclass == 'E')
+cout <<"Total Fair: " <<ecofair ;
+else
+cout <<"Total Fair: " <<exefair ;
+p.ADD_RECORD(tno,sno,pname,paddress,page,psex,pclass) ;
+getch() ;
+}
+//*****************************************************************
+// FUNCTION TO ADD THE GIVEN DATA IN THE PASSANGER'S FILE
+//*****************************************************************
+void PASSANGER :: ADD_RECORD(int tno, int sno, char pname[26], char paddress[36], int page, char psex, char
+pclass)
+{
+fstream file ;
+file.open("PASS.DAT", ios::app) ;
+ticketno = tno ;
+slno = sno ;
+strcpy(name,pname) ;
+strcpy(address,paddress) ;
+age = page ;
+sex = psex ;
+Class = pclass ;
+file.write((char *) this, sizeof(PASSANGER)) ;
+file.close() ;
+}
+//***********************************************************
+// THIS FUNCTION RETURN THE LAST TICKET NO. IN THE
+// PASSANGER FILE
+//***********************************************************
+int PASSANGER :: LAST_TICKETNO(void)
+{
+fstream file ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+file.open("PASS.DAT", ios::in) ;
+int count=0 ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+count = ticketno ;
+file.close() ;
+return count ;
+}
+//*******************************************************************
+// THIS FUNCTION RETURN TOTAL NUMBER OF SEATS IN THE
+// PASSANGER FILE
+//*******************************************************************
+int PASSANGER :: SEATS(int sno)
+{
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+int count=0 ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+{
+if (sno == slno)
+count++ ;
+}
+file.close() ;
+return count ;
+}
+//****************************************************************
+// THIS FUNCTION RETURN 0 IF THE TICKET NUMBER NOT FOUND
+// IN PASSANGER'S FILE
+//****************************************************************
+int PASSANGER :: FOUND(int tno){
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+int found=0 ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+{
+if (tno == ticketno)
+{
+found = 1 ;
+break ;
+}
+}
+file.close() ;
+return found ;
+}
+//****************************************************************
+// THIS FUNCTION RETURNS PASSANGER'S NAME FOR THE GIVEN
+// TICKET NUMBER
+//****************************************************************
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+char *PASSANGER :: NAME(int tno)
+{
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+{
+if (tno == ticketno)
+break ;
+}
+file.close() ;
+return name ;
+}
+//**********************************************************
+// THIS FUNCTION DISPLAY THE LIST OF THE PASSANGERS
+//**********************************************************
+void PASSANGER :: LIST(void)
+{
+clrscr() ;
+char t1[10] ;
+int t2, sno, valid ;
+TICKET ticket ;
+ticket.ENQUIRY() ;
+do
+{
+valid = 1 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"PRESS <ENTER> TO EXIT" ;
+gotoxy(3,20) ;
+cout <<" " ;
+gotoxy(3,20) ;
+cout <<"Enter Sno. of the FLIGHT for which you want to see list of passanger " ;
+gets(t1) ;
+t2 = atoi(t1) ;
+sno = t2 ;
+if (strlen(t1) == 0)
+return ;
+if (sno < 1 || sno > 12)
+{
+valid = 0 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"\7ENTER CORRECTLY" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+int row=7, found=0, flag=0 ;
+char ch ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+DRAW d ;
+d.BOX(1,2,80,24,218) ;
+d.LINE_HOR(2,79,4,196) ;
+d.LINE_HOR(2,79,6,196) ;
+d.LINE_HOR(2,79,22,196) ;
+gotoxy(3,3) ;
+cout <<"Flight no. " <<ticket.FLIGHTNO(sno) ;
+gotoxy(32,3) ;
+cout <<"LIST OF PASSANGER" ;
+textcolor(BLACK) ; textbackground(WHITE) ;
+gotoxy(2,5) ;
+cout<<(" TICKET NO. NAME CLASS ") ;
+textcolor(LIGHTGRAY) ; textbackground(BLACK) ;
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+{
+if (sno == slno)
+{
+flag = 0 ;
+// delay(20) ;
+found = 1 ;
+gotoxy(5,row) ;
+cout <<ticketno ;
+gotoxy(17,row) ;
+cout <<name ;
+gotoxy(49,row) ;
+if (Class == 'X')
+cout <<"Executive" ;
+else
+cout <<"Economic" ;
+if ( row == 21 )
+{
+flag = 1 ;
+row = 7 ;
+gotoxy(5,23) ;
+cout <<"Press any key to continue or Press <ESC> to exit" ;
+ch = getch() ;
+if (ch == 27)
+break ;
+clrscr() ;
+d.BOX(1,2,80,24,218) ;
+d.LINE_HOR(2,79,4,196) ;
+d.LINE_HOR(2,79,6,196) ;
+d.LINE_HOR(2,79,22,196) ;
+gotoxy(32,3) ;
+cout <<"LIST OF PASSANGER" ;
+textcolor(BLACK) ; textbackground(WHITE) ;
+gotoxy(2,5) ;
+cout<<" TICKET NO. NAME FLIGHT "<<"NO. CLASS " ;
+textcolor(LIGHTGRAY) ; textbackground(BLACK) ;
+}
+else
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+row++ ;
+}
+}
+if (!found)
+{
+gotoxy(5,10) ;
+cout <<"\7Records not found" ;
+}
+if (!flag)
+{
+gotoxy(5,23) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+file.close() ;
+}
+//*******************************************************************
+// THIS FUNCTION DELETES PASSANGER RECORDS FOR THE GIVEN
+// TICKET NUMBER
+//*******************************************************************
+void PASSANGER :: DELETE_TICKET(int tno)
+{
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+file.seekg(0,ios::beg) ;
+while (!file.eof())
+{
+file.read((char *) this, sizeof(PASSANGER)) ;
+if (file.eof())
+break ;
+if (tno != ticketno)
+temp.write((char *) this, sizeof(PASSANGER)) ;
+}
+file.close() ;
+temp.close() ;
+file.open("PASS.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+temp.seekg(0,ios::beg) ;
+while ( !temp.eof() )
+{
+temp.read((char *) this, sizeof(PASSANGER)) ;
+if ( temp.eof() )
+break ;
+file.write((char *) this, sizeof(PASSANGER)) ;
+}
+file.close() ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+temp.close() ;
+}
+//****************************************************************
+// THIS FUNCTION DELETES ALL PASSANGER RECORDS FOR THE
+// GIVEN FLIGHT NUMBER
+//****************************************************************
+int PASSANGER :: DELETE_FLIGHT(int sno)
+{
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+file.seekg(0,ios::beg) ;
+int found = 0 ;
+while (!file.eof())
+{
+file.read((char *) this, sizeof(PASSANGER)) ;
+if (file.eof())
+break ;
+if (sno != slno)
+temp.write((char *) this, sizeof(PASSANGER)) ;
+else
+found = 1 ;
+}
+file.close() ;
+temp.close() ;
+file.open("PASS.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+temp.seekg(0,ios::beg) ;
+while ( !temp.eof() )
+{
+temp.read((char *) this, sizeof(PASSANGER)) ;
+if ( temp.eof() )
+break ;
+file.write((char *) this, sizeof(PASSANGER)) ;
+}
+file.close() ;
+temp.close() ;
+return found ;
+}
+//***********************************************************
+// THIS FUNCTION CANCELS PASSANGER'S TICKET
+//***********************************************************
+void RESERVE :: CANCELLATION(void)
+{
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+clrscr() ;
+char t1[10], ch ;
+int t2, tno, valid ;
+do
+{
+valid = 1 ;
+gotoxy(3,23) ; clreol() ;
+cout <<"PRESS <ENTER> TO SEE LIST or 0 TO EXIT" ;
+gotoxy(3,20) ; clreol() ;
+cout <<"Enter Ticket no. of the Passanger to cancel the Ticket " ;
+gets(t1) ;
+t2 = atoi(t1) ;
+tno = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+{
+valid = 0 ;
+LIST() ;
+clrscr() ;
+}
+if (!FOUND(tno) && valid)
+{
+valid = 0 ;
+gotoxy(3,23) ; clreol() ;
+cout <<"\7Record not found" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+if (ticketno == tno)
+break ;
+file.close() ;
+int i=1 ;
+file.open("TICKET1.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(TICKET)))
+{
+if (slno == i)
+break ;
+i++ ;
+}
+file.close() ;
+PASSANGER p ;
+DRAW d ;
+d.BOX(15,5,66,21,'*') ;
+d.LINE_HOR(16,65,7,'*') ;
+gotoxy(33,6) ;
+cout <<"Ticket no. " <<tno ;
+gotoxy(17,9) ;
+cout <<from <<" to " <<to ;
+gotoxy(45,9) ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+cout <<"Flight no. " <<fltno ;
+gotoxy(20,11) ;
+cout <<"Passanger Name : " <<p.NAME(tno);
+gotoxy(20,13) ;
+cout <<"Address : " <<address ;
+gotoxy(20,15) ;
+cout <<"Sex : " <<sex ;
+gotoxy(20,17) ;
+cout <<"Age : " <<age ;
+gotoxy(45,19) ;
+if (Class == 'E')
+cout <<"Total Fair: " <<ecofair ;
+else
+cout <<"Total Fair: " <<exefair ;
+do
+{
+gotoxy(10,23) ; clreol() ;
+cout <<"Cancel this ticket (y/n) : " ;
+ch = getche() ;
+ch = toupper(ch) ;
+} while (ch != 'Y' && ch != 'N') ;
+if (ch == 'N')
+return ;
+DELETE_TICKET(tno) ;
+gotoxy(10,25) ;
+cout <<"\7Ticket Cancelled" ;
+getch() ;
+}
+//*************************************************************
+// THIS FUNCTION DISPLAY THE PASSANGER'S INFORMATION
+//*************************************************************
+void RESERVE :: DISPLAY_TICKET(void)
+{
+clrscr() ;
+char t1[10], ch ;
+int t2, tno, valid ;
+do
+{
+valid = 1 ;
+gotoxy(3,23) ; clreol() ;
+cout <<"PRESS <ENTER> TO SEE LIST or 0 TO EXIT" ;
+gotoxy(3,20) ; clreol() ;
+cout <<"Enter Ticket no. of the Passanger " ;
+gets(t1) ;
+t2 = atoi(t1) ;
+tno = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+{
+valid = 0 ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+LIST() ;
+clrscr() ;
+}
+if (!FOUND(tno) && valid)
+{
+valid = 0 ;
+gotoxy(3,23) ; clreol() ;
+cout <<"\7Record not found" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+fstream file ;
+file.open("PASS.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(PASSANGER)))
+if (ticketno == tno)
+break ;
+file.close() ;
+int i=1 ;
+file.open("TICKET1.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(TICKET)))
+{
+if (slno == i)
+break ;
+i++ ;
+}
+file.close() ;
+PASSANGER p ;
+DRAW d ;
+d.BOX(15,5,66,21,'*') ;
+d.LINE_HOR(16,65,7,'*') ;
+gotoxy(33,6) ;
+cout <<"Ticket no. " <<tno ;
+gotoxy(17,9) ;
+cout <<from <<" to " <<to ;
+gotoxy(45,9) ;
+cout <<"Flight no. " <<fltno ;
+gotoxy(20,11) ;
+cout <<"Passanger Name : " <<p.NAME(tno);
+gotoxy(20,13) ;
+cout <<"Address : " <<address ;
+gotoxy(20,15) ;
+cout <<"Sex : " <<sex ;
+gotoxy(20,17) ;
+cout <<"Age : " <<age ;
+gotoxy(45,19) ;
+if (Class == 'E')
+cout <<"Total Fair: " <<ecofair ;
+else
+cout <<"Total Fair: " <<exefair ;
+gotoxy(10,25) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+//**********************************************************
+// THIS FUNCTION GIVE FLIGHT NO. TO DELETE ALL
+// PASSANGER RECORDS
+//**********************************************************
+void RESERVE :: DELETE_ALL(void)
+{
+clrscr() ;
+ENQUIRY() ;
+char t1[5] ;
+int t2, valid, sno ;
+do
+{
+valid = 1 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"PRESS <ENTER> TO EXIT" ;
+gotoxy(3,20) ;
+cout <<" " ;
+gotoxy(3,20) ;
+cout <<"Enter Sno. of the FLIGHT for which all passanger records to be deleted : " ;
+gets(t1) ;
+t2 = atoi(t1) ;
+sno = t2 ;
+if (strlen(t1) == 0)
+return ;
+if (sno < 1 || sno > 12)
+{
+valid = 0 ;
+gotoxy(3,23) ;
+cout <<" " ;
+gotoxy(3,23) ;
+cout <<"\7ENTER CORRECTLY" ;
+getch() ;
+}
+} while (!valid) ;
+gotoxy(3,23) ;
+if (!DELETE_FLIGHT(sno))
+cout <<"\7Records not found. Press any key to continue..." ;
+else
+cout <<"\7Records deleted. Press any key to continue..." ;
+getch() ;
+}
+//*********************************************************
+//THIS CLASS IS TO MAKE BOX
+//*********************************************************
+class BOX_CLASS
+{
+public:
+void DRAW_LINE(int,int,int,char);
+void DRAW_VER(int,int,int,char);
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+void DRAW_BOX(int,int,int,int,char);
+}DRAW1;
+void BOX_CLASS::DRAW_LINE(int column1,int column2,int row,char c)
+{
+for (column1;column1<=column2;column1++)
+{
+gotoxy(column1,row);
+cout<<c;
+}
+}
+void BOX_CLASS::DRAW_VER(int row1,int row2,int column,char c)
+{
+for (row1;row1<=row2;row1++)
+{
+gotoxy(column,row1);
+cout<<c;
+}
+}
+void BOX_CLASS::DRAW_BOX(int column1,int row1,int column2,int row2,char c)
+{
+char ch=218;
+char c1,c2,c3,c4;
+char l1=196,l2=179;
+if(c==ch)
+{
+c1=218;
+c2=191;
+c3=192;
+c4=217;
+l1=196;
+l2=179;
+}
+else
+{
+c1=c;
+c2=c;
+c3=c;
+c4=c;
+l1=c;
+c2=c;
+}
+gotoxy(column1,row1);
+cout<<c1;
+gotoxy(column2,row1);
+cout<<c2;
+gotoxy(column1,row2);
+cout<<c3;
+gotoxy(column2,row2);
+cout<<c4;
+column1++;
+column2--;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+DRAW_LINE(column1,column2,row1,l1); //Horizontal line
+DRAW_LINE(column1,column2,row2,l1);
+column1--;
+column2++;
+row1++;
+row2--;
+DRAW_VER(row1,row2,column1,l2); // Vertical line
+DRAW_VER(row1,row2,column2,l2);
+}
+//*****************************************************
+//THIS FUNCTION IS TO CLEAR THE SCREEN
+//*****************************************************
+void erase()
+{
+int border[]={-5,-5,650,-5,650,500,-5,500};
+setfillstyle(SOLID_FILL,128);
+fillpoly(4,border);
+}
+void erase1()
+{
+int border[]={-5,-5,650,-5,650,500,-5,500};
+setfillstyle(SOLID_FILL,10);
+fillpoly(4,border);
+}
+//*********************************************************
+//THIS FUNCTION IS TO MAINTAIN SECURITY
+//********************************************************
+void security(void)
+{
+clrscr();
+char pass[20];
+char username[20];
+gotoxy(20,12);
+cout<<"USER NAME : ";
+gets(username);
+if(!(strcmp(username,"AMANDEEP"))||!(strcmp(username,"AMANDEEP")))
+{
+for(int i=0;i<5;i++)
+{
+gotoxy(1,20);
+clreol();
+gotoxy(1,22);
+clreol();
+gotoxy(20,14);
+clreol();
+cout<<"ENTER USER PASSWORD : ";
+gets(pass);
+if((strcmp(pass,"KHUSHI"))&&(strcmp(pass,"KHUSHI")))
+{
+if(i<3)
+{
+gotoxy(15,20);
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!";
+getch();
+}
+if(i==3)
+{
+gotoxy(25,20);
+cout<<" INCORRECT PASSWORD !!!";
+gotoxy(15,22);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE!!!" ;
+getch();
+}
+if(i==4)
+{
+exit(0);
+}
+}
+else
+{
+break;
+}
+}
+}
+else
+{
+if(!(strcmp(username,"KAPILANAND"))||!(strcmp(username,"KAPILANAND")))
+{
+for(int j=0;j<5;j++)
+{
+gotoxy(1,20);
+clreol();
+gotoxy(1,22);
+clreol();
+gotoxy(20,14);
+//clreol();
+gotoxy(20,14);
+cout<<"ENTER USER PASSWORD : ";
+gets(pass);
+if((strcmp(pass,"KHUSHI"))&&(strcmp(pass,"KHUSHI")))
+{
+if(j<3)
+{
+gotoxy(15,20);
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!";
+getch();
+}
+if(j==3)
+{
+gotoxy(25,20);
+cout<<" INCORRECT PASSWORD !!!";
+gotoxy(15,22);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE!!!" ;
+getch();
+}
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+if(j==4)
+{
+exit(0);
+}
+}
+else
+{
+break;
+}
+exit(0);
+}
+}
+else
+{
+exit(0);
+}
+}
+}
+//****************************************************
+//THIS IS THE MAIN FUNCTION
+//****************************************************
+void main()
+{
+textbackground(CYAN);
+textcolor(BLACK);
+clrscr();
+int ii,jj;
+char aa[] = " A I R ";
+char bb[] = " R E S E R V A T I O N ";
+for(ii=0;ii<=79l;ii++)
+gotoxy(1,11);
+clreol();
+gotoxy(1,13);
+clreol();
+jj = 63;
+for(ii=1;ii<=43;ii++)
+{
+delay(200);
+gotoxy(1,12);
+clreol();
+gotoxy(ii,12);
+cout<<bb;
+gotoxy(jj,12);
+cout<<aa;
+jj--;
+gotoxy(1,1);
+}
+nosound();
+char n;
+clrscr();
+int gdriver = DETECT, gmode, errorcode;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+initgraph(&gdriver, &gmode, "");
+errorcode = graphresult();
+if (errorcode != grOk)
+{
+cout<<("Graphics error: %s\n", grapherrormsg(errorcode));
+cout<<("Press any key to halt:");
+getch();
+exit(1);
+}
+for(int i=1;i<=200;i++)
+{
+setcolor(i);
+erase();
+settextstyle(10, HORIZ_DIR, 3);
+outtextxy(80,i,"WELCOME");
+outtextxy(280,i,"TO");
+outtextxy(350,i,"OUR");
+outtextxy(450,i,"AIRLINES");
+delay(15);
+}
+textbackground(CYAN);
+delay(1200);
+erase1();
+delay(200);
+erase();
+for(i=1;i<=250;i++)
+{
+setcolor(9+i);
+erase();
+outtextxy(i,140,"Designed by :-");
+outtextxy(450-i,200,"KAPIL PANJWANI" );
+outtextxy(435-i,270,"ANAND PRAKASH");
+outtextxy(550-i,340,"XII");
+// sound(500+i);
+}
+nosound();
+security();
+clrscr();
+int a=320;
+int b=250;
+for(i=0;i<=1000;i++)
+{
+putpixel(rand()%(a+=1),rand()%(b+=1),i);
+delay(3);
+}
+delay(500);
+closegraph();
+do
+{ clrscr();
+DRAW1.DRAW_BOX(1,1,79,24,218);
+DRAW1.DRAW_BOX(24,4,55,19,218);
+gotoxy(36,7);
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+cout<<"MENU";
+gotoxy(30,9);
+cout<<"1.RESEVATION ";
+gotoxy(30,10);
+cout<<"2.CANCELLATION";
+gotoxy(30,11);
+cout<<"3.PASSENGER RECORDS";
+gotoxy(30,12);
+cout<<"4.ENQUIRY";
+gotoxy(30,13);
+cout<<"5.LIST OF PASSANGER";
+gotoxy(30,14);
+cout<<"6.EXIT ";
+gotoxy(30,17);
+cout<<"ENTER YOUR CHOICE :";
+gotoxy(50,17);
+n=getch();
+DRAW d ;
+PASSANGER p ;
+TICKET ticket ;
+RESERVE r ;
+ticket.ADDITION() ;
+switch(n)
+{
+case '1':r.RESERVATION();
+break;
+case '2':r.CANCELLATION();
+break;
+case '3':
+while (1)
+{
+clrscr() ;
+d.BOX(19,6,62,20,218) ;
+textcolor(BLACK) ;
+textbackground(BLUE) ;
+for (int i=7; i<=19; i++)
+for (int j=20; j<=61; j++)
+{
+gotoxy(j,i) ;
+cout<<(" ") ;
+}
+gotoxy(29,10) ;
+cout<<("EDIT PASSENGER RECORDS") ;
+gotoxy(29,11) ;
+cout<<("~~~~~~~~~~~~~~~~~~~~~~") ;
+gotoxy(33,12) ;
+cout<<("1: PASSANGER INFORMATION") ;
+gotoxy(33,13) ;
+cout<<("2: DELETE") ;
+gotoxy(33,14) ;
+cout<<("0: EXIT") ;
+gotoxy(31,16) ;
+cout<<("ENTER YOUR CHOICE ") ;
+file:///C/......Prateek/....Prateek/New%20folder/AIR%20Reservation%20System.txt[09-07-2016 20:51:59]
+char ch = getche() ;
+textcolor(LIGHTGRAY) ;
+textbackground(BLUE) ;
+clrscr() ;
+if (ch == 27 || ch == '0')
+break ;
+else
+if (ch == '1')
+r.DISPLAY_TICKET() ;
+else
+if (ch == '2')
+r.DELETE_ALL() ;
+}
+break;
+case '4':{
+ticket.ENQUIRY() ;
+gotoxy(2,23) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+break;
+}
+case '5':p.LIST();
+break;
+case '6':exit(0);
+break;
+default:gotoxy(2,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cout<<("Invaild Choice Enter Again.......!!\a");
+delay(1000);
+textcolor(BLACK);
+textbackground(CYAN);
+}
+}while(n!='6');
+}

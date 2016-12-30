@@ -1,0 +1,615 @@
+#include<graphics.h>
+#include<fstream.h>
+#include<conio.h>
+#include<stdio.h>
+#include<math.h>
+#include<string.h>
+#include<process.h>
+#include<dos.h>
+#include<ctype.h>
+#include<stdlib.h>
+/* CLASS DECLARATION -ROOM */
+class room
+{
+protected:
+int room_no;
+double tariff;
+char status,type[20];
+public:
+void display();
+void modify();
+void del();
+void add();
+int found(int);
+char rstatus(int);
+void mod1(int);
+void mod2(int);
+}ob;
+/* CLASS DECLARATION-CUSTOMER */
+class customer:public room
+{
+int room,dd,mm,yyyy,days;
+char name[56],address[56];
+char phone[15],nation[50];
+float adv;
+public:
+void bookroom();
+void vacateroom();
+void custlist();
+void disdate();
+void custdelete(int);
+}bk;
+const int size=sizeof(customer);
+char op;
+/* FUNCTION TO DISPLAY ROOM STATUS */
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+void room::display()
+{
+clrscr();
+int r=7;
+fstream abc ;
+abc.open("class.dat",ios::in);
+cout<<"\n ROOM NUMBER TYPE TARIFF STATUS";
+while(abc.read((char*)this,sizeof(room)))
+{
+gotoxy(1,r);
+cout<<room_no;
+gotoxy(20,r);
+cout<<type;
+gotoxy(35,r);
+cout<<tariff;
+gotoxy(48,r);
+cout<<status;
+r+=1;
+}
+abc.close();
+getch();
+}
+/* FUNCTION TO MODIFY ROOMS */
+void room::modify()
+{
+clrscr();
+int rn,flag=0,rno,tariff;
+char status1='v',type1[20];
+do
+{
+cleardevice();
+gotoxy(5,5);
+cout<<"\n the room no. to be modified:";
+cin>>rn;
+if(found(rn))
+{
+cout<<"\n this room exists.";
+if(!rstatus(rn))
+{
+do
+{
+flag=0;
+cout<<"\n\n new room no:";
+cin>>rno;
+if(found(rno) && rno!=rn)
+{
+flag=1;
+cout<<"\n this room no.is already exists.";
+}
+}while(flag==1);
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+cout<<"\n type of the room:";
+cout<<"\n 1: ordinary.";
+cout<<"\n 2: deluxe:";
+cout<<"\n 3: presidential suite";
+cout<<endl<<endl<<" enter the type:";
+cin>>type1;
+cout<<"\n tariff of the room:";
+cout<<"\n 1: $ 50/-";
+cout<<"\n 2: $ 100/-";
+cout<<"\n 3: $ 150/-";
+cout<<endl<<endl<<"enter the tariff :$";
+cin>>tariff;
+fstream abc,temp;
+abc.open("class.dat",ios::in);
+temp.open("class.dat",ios::out);
+while (abc.read((char*)this,sizeof (room)))
+{
+if(room_no==rn)
+{
+room_no=rno;
+strcpy(type,type1);
+tariff=tariff ;
+status=status1 ;
+temp.write((char*)this,sizeof(room));
+}
+else
+temp.write((char*)this,sizeof (room));
+}
+abc.close();
+temp.close();
+abc.open("class1.dat",ios::out);
+temp.open("class1.dat",ios::in);
+while(temp.read((char*)this,sizeof (room)))
+abc.write((char*)this,sizeof (room));
+abc.close();
+temp.close();
+}
+else
+cout<<"\n this room is occupied,can't modify!";
+}
+else
+cout<<"\n room not found!";
+cout<<"\n WANT TO MODIFY MORE ROOMS (Y\N):";
+cin>>op;
+}while(toupper(op)=='Y');
+}
+/* FUNCTION TO DELETE ROOM */
+void room::del()
+{
+fstream abc,temp;
+int ran,num;
+do
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+{
+cleardevice();
+gotoxy(5,5);
+cout<<"\n THE ROOM TO BE DELETED:";
+cin>>ran;
+if(found(ran))
+{
+cout<<"\n this room exists:";
+if(!rstatus(ran))
+{
+abc.open("class.dat",ios::in);
+temp.open("class.dat",ios::out);
+while(abc.read((char*)this,sizeof(room)))
+{
+if(room_no!=ran)
+temp.write((char*)this,sizeof(room));
+else cout<<"\n Room Deleted";
+}
+abc.close();
+temp.close();
+abc.open("class.dat",ios::out);
+temp.open("class1.dat",ios::in);
+while(temp.read((char*)this,sizeof (room)))
+abc.write((char*)this,sizeof(room));
+abc.close();
+temp.close();
+}
+else
+cout<<"\n This room is occupied,can't delete.";
+}
+else
+cout<<"\n Room not found !";
+cout<<"\n WANT TO DELETE MORE ROOMS(Y/N) :";
+cin>>op;
+}while(toupper(op)=='Y');
+}
+/* FUNCTION TO CHECK WHETHER A ROOM EXIST */
+int room::found(int(num))
+{
+int f=0;
+fstream abc;
+abc.open("class.dat",ios::in);
+while(abc.read((char*)this,sizeof(room)))
+if(num==room_no)
+{
+f=1;
+break;
+}
+abc.close();
+return f;
+}
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+/* FUNCTION TO CHECK THE STATUS OF THE ROOM */
+char room::rstatus(int num)
+{
+int s=0;
+fstream abc;
+abc.open("class.dat",ios::in);
+while(abc.read((char*)this,sizeof(room)))
+if(num==room_no)
+{
+if(status=='o')
+s=1;
+break;
+}
+abc.close();
+return s;
+}
+/* FUNCTION TO ADD ROOMS */
+void room::add()
+{
+clrscr();
+int no,num;
+char ch;
+fstream abc;
+do
+{
+cleardevice();
+gotoxy(5,5);
+cout<<"\n Room-number:";
+cin>>num;
+if(! found(num))
+{
+cout<<"\n Type of the room:-";
+cout<<"\n 1: Ordinary.";
+cout<<"\n 2: Deluxe.";
+cout<<"\n 3: Presidential suite."<<"\t\t";
+cout<<endl<<endl<<"Enter the type :";
+cin>>type;
+cout<<"\n Tariff of the room:-";
+cout<<"\n 1: $ 50/-";
+cout<<"\n 2: $ 100/-";
+cout<<"\n 3: $ 150/-";
+cout<<endl<<endl<<"Enter the tariff :$";
+cin>>tariff;
+cout<<"\n Status of the room (occupied(o)/vacant(v))";
+cin>>status;
+room_no=num;
+abc.open("class.dat",ios::app);
+abc.write((char*)this,sizeof(room));
+abc.close();
+}
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+else
+cout<<"\n This room-number already exists.";
+cout<<"\n WANT TO ADD MORE ROOMS (Y/N) :";
+cin>>ch;
+}while(ch=='y'||ch=='Y');
+}
+/* FUNCTION TO BOOK ROOM */
+void customer::bookroom()
+{
+int r,ro,v;
+char ch;
+cleardevice();
+do
+{
+cleardevice();
+gotoxy(5,5);
+cout<<"\n Room-number:";
+cin>>r;
+if(found(r))
+{
+cout<<"\n Room "<<r<<":"<<"\t Exist";
+if(!rstatus(r))
+{
+cout<<"\n Room "<<r<<":"<<"\t Vacant";
+fstream abc;
+abc.open("class.dat",ios::in);
+while(abc.read((char*)this,sizeof(room)))
+{
+if(room_no==r)
+{
+cout<<"\n\n Type of the room :"<<type;
+cout<<"\n Tariff of the room :$"<<tariff;
+}
+}
+abc.close();
+char ch;
+cout<<"\n Do you like to book this room(y/n)";
+cin>>ch;
+if(ch=='y'||ch=='Y')
+{
+fstream f1;
+f1.open("cust.dat",ios::app);
+cout<<"\n\n Current date (mm/dd/yyyy) :";
+cin>>mm>>dd>>yyyy;
+cout<<"\n Room-number :"<<r;
+room_no=r;
+cout<<"\n Name of customer :";
+gets(name);
+cout<<"\n Nation of customer :";
+gets(nation);
+cout<<"\n Phone-number of customer :";
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+cin>>phone;
+f1.write((char*)this,size);
+f1.close();
+bk.mod1(r);
+}
+else goto next;
+}
+else
+cout<<"\n Room "<<r<<":"<<"\t Occupied ";
+}
+else
+cout<<"\n Room not found !";
+next:cout<<"\n\n WANT ANY OTHER OR NOT (Y/N):";
+cin>>ch;
+}while(toupper(ch)=='Y');
+}
+/* FUNCTION TO DISPLAY CUSTOMER RECORD */
+void customer::custlist()
+{
+clrscr();
+int r=7;
+fstream f1;
+f1.open("cust.dat",ios::in);
+cout<<"\n\n ROOM NO DATE NAME NATION PHONE-NUMBER\n";
+while(f1.read((char*)this,sizeof(customer)))
+{
+gotoxy(4,r);
+cout<<room_no;
+gotoxy(12,r);
+cout<<mm<<":"<<dd<<":"<<yyyy;
+gotoxy(27,r);
+cout<<name;
+gotoxy(40,r);
+cout<<nation;
+gotoxy(60,r);
+cout<<phone;
+r+=1;
+}
+f1.close();
+getch();
+}
+/* FUNCTION DATE */
+void customer::disdate()
+{
+struct date d;
+getdate(&d);
+int d1,m1,y1;
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+cout<<m1<<":"<<d1<<y1;
+}
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+/* FUNCTION TO MODIFY ROOM STATUS */
+void room::mod1(int rn)
+{
+char status1='0';
+fstream abc,temp;
+abc.open("class.dat",ios::in);
+temp.open("class1.dat",ios::out);
+while(abc.read((char*)this,sizeof(room)))
+{
+if(room_no==rn)
+{
+status=status1;
+temp.write((char*)this,sizeof(room));
+}
+else
+temp.write((char*)this,sizeof(room));
+}
+abc.close();
+temp.close();
+abc.open("class.dat",ios::out);
+temp.open("class1.dat",ios::in);
+while(temp.read((char*)this,sizeof (room)))
+abc.write((char*)this,sizeof(room));
+abc.close();
+temp.close();
+}
+/* FUNCTION TO VACATE ROOM */
+void customer::vacateroom()
+{
+cleardevice();
+int num,no;
+int m,n,r,p;
+fstream f1;
+do
+{
+cleardevice();
+f1.open("cust.dat",ios::in);
+gotoxy(5,5);
+cout<<"\n Room_number:";
+cin>>num;
+if(found(num))
+{
+cout<<"\n Room "<<num<<":"<<"\t exist";
+if(rstatus(num))
+{
+cout<<"\n Room "<<num<<":\t occupied";
+while(f1.read((char*)this,sizeof(customer)))
+if(num==room_no)
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+{
+cleardevice();
+gotoxy(35,5);
+cout<<"\n\t\t HOTEL CALIFORNIA ";
+cout<<"\n\t-------------------------------------";
+disdate();
+cout<<"\n\t service_charge :$ 15\-per day. ";
+cout<<"\n\t electric_charge :$ 10\-per day. ";
+cout<<"\n\t name : "<<bk.name;
+cout<<"\n\t date of arrival : "<<bk.mm<<":"<<bk.dd
+<<":"<<bk.yyyy;
+cout<<"\n\t type of room : "<<bk.type;
+cout<<"\n\t tarrif of room : "<<bk.tariff;
+cout<<"\n\n\t enter the number of days :";
+cin>>no;
+r=(no*bk.tariff);
+cout<<"\n\t amount :"<<r;
+m=(no*15);
+cout<<"\n\t ser-charges :"<<m;
+m=(no*10);
+cout<<"\n\t ele-charges :"<<n;
+p=(r+m+n);
+cout<<"\n\t** TOTAL_BILL** :"<<"$"<<p;
+cout<<"\n\n\t\t THANKS COME AGAIN:";
+cout<<"\n----------------------------------------";
+mod2(num);
+custdelete(num);
+}
+f1.close();
+}
+else
+cout<<"\n ROOM "<<num<<":\t vacant";
+}
+else
+cout<<"\n ROOM NOT FOUND!";
+cout<<"\n\n Any other customer(y/n) :";
+cin>>op;
+}while(toupper(op)=='y');
+}
+/* FUNCTION TO MODIFY ROOM STATUS AFTER SEARCH */
+void room::mod2(int rn)
+{
+char status1='v';
+fstream abc,temp;
+abc.open("class.dat",ios::in);
+temp.open("class1.dat",ios::out);
+while(abc.read((char*)this,sizeof (room)))
+{
+if(rn==room_no)
+{
+status=status1;
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+temp.write((char*)this,sizeof(room));
+}
+else
+temp.write((char*)this,sizeof(room));
+}
+abc.close();
+temp.close();
+abc.open("class.dat",ios::out);
+temp.open("class1.dat",ios::in);
+while(temp.read((char*)this,sizeof(room)))
+abc.write((char*)this,sizeof(room));
+abc.close();
+temp.close();
+}
+/* FUNCTION TO DELETE CUSTOMER */
+void customer::custdelete(int rn)
+{
+fstream f1,temp;
+f1.open("cust.dat",ios::in);
+temp.open("cust1.dat",ios::out);
+while(f1.read((char*)this,sizeof(customer)))
+{
+if(room_no!=rn)
+{
+temp.write((char*)this,sizeof(customer));
+}
+}
+f1.close();
+temp.close();
+f1.open("cust.dat",ios::out);
+temp.open("cust1.dat",ios::in);
+while(temp.read((char*)this,sizeof(customer)))
+{
+f1.write((char*)this,sizeof(customer));
+}
+f1.close();
+temp.close();
+}
+/* FUNCTION TO INITIATE */
+void initiator()
+{
+cleardevice();
+settextstyle(4,0,5);
+outtextxy(0,1,"## HOTEL MANAGEMENT ##");
+settextstyle(5,0,4);
+outtextxy(150,50,"prepared by:-");
+settextstyle(10,0,4);
+outtextxy(0,100," NEHA BATRA ");
+outtextxy(100,200," KIRAN ");
+settextstyle(10,0,2);
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+outtextxy(300,175,"&");
+rectangle(0,315,600,439);
+settextstyle(3,0,2);
+outtextxy(1,325,"DO YOU WANT TO ACCESS THE SYSTEM,DON'T YOU??");
+outtextxy(7,0,"1");
+outtextxy(1,375,"if you happen to want,just press enter to proceed");
+settextstyle(7,0,1);
+outtextxy(1,400,"if not ?; ok,then as you wish.Press any key to break free.");
+int h;
+h=getch();
+if(h==13)
+{
+cleardevice();
+settextstyle(1,0,10);
+outtextxy(15,150,"!WELCOME!");
+}
+else
+{
+exit(1);
+}
+}
+/* MAIN PROGRAMME */
+int main()
+{
+/* request auto detection */
+int gdriver=DETECT,gmode,errorcode;
+/* initialize graphics mode */
+initgraph(&gdriver,&gmode,"");
+fflush(stdout);
+char ch,op,choice;
+cleardevice();
+void initiator();
+initiator();
+getch();
+do
+{
+cleardevice();
+int menu_choice;
+rectangle(0,0,627,400);
+settextstyle(4,0,4);
+outtextxy(25,1,"### HOTEL ROOMING SYSTEM ###");
+settextstyle(10,0,4);
+outtextxy(2,410," m HOTEL CALIFORNIA m ");
+settextstyle(3,0,5);
+outtextxy(4,70,"1.Book Room");
+outtextxy(4,100,"2.Vacate Room");
+outtextxy(4,130,"3.Room status");
+outtextxy(4,160,"4.Customer list");
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+outtextxy(4,190,"5.edit");
+outtextxy(4,220,"6.quit");
+setusercharsize(1,2,1,1);
+outtextxy(4,300,"## ENTER CHOICE(1-6):");
+gotoxy(25,21);
+cin>>menu_choice;
+switch(menu_choice)
+{
+case 1:bk.bookroom();
+break;
+case 2:bk.vacateroom();
+break;
+case 3:ob.display();
+break;
+case 4:bk.custlist();
+break;
+case 5:cleardevice();
+settextstyle(4,0,4);
+outtextxy(25,1,"### HOTEL ROOMING SYSTEM ###");
+settextstyle(10,0,4);
+outtextxy(2,410," m HOTEL CALIFORNIA m ");
+settextstyle(3,0,5);
+outtextxy(4,100,"1.ADD new record");
+outtextxy(4,150,"2.Modify rooms");
+outtextxy(4,200,"3.Delete rooms");
+setusercharsize(1,2,1,1);
+outtextxy(4,300,"## ENTER CHOICE(1-3):");
+gotoxy(25,21);
+cin>>op;
+if(op=='1')
+ob.add();
+else
+{
+if(op=='2')
+ob.modify();
+else
+{
+if(op=='3')
+ob.del();
+}
+}
+break;
+case 6: break;
+}
+cleardevice();
+setcolor(15);
+settextstyle(10,0,1);
+outtextxy(100,250,"want to continue (y/n):");
+gotoxy(60,18);
+cin>>choice;
+}
+while(choice=='y'||choice=='Y');
+return 0;
+};
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]
+file:///C/......Prateek/....Prateek/New%20folder/HOTEL.txt[18-07-2016 19:55:13]

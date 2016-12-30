@@ -1,0 +1,1485 @@
+// PROJECT WORK
+// PAYROLL MANAGEMENT SYSTEM
+#include<iostream.h>
+#include<iomanip.h>
+#include<graphics.h>
+#include<fstream.h>
+#include<conio.h>
+#include<dos.h>
+#include<stdio.h>
+#include<string.h>
+#include<process.h>
+#include<ctype.h>
+#define dash "º"
+#define dash2 "Í"
+void box(void);
+void box2(void)
+{
+int ctr;
+for(ctr=1;ctr<=80;ctr++)
+{
+gotoxy(ctr,25);
+delay(12);
+cout<<dash2;
+}
+gotoxy(80,25);
+cout<<"¼";
+for(ctr=24;ctr>=2;ctr--)
+{
+gotoxy(80,ctr);
+delay(12);
+cout<<dash;
+}
+gotoxy(80,1);
+cout<<"»";
+for(ctr=79;ctr>=1;ctr--)
+{
+gotoxy(ctr,1);
+delay(12);
+cout<<dash2;
+}
+gotoxy(1,1);
+cout<<"É";
+for(ctr=2;ctr<=24;ctr++)
+{
+gotoxy(1,ctr);
+delay(12);
+cout<<dash;
+}
+gotoxy(1,25);
+cout<<"È";
+}
+char *month(int a)
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+{
+char *m;
+m=new char[15];
+switch(a)
+{
+case 1 : strcpy(m,"January");
+break;
+case 2 : strcpy(m,"Feburary");
+break;
+case 3 : strcpy(m,"March");
+break;
+case 4 : strcpy(m,"April");
+break;
+case 5 : strcpy(m,"May");
+break;
+case 6 : strcpy(m,"June");
+break;
+case 7 : strcpy(m,"July");
+break;
+case 8 : strcpy(m,"August");
+break;
+case 9 : strcpy(m,"September");
+break;
+case 10 : strcpy(m,"October");
+break;
+case 11 : strcpy(m,"November");
+break;
+case 12 : strcpy(m,"December");
+break;
+}
+return m;
+}
+void out()
+{
+clrscr();
+textbackground(5);
+clrscr();
+box();
+gotoxy(25,10);
+textbackground(BLUE);
+textcolor(WHITE+BLINK);
+cout<<"You were using Software created by";
+gotoxy(28,12);
+cprintf(" Ganga International School Software Company Ltd. ");
+gotoxy(25,14);
+cout<<"Hiran kudna,Delhi, India";
+delay(1500);
+exit(1);
+}
+struct d_date
+{
+int dd,mm,yy;
+};
+struct time sys_time;
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+struct date sys_date;
+class employee
+{
+public:
+void add_employee(int, char s_name[], char s_address[], d_date s_date,char s_desig[]);
+void display_employee(void);
+void delete_employee(int);
+void modify_employee(int, char s_name[], char s_address[], char s_desig[]);
+void mod_new(void);
+void getemp(void);
+char *retu_empname(int);
+int retu_empno(int);
+int autogen_empno();
+int found_employee(int);
+private:
+int empno;
+char name[30],address[30];
+d_date dob;
+char desig[10];
+float basic;
+};
+class salary
+{
+int empno,no_of_day;
+float basic, da, hra, cca, conveyance, gross, pf, it, others, net;
+public:
+void read_salary();
+int sretu_empno(int);
+void show_salary(int);
+void display_salary();
+void delete_salary(int);
+};
+class menu
+{
+public:
+void intro();
+void password();
+void main_menu();
+void emp_menu();
+void salary_menu();
+};
+void employee::getemp(void)
+{
+int treg;
+char ch2, t_name[30],t_address[30],t_desig[10];
+d_date t_date;
+do
+{
+clrscr();
+box();
+gotoxy(30,5);
+cout<<"Employee Data Entry Form";
+gotoxy(30,6);
+cout<<"==========================";
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+treg=autogen_empno()+1;
+gotoxy(20,8);
+cout<<"Employee No. ";
+gotoxy(35,8);
+cout<<":";
+gotoxy(40,8);
+cout<<treg;
+while(1)
+{ int fl=0;
+textbackground(5);
+textcolor(WHITE);
+gotoxy(20,10);
+cout<<"Name ";
+gotoxy(35,10);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Name as Characters only ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,10);
+gets(t_name);
+strupr(t_name);
+if(strlen(t_name)==0)
+fl=1;
+for(int i=0;t_name[i]!='\0';i++)
+{
+if(t_name[i]>='0'&&t_name[i]<='9')
+{
+fl=1;
+break;
+}
+}
+if(fl==1)
+{
+gotoxy(10,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(10,25);
+cprintf(" Invalid Entey, Enter Again \a");
+textbackground(5);
+textcolor(WHITE);
+gotoxy(40,10);
+delay(1000);
+clreol();
+box();
+continue;
+}
+else
+break;
+}
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+while(1)
+{
+int fl=0;
+gotoxy(20,12);
+cout<<"Address ";
+gotoxy(35,12);
+cout<<":";
+gotoxy(15,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Address (upto 30 Characters only) ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,12);
+gets(t_address);
+strupr(t_address);
+int len=strlen(t_address);
+if(len==0)
+fl=1;
+else
+{
+int di=0;
+for(int i=0;t_address[i]!='\0';i++)
+{
+if(t_address[i]>='0'&&t_address[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invaild Entry, Enter Again....!! \a");
+textbackground(5);
+textcolor(WHITE);
+gotoxy(40,12);
+clreol();
+delay(1000);
+box();
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,14);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cout<<"Designation ";
+gotoxy(35,14);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Designation as Characters only ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,14);
+gets(t_desig);
+strupr(t_desig);
+if(strlen(t_desig)==0)
+fl=1;
+for(int i=0;t_desig[i]!='\0';i++)
+{
+if(t_desig[i]>='0'&&t_desig[i]<='9')
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invalid Entry, Enter Again \a");
+textbackground(5);
+textcolor(WHITE);
+gotoxy(40,14);
+delay(1000);
+clreol();
+box();
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,16);
+cout<<"Date of Birth";
+gotoxy(35,16);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Date of Birth as dd/mm/yyyy ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,16);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cin>>t_date.dd;
+gotoxy(42,16);
+cout<<"/";
+gotoxy(43,16);
+cin>>t_date.mm;
+gotoxy(45,16);
+cout<<"/";
+gotoxy(46,16);
+cin>>t_date.yy;
+if((t_date.mm>=1)&&(t_date.mm<=12))
+{
+if((t_date.dd>=1)&&(t_date.dd<=31))
+fl=0;
+else
+fl=1;
+}
+else
+fl=1;
+if(!(t_date.yy>=1950 && t_date.yy<=2000))
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invalid Date Entry, Enter Again \a");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,16);
+delay(1000);
+clreol();
+box();
+continue;
+}
+else
+break;
+}
+gotoxy(10,25);
+clreol();
+char wish='y';
+gotoxy(10,25);
+cout<<" Do You Want to Save this Record : \t";
+wish=getch();
+if(wish=='y'||wish=='Y')
+add_employee(treg,t_name,t_address,t_date,t_desig);
+gotoxy(20,26);
+cout<<"Want More Record ? : ";
+ch2=getch();
+}while(ch2=='Y'||ch2=='y');
+}
+void employee::add_employee(int t_redg, char s_name[20], char s_address[30], d_date s_date,char s_desig[30])
+{
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+empno=t_redg;
+strcpy(name,s_name);
+strcpy(address,s_address);
+dob=s_date;
+strcpy(desig,s_desig);
+fstream efile;
+efile.open("emp.dat",ios::out|ios::app|ios::binary);
+efile.write((char *)this, sizeof(employee));
+efile.close();
+}
+int employee::autogen_empno(void)
+{ fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+int count=0;
+while(efile.read((char *)this,sizeof(employee)))
+count=empno;
+efile.close();
+return count;
+}
+int employee::found_employee(int t_redg)
+{
+fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+int count=0;
+while(efile.read((char *)this,sizeof(employee)))
+{
+count++;
+if(t_redg==empno)
+break;
+}
+efile.close();
+return count;
+}
+char * employee::retu_empname(int t_redg)
+{
+fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+char *en;
+en=new char[25];
+while(efile.read((char *)this,sizeof(employee)))
+{
+if(t_redg==empno)
+{
+strcpy(en,name);
+break;
+}
+}
+efile.close();
+return en;
+}
+int employee::retu_empno(int t_redg)
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+{
+fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+int en=0;
+while(efile.read((char *)this,sizeof(employee)))
+{
+if(t_redg==empno)
+{
+en=1;
+break;
+}
+}
+efile.close();
+return en;
+}
+void employee::mod_new(void)
+{
+int t_redg, flag=0;
+char t_name[30],t_address[30], t_desig[30];
+clrscr();
+box();
+gotoxy(30,10);
+cout<<"Enter employee number -> ";
+cin>>t_redg;
+fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+while(efile.read((char *)this, sizeof(employee)))
+{
+if(t_redg==empno)
+{
+gotoxy(30,12);
+cout<<"Name is "<<name;
+gotoxy(30,14);
+cout<<"Address is "<<address;
+gotoxy(30,16);
+cout<<"Designation is "<<desig;
+flag=1;
+getch();
+clrscr();
+box();
+gotoxy(30,6);
+textbackground(WHITE);
+textcolor(BLACK);
+cprintf(" Enter New Data ");
+textcolor(WHITE);
+textbackground(BLACK);
+while(1)
+{
+int fl=0;
+gotoxy(25,8);
+cout<<"Name";
+gotoxy(38,8);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Name as Characters only ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,8);
+gets(t_name);
+strupr(t_name);
+if(strlen(t_name)==0)
+fl=1;
+for(int i=0;t_name[i]!='\0';i++)
+{
+if(t_name[i]>='0'&&t_name[i]<='9')
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invalid Entey, Enter Again \a");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,10);
+delay(1000);
+clreol();
+box();
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(25,10);
+cout<<"Address";
+gotoxy(38,10);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Address (upto 30 Characters only) ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,10);
+gets(t_address);
+strupr(t_address);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+int len=strlen(t_address);
+if(len==0)
+fl=1;
+else
+{
+int di=0;
+for(int i=0;t_address[i]!='\0';i++)
+{
+if(t_address[i]>='0'&&t_address[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invaild Entry, Enter Again....!! \a");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,12);
+clreol();
+delay(1000);
+box();
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(25,12);
+cout<<"Designation";
+gotoxy(38,12);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cprintf(" Enter Employee Designation as Characters only ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+gets(t_desig);
+strupr(t_desig);
+if(strlen(t_desig)==0)
+fl=1;
+for(int i=0;t_desig[i]!='\0';i++)
+{
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+if(t_desig[i]>='0'&&t_desig[i]<='9')
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cprintf(" Invalid Entry, Enter Again \a");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,14);
+delay(1000);
+clreol();
+box();
+continue;
+}
+else
+break;
+}
+gotoxy(10,25);
+textbackground(BLACK);
+textcolor(WHITE);
+clreol();
+}
+}
+efile.close();
+if(flag==1)
+{
+gotoxy(30,23);
+cout<<"Record modified ";
+modify_employee(t_redg, t_name, t_address, t_desig);
+}
+else
+{
+gotoxy(30,14);
+cout<<"Record not modified";
+}
+gotoxy(30,25);
+cout<<"Press any key to continue......";
+getch();
+}
+void employee::modify_employee(int t_redg, char t_name[], char t_address[], char t_desig[])
+{
+int find_rec;
+find_rec=found_employee(t_redg);
+fstream efile;
+efile.open("emp.dat",ios::out|ios::ate|ios::binary);
+strcpy(name,t_name);
+strcpy(address,t_address);
+strcpy(desig,t_desig);
+int location;
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+location=(find_rec-1)*sizeof(employee);
+efile.seekp(location);
+efile.write((char*)this, sizeof(employee));
+efile.close();
+return;
+}
+void employee::delete_employee(int t_redg)
+{
+fstream efile;
+efile.open("emp.dat",ios::in|ios::binary);
+fstream temp;
+temp.open("TEMP.dat",ios::out|ios::binary);
+efile.seekg(0,ios::beg);
+while(!efile.eof())
+{
+efile.read((char *)this, sizeof(employee));
+if(efile.eof())
+break;
+if(empno!=t_redg)
+temp.write((char *)this, sizeof(employee));
+}
+efile.close();
+temp.close();
+efile.open("emp.dat",ios::out|ios::binary);
+temp.open("TEMP.dat",ios::in|ios::binary);
+temp.seekg(0,ios::beg);
+while(!temp.eof())
+{
+temp.read((char *)this ,sizeof(employee));
+if(temp.eof())
+break;
+if(empno!=t_redg)
+efile.write((char *)this , sizeof(employee));
+}
+efile.close();
+temp.close();
+salary s1;
+s1.delete_salary(t_redg);
+}
+void employee::display_employee(void)
+{
+clrscr();
+textbackground(5);
+clrscr();
+int flag;
+box2();
+fstream sfile;
+gotoxy(25,2);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Employee Registration List ");
+textcolor(WHITE);
+gotoxy(25,3);
+cout<<"****************************";
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+int d1,m1,y1;
+struct date d;
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+gotoxy(62,3);
+cout<<"Date :"<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(2,4);
+for(int j=1;j<=78;j++)
+cout<<"Ä";
+gotoxy(3,5);
+cout<<"Emp #";
+gotoxy(10,5);
+cout<<"Name ";
+gotoxy(30,5);
+cout<<"Address ";
+gotoxy(50,5);
+cout<<"Designation";
+gotoxy(65,5);
+cout<<"Date of Birth";
+gotoxy(2,6);
+for(j=1;j<=78;j++)
+cout<<"Ä";
+sfile.open("emp.dat",ios::in|ios::binary);
+sfile.seekg(0,ios::beg);
+int row=7;
+while(sfile.read((char *)this,sizeof(employee)))
+{
+flag=0;
+delay(2);
+gotoxy(5,row);
+cout<<empno;
+gotoxy(10,row);
+puts(name);
+gotoxy(30,row);
+puts(address);
+gotoxy(50,row);
+puts(desig);
+gotoxy(65,row);
+cout<<dob.dd<<"/"<<dob.mm<<"/"<<dob.yy;
+if(row==23)
+{
+flag=1;
+row=6;
+gotoxy(10,27);
+cout<<"Press any key to continue....";
+getch();
+clrscr();
+}
+row++;
+}
+gotoxy(2,row);
+for(j=1;j<=78;j++)
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cout<<"Ä";
+sfile.close();
+if(!flag)
+{
+gotoxy(10,27);
+cout<<"Press any key to continue....";
+getch();
+}
+}
+void salary::delete_salary(int t_redg)
+{
+fstream efile;
+efile.open("sal.dat",ios::in|ios::binary);
+fstream temp;
+temp.open("TEMP.dat",ios::out|ios::binary);
+efile.seekg(0,ios::beg);
+while(!efile.eof())
+{
+efile.read((char *)this, sizeof(salary));
+if(efile.eof())
+break;
+if(empno!=t_redg)
+temp.write((char *)this, sizeof(salary));
+}
+efile.close();
+temp.close();
+efile.open("sal.dat",ios::out|ios::binary);
+temp.open("TEMP.dat",ios::in|ios::binary);
+temp.seekg(0,ios::beg);
+while(!temp.eof())
+{
+temp.read((char *)this ,sizeof(salary));
+if(temp.eof())
+break;
+if(empno!=t_redg)
+efile.write((char *)this , sizeof(salary));
+}
+efile.close();
+temp.close();
+}
+void salary::read_salary()
+{
+employee e1;
+int tempno,flag=0;
+char ch='Y';
+fstream file,efile;
+efile.seekg(0,ios::beg);
+do
+{ clrscr();
+textbackground(5);
+clrscr();
+box();
+gotoxy(30,5);
+textbackground(WHITE);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+textcolor(BLACK+BLINK);
+cprintf(" Salary Data Entry Form ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(28,6);
+cout<<"ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(20,8);
+cout<<"Employee Number";
+gotoxy(45,8);
+cout<<":";
+gotoxy(50,8);
+cin>>tempno;
+int fa=0;
+file.open("sal.dat",ios::in|ios::binary);
+file.seekg(0,ios::beg);
+while(file.read((char*)this,sizeof(salary)))
+{
+if(empno==tempno)
+{
+fa=1;
+break;
+}
+}
+file.close();
+if (fa==1)
+{
+gotoxy(25,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Please wait ! Record Already Exist....!!\a ");
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+break;
+}
+flag=e1.retu_empno(tempno);
+if(flag>0)
+{
+empno=tempno;
+while(1)
+{
+gotoxy(20,10);
+cout<<"Basic Salary";
+gotoxy(45,10);
+cout<<":";
+gotoxy(50,10);
+cin>>basic;
+if(basic>=100)
+break;
+else
+{
+gotoxy(50,10);
+clreol();
+box();
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+gotoxy(20,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Employee Basic Should not be Less than Rs. 100\a ");
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(20,25);
+clreol();
+}
+}
+while(1)
+{
+gotoxy(20,12);
+cout<<"Number of Days Worked";
+gotoxy(45,12);
+cout<<":";
+gotoxy(50,12);
+cin>>no_of_day;
+if(no_of_day>=0)
+break;
+else
+{
+gotoxy(50,12);
+clreol();
+box();
+gotoxy(20,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Number of Days Worked Should not Less than Zero\a ");
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(20,25);
+clreol();
+}
+}
+while(1)
+{
+gotoxy(20,14);
+cout<<"Other Deductions";
+gotoxy(45,14);
+cout<<":";
+gotoxy(50,14);
+cin>>others;
+if(others>=0)
+break;
+else
+{
+gotoxy(50,14);
+clreol();
+box();
+gotoxy(20,25);
+textbackground(WHITE);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+textcolor(BLACK+BLINK);
+cprintf(" Others Deduction Should not be Less than Zero\a ");
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(20,25);
+clreol();
+}
+}
+da=basic*20/100;
+hra=basic*25/100;
+cca=200;
+conveyance=basic*30/100;
+gross=basic+da+hra+cca+conveyance;
+pf=basic*15/100;
+it=gross*20/100;
+net=gross-(pf+it);
+file.open("sal.dat",ios::out|ios::app|ios::binary);
+file.write((char*)this,sizeof(salary));
+file.close();
+}
+else
+{
+gotoxy(30,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Employee Doesn't Exist....\a ");
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+}
+gotoxy(30,25);
+clreol();
+cout<<"Want More Record ?";
+ch=getch();
+}while(ch=='Y'||ch=='y');
+}
+void salary::display_salary()
+{
+clrscr();
+textbackground(5);
+clrscr();
+int flag;
+int d1,m1,y1;
+struct date d;
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+fstream file;
+box2();
+gotoxy(25,2);
+textbackground(WHITE);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+textcolor(BLACK+BLINK);
+cprintf(" Rajesh Sethi Corporation ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(2,3);
+cout<<" Salary statement for the month of : "<<month(m1);
+gotoxy(25,4);
+cout<<"ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(62,3);
+cout<<"Date :"<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(2,4);
+for(int j=1;j<=78;j++)
+cout<<"Ä";
+gotoxy(4,5);
+cout<<"Emp no. ";
+gotoxy(20,5);
+cout<<"Earning ";
+gotoxy(20,6);
+cout<<"Basic :";
+gotoxy(20,7);
+cout<<"HRA :";
+gotoxy(20,8);
+cout<<"Conveyance :";
+gotoxy(33,6);
+cout<<"DA :";
+gotoxy(33,7);
+cout<<"CCA :";
+gotoxy(43,5);
+cout<<"Deduction ";
+gotoxy(43,6);
+cout<<"PF :";
+gotoxy(43,7);
+cout<<"IT :";
+gotoxy(50,6);
+cout<<"Other Ded. :";
+gotoxy(65,6);
+cout<<"Gross Pay :";
+gotoxy(65,7);
+cout<<"Net Pay :";
+gotoxy(2,9);
+for(j=1;j<=78;j++)
+cout<<"Ä";
+file.open("sal.dat",ios::in);
+file.seekg(0,ios::beg);
+int row=10;
+while(file.read((char *)this, sizeof(salary)))
+{
+flag=0;
+delay(2);
+gotoxy(7,row);
+cout<<empno;
+gotoxy(20,row);
+cout<<basic;
+gotoxy(20,row+1);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cout<<hra;
+gotoxy(20,row+2);
+cout<<conveyance;
+gotoxy(33,row);
+cout<<da;
+gotoxy(33,row+1);
+cout<<cca;
+gotoxy(43,row);
+cout<<pf;
+gotoxy(43,row+1);
+cout<<it;
+gotoxy(50,row);
+cout<<others;
+gotoxy(65,row);
+cout<<gross;
+gotoxy(65,row+1);
+cout<<net;
+if(row==23)
+{
+flag=1;
+row=6;
+gotoxy(4,24);
+cout<<"Press any key to continue.....";
+getch();
+clrscr();
+}
+row=row+3;
+}
+file.close();
+if(!flag)
+{
+gotoxy(4,26);
+cout<<"Press any key to continue.....";
+getch();
+}
+}
+void salary::show_salary(int t_reg)
+{
+employee e1;
+char *emname;
+fstream file;
+file.open("sal.dat",ios::in);
+int flag=0;
+file.seekg(0,ios::beg);
+while(file.read((char *)this,sizeof(salary)))
+{
+if(t_reg==empno)
+{ clrscr();
+textbackground(5);
+clrscr();
+box2();
+emname=e1.retu_empname(t_reg);
+int d1,m1,y1;
+char *m;
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+struct date d;
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+gotoxy(26,2);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cprintf(" Rajesh Sethi Corporation ");
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(34,4);
+cout<<"Salary Slip";
+gotoxy(33,5);
+cout<<"ÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(18,6);
+m=month(m1);
+cout<<"Salary statement of the month of : "<<m<<endl;
+gotoxy(18,8);
+cout<<"Employee Number : "<<empno;
+gotoxy(50,8);
+cout<<"Date : "<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(18,10);
+cout<<"Employee Name : "<<emname;
+gotoxy(18,11);
+cout<<"ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(18,12);
+cout<<"Earning ";
+gotoxy(18,14);
+cout<<"Basic : "<<basic;
+gotoxy(18,15);
+cout<<"HRA : "<<hra;
+gotoxy(18,16);
+cout<<"DA : "<<da;
+gotoxy(18,17);
+cout<<"CCA : "<<cca;
+gotoxy(18,18);
+cout<<"Conveyance : "<<conveyance;
+gotoxy(45,12);
+cout<<"Deduction ";
+gotoxy(45,14);
+cout<<"PF : "<<pf;
+gotoxy(45,15);
+cout<<"IT : "<<it;
+gotoxy(45,16);
+cout<<"Others : "<<others;
+gotoxy(17,18);
+cout<<"ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ";
+gotoxy(18,20);
+cout<<"Gross : "<<gross;
+gotoxy(18,21);
+cout<<"Net Pay : "<<net;
+gotoxy(18,23);
+cout<<"Signatory Authority : ";
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+flag=1;
+break;
+}
+}
+if(flag==0)
+{
+clrscr();
+gotoxy(10,23);
+cout<<"Record not found......\a";
+delay(1000);
+menu m;
+m.salary_menu();
+}
+file.close();
+gotoxy(15,26);
+printf("Press any key to continue........");
+getch();
+gotoxy(15,25);
+clreol();
+textbackground(5);
+}
+void menu::intro(void)
+{
+clrscr();
+textcolor(WHITE);
+int i=1,j=1,t=1;
+while((i<32)&&(j<12))
+{ clrscr();
+gotoxy(i,j);
+cout<<" Project Work";
+delay(20);
+gotoxy((56-i),(j+2));
+cout<<" PAYROLL MANAGEMENT SYSTEM";
+delay(40);
+i=i+3;
+j=j+1;
+}
+gotoxy(20,12);
+cout<<"\t\t\--------------";
+while(t<60)
+{ gotoxy(t,21);
+cout<<" SUBMITTED BY :-";
+gotoxy(t+1,22);
+cout<<" ASHISH";
+gotoxy(t+2,23);
+cout<<" STUDENT OF GIS";
+delay(30);
+t++;
+}
+gotoxy(25,35);
+cout<<"PRESS ANY KEY TO CONTINUE";
+getch();
+main_menu();
+}
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+void menu::main_menu()
+{
+char ch1,ch='Y';
+do
+{ clrscr();
+textbackground(5);
+clrscr();
+textcolor(WHITE);
+getdate(&sys_date);
+gettime(&sys_time);
+clrscr();
+gotoxy(60,2);
+cout<<"CURRENT TIME :-\n\t\t\t\t\t\t\t\t\b\b\b\b\b\-------------";
+gotoxy(61,4);
+printf("DATE :%d",sys_date.da_day);
+gotoxy(61,5);
+printf("MONTH :%d",sys_date.da_mon);
+gotoxy(61,6);
+printf("YEAR :%d",sys_date.da_year);
+gotoxy(61,7);
+printf("HOUR :%d",sys_time.ti_hour);
+gotoxy(61,8);
+printf("MINUTES :%d",sys_time.ti_min);
+gotoxy(61,9);
+printf("SECONDS :%d%d",sys_time.ti_sec,sys_time.ti_hund);
+gotoxy(15,10);
+cprintf(" M A I N M E N U ");
+gotoxy(14,11);
+textcolor(WHITE);
+cprintf(" ********************");
+textcolor(WHITE);
+gotoxy(13,14);
+cprintf(" 1. For Employee ");
+gotoxy(13,16);
+cprintf(" 2. For Salary ");
+gotoxy(13,18);
+cprintf(" 0. For Exit ");
+gotoxy(13,20);
+cprintf(" Enter Your Choice : " );
+ch1=getch();
+switch(ch1)
+{
+case '1': clrscr();
+emp_menu();
+break;
+case '2': clrscr();
+salary_menu();
+break;
+case '0': out();
+default : gotoxy(30,25);
+cout<<"Wrong Choice.....\007";
+continue;
+}
+gotoxy(30,25);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+cout<<"Do U Want to continue...........";
+ch=getch();
+}while(ch=='Y'||ch=='y');
+}
+void menu::emp_menu()
+{
+char ch1;
+int treg;
+employee emp;
+do
+{
+clrscr();
+textbackground(5);
+clrscr();
+textcolor(WHITE);
+box();
+gotoxy(28,6);
+cprintf(" E M P L O Y E E M E N U ");
+gotoxy(25,7);
+textcolor(WHITE);
+cprintf(" ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+gotoxy(30,9);
+cout<<"1. For Addition";
+gotoxy(30,11);
+cout<<"2. For Modification";
+gotoxy(30,13);
+cout<<"3. For Deletion";
+gotoxy(30,15);
+cout<<"4. For Display Employee";
+gotoxy(30,17);
+cout<<"0. Return to main menu";
+gotoxy(30,19);
+cout<<"Enter Your Choice : ";
+ch1=getch();
+switch(ch1)
+{
+case '1': emp.getemp();
+break;
+case '2' : emp.mod_new();
+break;
+case '3' : clrscr();
+gotoxy(25,10);
+cout<<"Enter Registration No. to delete : ";
+cin>>treg;
+emp.delete_employee(treg);
+break;
+case '4' : emp.display_employee();
+break;
+case '0' : main_menu();
+default : gotoxy(30,25);
+cout<<"Wrong Choice.....\a";
+gotoxy(30,25);
+clreol();
+continue;
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+}
+}while(ch1!='0');
+}
+void menu::salary_menu()
+{
+char opt;
+salary sal;
+int treg;
+do
+{
+clrscr();
+textbackground(5);
+clrscr();
+box();
+gotoxy(30,6);
+cprintf(" S A L A R Y M E N U ");
+gotoxy(28,7);
+textcolor(WHITE+BLINK);
+cprintf("^^^^^^^^^^^^^^^^^^^^^^^^^");
+textcolor(WHITE);
+gotoxy(20,9);
+cout<<"1. For add Salary";
+gotoxy(20,11);
+cout<<"2. For Display Salary of all Employee";
+gotoxy(20,13);
+cout<<"3. For Display Salary of single Employee";
+gotoxy(20,15);
+cout<<"4. For Delete Salary of Employee";
+gotoxy(20,17);
+cout<<"0. Return to Main Menu";
+gotoxy(20,19);
+cout<<"Enter Your Choice : ";
+opt=getch();
+switch(opt)
+{
+case '1' : clrscr();
+sal.read_salary();
+break;
+case '2' : clrscr();
+sal.display_salary();
+break;
+case '3' : clrscr();
+gotoxy(25,10);
+cout<<"Enter the employee number : ";
+cin>>treg;
+sal.show_salary(treg);
+break;
+case '4' : clrscr();
+textbackground(5);
+clrscr();
+gotoxy(25,10);
+cout<<"Enter Registration No. to delete : ";
+cin>>treg;
+sal.delete_salary(treg);
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+break;
+case '0' : main_menu();
+default : gotoxy(30,25);
+cout<<"Wrong Choice.....\007";
+gotoxy(30,25);
+clreol();
+continue;
+}
+}while(opt!='0');
+}
+void box(void)
+{
+int ctr;
+for(ctr=17;ctr<=64;ctr++)
+{
+gotoxy(ctr,20);
+delay(12);
+cout<<dash2;
+}
+gotoxy(65,20);
+cout<<"¼";
+for(ctr=19;ctr>=5;ctr--)
+{
+gotoxy(65,ctr);
+delay(12);
+cout<<dash;
+}
+gotoxy(65,4);
+cout<<"»";
+for(ctr=64;ctr>=17;ctr--)
+{
+gotoxy(ctr,4);
+delay(12);
+cout<<dash2;
+}
+gotoxy(16,4);
+cout<<"É";
+for(ctr=5;ctr<=19;ctr++)
+{
+gotoxy(16,ctr);
+delay(12);
+cout<<dash;
+}
+gotoxy(16,20);
+cout<<"È";
+}
+void menu::password(void)
+{ textbackground(5);
+clrscr();
+menu m;
+char *pass,ch;
+int flag=0;
+box();
+for(int i=0;i<=3;i++)
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+{
+gotoxy(1,22);
+clreol();
+gotoxy(1,24);
+clreol();
+gotoxy(20,12);
+pass=getpass("ENTER USER PASSWORD:");
+if(strcmp(pass,"bob")==0)
+{
+flag=1;
+break;
+}
+else
+{ if(i<2)
+{
+gotoxy(15,22);
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!\a";
+getch();
+}
+if(i==2)
+{ gotoxy(25,22);
+cout<<"INCORRECT PASSWORD !!!\a";
+gotoxy(15,24);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE !!!";
+getch();
+}
+}
+}
+if(flag==0)
+{
+char mess[]={"To become authorise user please contact to Ashish "};
+clrscr();
+for(int i=15,j=0;mess[j]!='\0';j++,i++)
+{
+gotoxy(i,3);
+delay(30);
+cout<<mess[j];
+}
+delay(1000);
+box();
+gotoxy(28,12);
+cout<<"Have a nice day";
+gotoxy(30,14);
+textbackground(BLUE);
+textcolor(WHITE+BLINK);
+cprintf(" Good Bye.....!! ");
+delay(1500);
+}
+else
+m.intro();
+}
+void main()
+{
+menu m_menu;
+file:///C/......Prateek/....Prateek/New%20folder/PAYROLL%20MANAGEMENT%20SYSTEM.txt[18-07-2016 19:55:20]
+clrscr();
+m_menu.password();
+}

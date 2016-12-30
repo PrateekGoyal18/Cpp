@@ -1,0 +1,1385 @@
+#include<iostream.h>
+#include<stdio.h>
+#include<fstream.h>
+#include<iomanip.h>
+#include<conio.h>
+#include<graphics.h>
+#include<process.h>
+#include<dos.h>
+#include<ctype.h>
+#include<time.h>
+void logo();
+void logo1();
+void sound();
+void sound();
+void delay();
+void nosound();
+void down(char,int);
+void ti();
+void highvedio();
+float star(float,float);
+int Menu();
+class goods
+{
+private:
+int i;
+float tt;
+public:
+float q;
+int choice;
+float cost[];
+int a[80];
+void soap();
+void tea();
+void biscuit();
+void flour();
+void toothpaste();
+void vanaspati_ghee();
+void powder();
+void chocolates();
+void chewing_gum();
+void coffee();
+void rice();
+void spices();
+void dry_fruits();
+void namkeen();
+void total();
+float star(float,float);
+}item;
+void main()
+{
+logo();
+logo1();
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+highvideo();
+Menu();
+/* comment start
+int Menu()
+{
+int nAction;
+struct date,currentdate;
+getdate(&currentdate);
+do
+{
+clrscr();
+printf("\t\t\t\t\t\t\t\tDate :%d",CurrentDate.da_day);
+printf("\t\t\t\t\t\t\t\tDate :%d",CurrentDate.da_mon);
+printf("\t\t\t\t\t\t\t\tDate :%d",CurrentDate.da_year);
+cout<<"\n\n";
+cout<<"\n\t\t\t-----------\n";
+cout<<"\n\t\t\tMAIN MENU \n";
+cout<<"\n\t\t\t-----------\n";
+cout<<"\n\t\t\t\t1.Data Entry\n";
+cout<<"\n\t\t\t\t2.Billing\n";
+cout<<"\n\t\t\t\t3.Display all stock\n";
+cout<<"\n\n\t\tyour choice";
+cin>>nAction;
+} while(nAction<0||nAction>3);
+return nAction;
+}
+comment end
+*/
+goods item;
+for(int j=1;j<=70;j++)
+item.cost[j]=0;
+for(int i=1;i<=80;i++)
+item.a[i]=0;
+char y,n;
+char ch;
+float l[15];
+int code;
+ofstream fill;
+fill.open("stock.cpp");
+ofstream lily;
+lily.open("instock.cpp");
+if(!lily)
+cout<<"cannot open a file \n";
+else
+{
+lily<<" INSTOCK FILE \n\n\n"
+<<"--------------------------------------->>\n"
+<<" * ITEMS STOCK *\n"
+<<" * ----- ----- *\n"
+<<" * 1. SOAPS : 100 *\n"
+<<" * 2. TEA : 20Kg *\n"
+<<" * 3. BISCUITS : 100 *\n"
+<<" * 4. FLOUR : 200Kg *\n"
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+<<" * 5. TOOTHPASTE : 100 *\n"
+<<" * 6. GHEE : 500Kg *\n"
+<<" * 7. TALCUM POWDER : 20 *\n"
+<<" * 8. CHOCOLATES : 250 *\n"
+<<" * 9. CHEWING_GUM : 500 *\n"
+<<" * 10. COFFEE : 20Kg *\n"
+<<" * 11. RICE : 100Kg *\n"
+<<" * 12. SPICES : 2000gms *\n"
+<<" * 13. DRY FRUIT : 10Kg *\n"
+<<" * 14. NAMKEEN : 250 *\n"
+<<" ------------------------------------ \n";
+}
+clrscr();
+do
+{
+clrscr();
+cout<<"\a *KENIMA SHOPPE* \n\n\a";
+cout<<"\n\aENTER THE CODE OF THE PRODUCT WHICH YOU";
+cout<<" WANT TO PURCHASE\n\a";
+cout<<" __________________________ >>\n";
+cout<<" * MAIN MENU *\n";
+cout<<" * _________ *\n";
+cout<<" * 1. SOAPS *\n";
+cout<<" * 2. TEA *\n";
+cout<<" * 3. BISCUITS *\n";
+cout<<" * 4. FLOUR *\n";
+cout<<" * 5. TOOTHPASTE *\n";
+cout<<" * 6. GHEE *\n";
+cout<<" * 7. TALCUM POWDER *\n";
+cout<<" * 8. CHOCOLATES *\n";
+cout<<" * 9. CHEWING_GUM *\n";
+cout<<" * 10. COFFEE *\n";
+cout<<" * 11. RICE *\n";
+cout<<" * 12. SPICES *\n";
+cout<<" * 13. DRY FRUITS *\n";
+cout<<" * 14. NAMKEEN *\n";
+cout<<" ------------------------\n";
+cin>>code;
+switch(code)
+{ //START OF SWTCH
+case 1:
+{ //START OF CASE 1
+++item.a[1];
+cout<<"ENTER THE CODE OF THE SOAP YOU WANT TO PURCHASE \n\a";
+cout<<"1 LUX(8.00), 2 GANGA(6.00), 3 DETTOL(10.00)";
+cout<<", 4 CINTHOL(13.00)\n\a";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF SOAPS YOU WANT TO PURCHASE\n\a";
+cin>>item.q;
+if(! fill)
+cout<<"cannot open a file";
+else
+{
+l[1]=100-item.q;
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(item.choice==1)
+{
+fill<<"\nLUX: " <<l[1]<<"\n";
+}
+if(item.choice==2)
+{
+fill<<"\nGANGA: " <<l[1]<<"\n";
+}
+if(item.choice==3)
+{
+fill<<"\nDETTOL: " <<l[1]<<"\n";
+}
+if(item.choice==4)
+{
+fill<<"\nCINTHOL: " <<l[1]<<"\n";
+}
+}
+if(item.q>=100)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+item.cost[1]=item.star(8.0,item.q);
+++item.a[2];
+}
+if(item.choice==2)
+{
+item.cost[2]=item.star(6.0,item.q);
+++item.a[3];
+}
+if(item.choice==3)
+{
+item.cost[3]=item.star(10.0,item.q);
+++item.a[4];
+}
+if(item.choice==4)
+{
+item.cost[4]=item.star(13.0,item.q);
+++item.a[5];
+}
+}
+break;
+} //END OF CASE 1
+case 2:
+{ //START OF CASE 2
+++item.a[6];
+cout<<"ENTER THE CODE OF THE TEA YOU WANT TO PURCHASE\n\a";
+cout<<"PRICES FOR << Kg ARE AS UNDER: \n\a";
+cout<<"\n1: TAJ MAHAL(Rs 72) 2: BROOKE BOND SPECIAL(Rs 68)";
+cout<<" \n\a"<<" 3: RED LABEL(Rs 76) 4: TATA TEA(Rs 66) \n\a";
+cin>>item.choice;
+cout<<"ENTER : 2 PACKETS FOR 500gm, 1 PACKET FOR 250gm";
+cout<<",4 PACKETS FOR 1Kg \n\a";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+cin>>item.q;
+if(! fill)
+cout<<"cannot open a flie\n"; //continue on comp 13 as d:\windows\shopping.cpp//
+else
+{
+float r1;
+r1=(item.q/4.0);
+l[2]=20.0-r1;
+if(item.choice==1)
+fill<<"\nTAJ MAHAL: "<<l[2]<<"kg \n";
+if(item.choice==2)
+fill<<"\nBROOKE BOND: "<<l[2]<<"kg \n";
+if(item.choice==3)
+fill<<"\nTATA TEA: "<<l[2]<<"kg \n";
+}
+if(item.q>=80)
+cout<<"\nStock Not Available\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[7];
+item.cost[5]=item.star(36.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[8];
+item.cost[6]=item.star(34.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[9];
+item.cost[7]=item.star(38.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[10];
+item.cost[8]=item.star(33.0,item.q);
+}
+}
+break;
+}
+case 3:
+{
+++item.a[11];
+cout<<"\nENTER THE CODE OF THE BISCUIT YOU WANT TO PURCHASE\n\a";
+cout<<"1. BRITANIA GLUCOSE-D (Rs 5.00) ";
+cout<<"2. BRITANIA NICE (Rs 7.00) ";
+cout<<"3. BOURBON (Rs 10.000) ";
+cout<<"4. MONACO (Rs 8.00) \n\a";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF PACKETSYOU WANT TO PURCHASE\n\a";
+cin>>item.q;
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(!fill)
+cout<<"cannot open a file\n";
+else
+{
+l[3]=100-item.q;
+if(item.choice==1)
+fill<<"\nGLUCOSE-D: "<<l[3]<<"\n";
+if(item.choice==2)
+fill<<"\nNICE: "<<l[3]<<"\n";
+if(item.choice==3)
+fill<<"\nBOURBON: "<<l[3]<<"\n";
+if(item.choice==4)
+fill<<"\nMONACO: "<<l[3]<<"\n";
+}
+if(item.q>=100)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[12];
+item.cost[9]=item.star(5.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[13];
+item.cost[10]=item.star(7.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[14];
+item.cost[11]=item.star(10.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[15];
+item.cost[12]=item.star(8.0,item.q);
+}
+}
+break;
+}
+case 4:
+{
+++item.a[16];
+cout<<"ENTER THE CODE OF THE FLOUR YOU WANT TO PURCHASE\n\a";
+cout<<"PRICE FOR 10Kg\n\a";
+cout<<"1. CAPTAINCOOK (Rs 100) ,2. SHAKTI BHOOG (Rs 94) \n\a";
+cout<<"3. TRUPATI (Rs 110) ,4. ROSE BRAND (Rs 90)\n\a";
+cin>>item.choice;
+cout<<"ENTER 1 FOR 5Kg & 2 FOR 10Kg \n\a";
+cin>>item.q;
+if(!fill)
+cout<<"cannotopen a file";
+else
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+{
+int r2;
+r2=(item.q*5);
+l[4]=100-r2;
+if(item.choice==1)
+fill<<"\nCAPTAIN COOK: "<<l[4]<<"\n";
+if(item.choice==2)
+fill<<"\nSHAKTI BHOOG: "<<l[4]<<"\n";
+if(item.choice==3)
+fill<<"\nTRUPATI: "<<l[4]<<"\n";
+if(item.choice==4)
+fill<<"\nROSE BRAND: "<<l[4]<<"\n";
+}
+if(item.q>=20)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[17];
+item.cost[13]=item.star(50.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[18];
+item.cost[14]=item.star(47.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[19];
+item.cost[16]=item.star(45.0,item.q);
+}
+}
+break;
+}
+case 5:
+{
+++item.a[21];
+cout<<"ENTER THE CODE OF THE TOOTHPASTE YOU WANT TO PUR5CHASE\n\a";
+cout<<"1. COLGATE(Rs 17.00) ,2. PEPSODENT(Rs18.00) ,";
+cout<<"3. CLOSE-UP(Rs 17.00) ,4. PROMISE(Rs 19.00) \n\a";
+cin>>item.choice;
+cout<<"ENTER THE QUANTITY OF TOOTHPASTE YOU WANT TO PURCHASE";
+cout<<"\n\a";
+cin>>item.q;
+if(!fill)
+cout<<"cannot open a file";
+else
+{
+l[5]=(100-item.q);
+if(item.choice==1)
+fill<<"\nCOLGATE: "<<l[5]<<"\n";
+if(item.choice==2)
+fill<<"\nPEPSODENT: "<<l[5]<<"\n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(item.choice==3)
+fill<<"\nCLOSE-UP: "<<l[5]<<"\n";
+if(item.choice==4)
+fill<<"\nPROMISE: "<<l[5]<<"\n";
+}
+if(item.q>=100)
+cout<<"\nSTOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[22];
+item.cost[17]=item.star(17.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[23];
+item.cost[18]=item.star(18.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[24];
+item.cost[19]=item.star(17.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[25];
+item.cost[20]=item.star(19.0,item.q);
+}}
+break;
+}
+case 6:
+{
+++item.a[26];
+cout<<"ENTER THE CODE OF THE GHEE YOU WANT TO PURCHASE \n\a";
+cout<<"PRICES FOR 1Kg ARE AS UNDER: \n\a";
+cout<<"1. VITAL(Rs 50) ,2. DALDA(Rs 45) ,3. GAGAN(Rs 58) ,4. RATH(Rs 48) \n\a";
+cin>>item.choice;
+cout<<"ENTER 1 FOR PACKET OF 1Kg, 5 FOR PACKET OF 5Kg, 10 FOR PACKET OF 10Kg \n\a";
+cin>>item.q;
+if(!fill)
+cout<<"cannot open file";
+else
+{
+l[6]=100-item.q;
+if(item.choice==1)
+fill<<"\nVITAL: "<<l[6]<<"\n";
+if(item.choice==2)
+fill<<"\nDALDA: "<<l[6]<<"\n";
+if(item.choice==3)
+fill<<"\nGAGAN: "<<l[6]<<"\n";
+if(item.choice==4)
+fill<<"\nRATH: "<<l[6]<<"\n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+}
+if(item.q>=100)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[27];
+item.cost[21]=item.star(50.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[28];
+item.cost[22]=item.star(45.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[29];
+item.cost[23]=item.star(58.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[30];
+item.cost[24]=item.star(48.0,item.q);
+}
+}
+break;
+}
+case 7:
+{ //START OF CASE 7
+++item.a[13];
+cout<<"ENTER THE CODE OF THE POWDER YOU WANT TO PURCHASE \n\a";
+cout<<"1. PONDS(RS 48), 2.ROSE TALC(RS 56),3.NYCIL(RS 45)";
+cout<<", 4.EXOTICA(Rs<<30.0)\n";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF TINS YOU WANT TO PURCHASE \n\a";
+cin>>item.q;
+if(! fill)
+cout<<"cannot open a file\n";
+else
+{
+l[7]=20-item.q;
+if(item.choice==1)
+fill<<"\nPONDS: "<<l[7]<<"\n";
+if(item.choice==2)
+fill<<"\nROSE TALC: "<<l[7]<<"\n";
+if(item.choice==3)
+fill<<"\nNYCIL: "<<l[7]<<"\n";
+if(item.choice==4)
+fill<<"\nEXOTICA: "<<l[7]<<"\n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+}
+if(item.q>=20)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[32];
+item.cost[25]=item.star(48.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[33];
+item.cost[26]=item.star(56.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[34];
+item.cost[27]=item.star(45.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[35];
+item.cost[28]=item.star(30.0,item.q);
+}
+}
+break;
+} //END OF CASE 7
+case 8:
+{ //START OF CASE 8
+++item.a[36];
+cout<<"ENTER THE CODE OF THE CHOCOLATE YOU WANT TO PURCHASE \n\a";
+cout<<"1.DAIRY MILK(Rs 10), 2.CRACKLE(Rs 12), 3.FRUIT&NUT";
+cout<<"(Rs 15), 4.PERK(Rs 8)\n\a";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF CHOCOLATES YOU WANT TO PURCHASE \n\a";
+cin>>item.q;
+if(! fill)
+cout<<"cannot open a file";
+else
+{
+l[8]=50-item.q;
+if(item.choice==1)
+fill<<"\nDAIRY MILK: "<<l[8]<<"\n";
+if(item.choice==2)
+fill<<"\nCRACKLE: "<<l[8]<<"\n";
+if(item.choice==3)
+fill<<"\nFRUIT&NUT: "<<l[8]<<"\n";
+if(item.choice==4)
+fill<<"\nPERK: "<<l[8]<<"\n";
+}
+if(item.q>=50)
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+if(item.choice==1)
+{
+++item.a[37];
+item.cost[29]=item.star(10.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[38];
+item.cost[30]=item.star(12.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[39];
+item.cost[31]=item.star(15.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[40];
+item.cost[32]=item.star(8.0,item.q);
+}
+}
+break;
+} //END OF CASE 8
+case 9:
+{ //START OF CASE 9
+++item.a[41];
+cout<<"ENTER THE CODE OF THE CHEWING_GUM YOU WANT TO PURCHASE\n\a";
+cout<<"1.BOOMER(Rs 1), 2.BIG BABOOL(Rs 1), 3.BROOKLYN(Rs 6)";
+cout<<",4.CHICKLETS(Rs 5)\n\a";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF CHEWING_GUM YOU WANT TO PURCHASE \n\a";
+cin>>item.q;
+if(! fill)
+cout<<"cannot open a file";
+else
+{
+l[9]=50-item.q;
+if(item.choice==1)
+fill<<"\nBOOMER: "<<l[9]<<"\n";
+if(item.choice==2)
+fill<<"\nBIG BABOOL: "<<l[9]<<"\n";
+if(item.choice==3)
+fill<<"\nBROOKLYN: "<<l[9]<<"\n";
+if(item.choice==4)
+fill<<"\nCHICKLETS: "<<l[9]<<"\n";
+}
+if(item.q>=50)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+{
+if(item.choice==1)
+{
+++item.a[42];
+item.cost[33]=item.star(1.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[43];
+item.cost[34]=item.star(1.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[44];
+item.cost[35]=item.star(6.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[45];
+item.cost[36]=item.star(5.0,item.q);
+}
+}
+break;
+} //END OF CASE 9
+case 10:
+{ //START OF CASE 10
+++item.a[46];
+cout<<"ENTER THE CODE OF THE COFFEE TO BE PURCHASE \n\a";
+cout<<"PRICES FOR 500 gm PACKS ARE \n\a";
+cout<<"1.TATA CAFE(Rs 28), 2.NESCAFE(Rs 52)";
+cout<<", 3.BRU INSTANT(Rs 48), 4.SUNRISE(Rs 40) \n\a";
+cin>>item.choice;
+cout<<"ENTER THE NO. OF PACKETS \n\a";
+cin>>item.q;
+l[10]=20-(item.q/2);
+if(!fill)
+cout<<"cannot open a file";
+else
+{
+if(item.choice==1)
+fill<<"\nTATA CAFE: "<<l[10]<<"Kg\n";
+if(item.choice==2)
+fill<<"\nNESCAFE: "<<l[10]<<"Kg\n";
+if(item.choice==3)
+fill<<"\nBRU INSTANT: "<<l[10]<<"Kg\n";
+if(item.choice==4)
+fill<<"\nSUNRISE: "<<l[10]<<"Kg\n";
+}
+if(item.q>=40)
+cout<<"STOCK NOT AVAILABLE\n";
+else
+{
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(item.choice==1)
+{
+++item.a[47];
+item.cost[37]=item.star(28.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[48];
+item.cost[38]=item.star(52.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[49];
+item.cost[39]=item.star(48.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[50];
+item.cost[40]=item.star(40.0,item.q);
+}
+}
+break;
+} //END OF CASE 10
+case 11:
+{
+++item.a[51];
+cout<<"\nENTER THE CODE OF THE RICE YOU WANT TO PURCHASE \n\a";
+cout<<"PRICES FOR 1Kg ARE \n\a";
+cout<<"1.LAL MAHAL(Rs 45) ,2.LAL QILLA(Rs 40) ,3.RAJDHANI(Rs 60) ,4.KOHINOOR(Rs 50) \n\a";
+cin>>item.choice;
+cout<<"ENTER 1 FOR 1Kg ,2 FOR 2Kg ,3 FOR 3Kg & SO ON..... \n\a";
+cin>>item.q;
+l[11]=50-item.q;
+if(!fill)
+cout<<"CANNOT OPEN A FILE \n";
+else
+{
+if(item.choice==1)
+fill<<"\nLAL MAHAL: "<<l[11]<<"Kg \n";
+if(item.choice==2)
+fill<<"\nLAL QILLA: "<<l[11]<<"Kg \n";
+if(item.choice==3)
+fill<<"\nRAJDHANI: "<<l[11]<<"Kg \n";
+if(item.choice==4)
+fill<<"\nKOHINOOR: "<<l[11]<<"Kg \n";
+}
+if(item.q>=50)
+cout<<"STOCK NOT AVAILABLE \n";
+else
+{
+if(item.choice==1)
+{
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+++item.a[52];
+item.cost[41]=item.star(45.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[53];
+item.cost[42]=item.star(40.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[54];
+item.cost[43]=item.star(60.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[55];
+item.cost[44]=item.star(50.0,item.q);
+}
+}
+break;
+}
+case 12:
+{
+++item.a[56];
+cout<<"ENTER THE CODE OF SPICE YOU WANT TO PURCHASE \n\a";
+cout<<"THE COST OF 100gms ARE: \n";
+cout<<"1.MIRCHI POWDER(Rs 10) ,2.HALDI POWDER(Rs 12) ,3.SALT(1Kg:Rs 6) ,";
+cout<<"4.BLACK PEPPER(Rs 15) ,5.SAUNF(Rs 8) ,6.ZEERA(Rs 12)";
+cout<<"7.CLOVE(Rs 20) ,8.ELAICHI(Rs 25)";
+cin>>item.choice;
+cin>>item.q;
+l[12]=2000-item.q;
+if(!fill)
+cout<<"CANNOT OPEN A FILE \n";
+else
+{
+if(item.choice==1)
+fill<<"\nHIRCHI POWDER: "<<l[12]<<"gms \n";
+if(item.choice==2)
+fill<<"\nHALDI POWDER: "<<l[12]<<"gms \n";
+if(item.choice==3)
+fill<<"\nSALT: "<<l[12]<<"gms \n";
+if(item.choice==4)
+fill<<"\nBLACK PEPPER: "<<l[12]<<"gms \n";
+if(item.choice==5)
+fill<<"\nSAUNF: "<<l[12]<<"gms \n";
+if(item.choice==6)
+fill<<"\nZEERA: "<<l[12]<<"gms \n";
+if(item.choice==7)
+fill<<"\nCLOVE: "<<l[12]<<"gms \n";
+if(item.choice==8)
+fill<<"\nELAICHI: "<<l[12]<<"gms \n";
+}
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(item.q>=20)
+cout<<"STOCK NOT AVAILABLE \n";
+else
+{
+if(item.choice==1)
+{
+++item.a[57];
+item.cost[45]=item.star(10.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[58];
+item.cost[46]=item.star(12.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[59];
+item.cost[47]=item.star(6.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[60];
+item.cost[48]=item.star(15.0,item.q);
+}
+if(item.choice==5)
+{
+++item.a[61];
+item.cost[49]=item.star(8.0,item.q);
+}
+if(item.choice==6)
+{
+++item.a[62];
+item.cost[50]=item.star(12.0,item.q);
+}
+if(item.choice==7)
+{
+++item.a[63];
+item.cost[51]=item.star(20.0,item.q);
+}
+if(item.choice==8)
+{
+++item.a[64];
+item.cost[51]=item.star(25.0,item.q);
+}
+}
+break;
+} //END OF CASE 12
+case 13:
+{
+++item.a[65];
+cout<<"ENTER THE CODE OF THE DRY FRUIT YOU WANT TO PURCHASE \n";
+cout<<"PRICE FOR 1Kg ARE: ";
+cout<<"1.ALMOND(Rs300) ,2.CASHEW_NUT(Rs350) ,3.APRICOT(Rs400) \n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+cout<<"4.KISHMISH(Rs320) \n";
+cin>>item.choice;
+cout<<"ENTER: \n";
+cout<<"1 FOR 100gms,2 FOR 200gms AND SO ON....\n";
+cin>>item.q;
+l[13]=10-(item.q/10);
+if(!fill)
+cout<<"CANNOT OPEN A FILE \n";
+else
+{
+if(item.choice==1)
+fill<<"\nALMOND: "<<l[13]<<"Kg \n";
+if(item.choice==2)
+fill<<"\nCASHEW_NUT: "<<l[13]<<"Kg \n";
+if(item.choice==3)
+fill<<"\nAPRICOT: "<<l[13]<<"Kg \n";
+if(item.choice==4)
+fill<<"\nKISHMISH: "<<l[13]<<"Kg \n";
+}
+if(item.q>=100)
+cout<<"STOCK NOT AVAILABLE \n";
+else
+{
+if(item.choice==1)
+{
+++item.a[66];
+item.cost[53]=item.star(30.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[67];
+item.cost[54]=item.star(35.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[68];
+item.cost[55]=item.star(40.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[69];
+item.cost[56]=item.star(32.0,item.q);
+}
+}
+break; //END OF CASE 13
+}
+case 14:
+{
+++item.a[70];
+cout<<"ENTER THE CODE OF THE NAMKEEN YOU WANT TO PURCHASE \n";
+cout<<"PRICES OF 200gms ARE AS: \n";
+cout<<"1.BHUJIA(Rs16) ,2.DAL_BHIJI(Rs17) ,";
+cout<<"3.NAVRATAN(Rs16) ,4.NUTCRACKER(Rs18) \n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+cin>>item.choice;
+cout<<"ENTER THE NO. OF PACKETS YOU WANT TO PURCHASE \n";
+cin>>item.q;
+if(!fill)
+cout<<"CANNOT OPEN A FILE \n";
+else
+{
+l[14]=50-item.q;
+if(item.choice==1)
+fill<<"\nBHUJIA: "<<l[14]<<"\n";
+if(item.choice==2)
+fill<<"\nDAL_BHIJI: "<<l[14]<<"\n";
+if(item.choice==3)
+fill<<"\nNAVRATAN: "<<l[14]<<"\n";
+if(item.choice==4)
+fill<<"\nNUTCRACKER: "<<l[14]<<"\n";
+}
+if(item.q>=50)
+cout<<"STOCK NOT AVAILABLE \n";
+else
+{
+if(item.choice==1)
+{
+++item.a[71];
+item.cost[57]=item.star(16.0,item.q);
+}
+if(item.choice==2)
+{
+++item.a[72];
+item.cost[58]=item.star(17.0,item.q);
+}
+if(item.choice==3)
+{
+++item.a[73];
+item.cost[59]=item.star(16.0,item.q);
+}
+if(item.choice==4)
+{
+++item.a[74];
+item.cost[60]=item.star(18.0,item.q);
+}
+}
+break;
+}
+//Doubt
+}
+//Doubt
+cout<<"DO YOU WANT TO PURCHASE MORE GOODS(y/n)\n\a";
+cin>>ch;
+}while(ch!='n'); //END OF DO_WHILE
+clrscr();
+cout<<" ------ CASH_MEMO ------ \a\n\a\a\a";
+ti();
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+cout<<setw(12)<<"ITEM "<<setw(6)<<"COST "<<setw(12)
+<<"AMOUNT "<<endl;
+cout<<"-----------------------------"<<endl;
+if(item.a[1]>0)
+item.soap(); //FUNCTION CALL
+if(item.a[6]>0)
+item.tea(); //FUNCTION CALL
+if(item.a[11]>0)
+item.biscuit(); //FUNCTION CALL
+if(item.a[16]>0)
+item.flour(); //FUNCTION CALL
+if(item.a[21]>0)
+item.toothpaste(); //FUNCTION CALL
+if(item.a[26]>0)
+item.vanaspati_ghee(); //FUNCTION CALL
+if(item.a[31]>0)
+item.powder(); //FUNCTION CALL
+if(item.a[36]>0)
+item.chocolates(); //FUNCTION CALL
+if(item.a[41]>0)
+item.chewing_gum(); //FUNCTION CALL
+if(item.a[46]>0)
+item.coffee(); //FUNCTION CALL
+if(item.a[51]>0)
+item.rice(); //FUNCTION CALL
+if(item.a[56]>0)
+item.spices(); //FUNCTION CALL
+if(item.a[65]>0)
+item.dry_fruits(); //FUNCTION CALL
+if(item.a[70]>0)
+item.namkeen(); //FUNCTION CALL
+item.total(); //FUNCTION CALL
+getche();
+}
+// while(ch!='n');
+//done
+//FUNCTION DEFINITION OF FUNCTION star()
+float goods::star(float u,float v)
+{
+float price;
+price=u * v;
+return(price);
+}
+//FUNCTION DEFINITION OF FUNCTION soap()
+void goods::soap()
+{
+if(a[2]>0)
+cout<<setw(12)<<"\nLUX |\t"<<setw(6)<<"Rs 8.00" <<setw(12)<<"Rs "<<cost[1]<<"\a";
+if(a[3]>0)
+cout<<setw(12)<<"\nGANGA |\t"<<setw(6)<<"Rs 6.00"<<setw(12)<<"Rs "<<cost[2]<<"\a";
+if(a[4]>0)
+cout<<setw(12)<<"\nDETTOL |\t"<<setw(6)<<"Rs 10.00" <<setw(12)<<"Rs "<<cost[3]<<"\a";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(a[5]>0)
+cout<<setw(12)<<"\nCINTHOL |\t"<<setw(6)<<"Rs 13.00"<<setw(12)<<"Rs "<<cost[4]<<"\a";
+}
+//FUNCTION DIFINITION OF FUNCTION tea()
+void goods::tea()
+{
+if(a[7]>0)
+cout<<setw(12)<<"\nTAJ-MAHAL |\t"<<setw(6)<<"Rs 72.00"<<setw(12)<<"Rs "<<cost[5]<<"\a";
+if(a[8]>0)
+cout<<setw(12)<<"\nBROOKE BOND |\t"<<setw(6)<<"Rs 68.00"<<setw(12)<<"Rs "<<cost[6]<<"\a";
+if(a[9]>0)
+cout<<setw(12)<<"\nRED LABEL |\t"<<setw(6)<<"Rs 76.00"<<setw(12)<<"Rs "<<cost[7]<<"\a";
+if(a[10]>0)
+cout<<setw(12)<<"\nTATA TEA |\t"<<setw(6)<<"Rs 66.00"<<setw(12)<<"Rs "<<cost[8]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION biscuit(_
+void goods::biscuit()
+{
+if(a[12]>0)
+cout<<setw(12)<<"\nGLUCOSE-D |\t"<<setw(6)<<"Rs 5.00"<<setw(12)<<"Rs "<<cost[9]<<"\a";
+if(a[13]>0)
+cout<<setw(12)<<"\nNICE |\t"<<setw(6)<<"Rs 7.00"<<setw(12)<<"Rs "<<cost[10]<<"\a";
+if(a[14]>0)
+cout<<setw(12)<<"\nBOURBOUN |\t"<<setw(6)<<"Rs 10.00"<<setw(12)<<"Rs "<<cost[11]<<"\a";
+if(a[15]>0)
+cout<<setw(12)<<"\nMONACO |\t"<<setw(6)<<"Rs 8.00"<<setw(12)<<"Rs "<<cost[12]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION flour()
+void goods::flour()
+{
+if(a[17]>0)
+cout<<setw(12)<<"\nCAPT. COOK |\t"<<setw(6)<<"Rs 100.00"<<setw(12)<<"Rs "<<cost[13]<<"\a";
+if(a[18]>0)
+cout<<setw(12)<<"\nSHAKTI BHOG |\t"<<setw(6)<<"Rs 94.00"<<setw(12)<<"Rs "<<cost[14]<<"\a";
+if(a[19]>0)
+cout<<setw(12)<<"\nTRUPTI |\t"<<setw(6)<<"Rs 110.00"<<setw(12)<<"Rs "<<cost[15]<<"\a";
+if(a[20]>0)
+cout<<setw(12)<<"\nROSE BRAND |\t"<<setw(6)<<"Rs 90.00"<<setw(12)<<"Rs "<<cost[16]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION toothpaste()
+void goods::toothpaste()
+{
+if(a[22]>0)
+cout<<setw(12)<<"\nCOLGATE |\t"<<setw(6)<<"Rs 17.00"<<setw(12)<<"Rs "<<cost[17]<<"\a";
+if(a[23]>0)
+cout<<setw(12)<<"\nPEPSODENT |\t"<<setw(6)<<"Rs 18.00"<<setw(12)<<"Rs "<<cost[18]<<"\a";
+if(a[24]>0)
+cout<<setw(12)<<"\nCLOSE-UP |\t"<<setw(6)<<"Rs 17.00"<<setw(12)<<"Rs "<<cost[19]<<"\a";
+if(a[25]>0)
+cout<<setw(12)<<"\nPROMISE |\t"<<setw(6)<<"Rs 19.00"<<setw(12)<<"Rs "<<cost[20]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION vanaspati()
+void goods::vanaspati_ghee()
+{
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(a[27]>0)
+cout<<setw(12)<<"\nVITAL |\t"<<setw(6)<<"Rs 50.00"<<setw(12)<<"Rs "<<cost[21]<<"\a";
+if(a[28]>0)
+cout<<setw(12)<<"\nDALDA |\t"<<setw(6)<<"Rs 45.00"<<setw(12)<<"Rs "<<cost[22]<<"\a";
+if(a[29]>0)
+cout<<setw(12)<<"\nGAGAN |\t"<<setw(6)<<"Rs 58.00"<<setw(12)<<"Rs "<<cost[23]<<"\a";
+if(a[30]>0)
+cout<<setw(12)<<"\nRATH |\t"<<setw(6)<<"Rs 48.00"<<setw(12)<<"Rs "<<cost[24]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION powder()
+void goods::powder()
+{
+if(a[32]>0)
+cout<<setw(12)<<"\nPONDS |\t"<<setw(6)<<"Rs 48.00"<<setw(12)<<"Rs "<<cost[25]<<"\a";
+if(a[33]>0)
+cout<<setw(12)<<"\nROSE TALC |\t"<<setw(6)<<"Rs 56.00"<<setw(12)<<"Rs "<<cost[26]<<"\a";
+if(a[34]>0)
+cout<<setw(12)<<"\nNYCIL |\t"<<setw(6)<<"Rs 45.00"<<setw(12)<<"Rs "<<cost[27]<<"\a";
+if(a[35]>0)
+cout<<setw(12)<<"\nEXOTICA |\t"<<setw(6)<<"Rs 30.00"<<setw(12)<<"Rs "<<cost[28]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION chocolates()
+void goods::chocolates()
+{
+if(a[37]>0)
+cout<<setw(12)<<"\nDAIRY MILK |\t"<<setw(6)<<"Rs 10.00"<<setw(12)<<"Rs "<<cost[29]<<"\a";
+if(a[38]>0)
+cout<<setw(12)<<"\nCRACKLE |\t"<<setw(6)<<"Rs 12.00"<<setw(12)<<"Rs "<<cost[30]<<"\a";
+if(a[39]>0)
+cout<<setw(12)<<"\nFRUIT & NUT |\t"<<setw(6)<<"Rs 15.00"<<setw(12)<<"Rs "<<cost[31]<<"\a";
+if(a[40]>0)
+cout<<setw(12)<<"\nPERK |\t"<<setw(6)<<"Rs 8.00"<<setw(12)<<"Rs "<<cost[32]<<"\a";
+}
+//FUNTION DEFINITION OF FUNCTION chewing_gum()
+void goods::chewing_gum()
+{
+if(a[42]>0)
+cout<<setw(12)<<"\nBOOMER |\t"<<setw(6)<<"Rs 1.00"<<setw(12)<<"Rs "<<cost[33]<<"\a";
+if(a[43]>0)
+cout<<setw(12)<<"\nBIG BABOOL |\t"<<setw(6)<<"Rs 1.00"<<setw(12)<<"Rs "<<cost[34]<<"\a";
+if(a[44]>0)
+cout<<setw(12)<<"\nBROOKLYN |\t"<<setw(6)<<"Rs 6.00"<<setw(12)<<"Rs "<<cost[35]<<"\a";
+if(a[45]>0)
+cout<<setw(12)<<"\nCHICKLETS |\t"<<setw(6)<<"Rs 5.00"<<setw(12)<<"Rs "<<cost[36]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION coffee()
+void goods::coffee()
+{
+if(a[47]>0)
+cout<<setw(12)<<"\nTATA CAFE |\t"<<setw(6)<<"Rs 28.00"<<setw(12)<<"Rs "<<cost[37]<<"\a";
+if(a[48]>0)
+cout<<setw(12)<<"\nNESCAFE |\t"<<setw(6)<<"Rs 52.00"<<setw(12)<<"Rs "<<cost[38]<<"\a";
+if(a[49]>0)
+cout<<setw(12)<<"\nBRU_INSTANT |\t"<<setw(12)<<"Rs 48.00"<<setw(12)<<"Rs "<<cost[39]<<"\a";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(a[40]>0)
+cout<<setw(12)<<"\nSUNRISE |\t"<<setw(6)<<"Rs 40.00"<<setw(12)<<"Rs "<<cost[40]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION rice()
+void goods::rice()
+{
+if(a[52]>0)
+cout<<setw(12)<<"\nLAL MAHAL |\t"<<setw(6)<<"Rs 45.00"<<setw(12)<<"Rs "<<cost[41]<<"\a";
+if(a[53]>0)
+cout<<setw(12)<<"\nLAL QILIA |\t"<<setw(6)<<"Rs 40.00"<<setw(12)<<"Rs "<<cost[42]<<"\a";
+if(a[54]>0)
+cout<<setw(12)<<"\nRAJDHANI |\t"<<setw(6)<<"Rs 60.00"<<setw(12)<<"Rs "<<cost[43]<<"\a";
+if(a[55]>0)
+cout<<setw(12)<<"\nKOHINOOR |\t"<<setw(6)<<"Rs 50.00"<<setw(12)<<"Rs "<<cost[44]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION spices()
+void goods::spices()
+{
+if(a[57]>0)
+cout<<setw(12)<<"\nMIRCHPOWD. |\t"<<setw(6)<<"Rs 10.00"<<setw(12)<<"Rs "<<cost[45]<<"\a";
+if(a[58]>0)
+cout<<setw(12)<<"\nHALDI POWD. |\t"<<setw(6)<<"Rs 12.00"<<setw(12)<<"Rs "<<cost[46]<<"\a";
+if(a[59]>0)
+cout<<setw(12)<<"\nSALT |\t"<<setw(6)<<"Rs 6.00"<<setw(12)<<"Rs "<<cost[47]<<"\a";
+if(a[60]>0)
+cout<<setw(12)<<"\nBLACK PEP'R |\t"<<setw(6)<<"Rs 15.00"<<setw(12)<<"Rs "<<cost[48]<<"\a";
+if(a[61]>0)
+cout<<setw(12)<<"\nSAUNF |\t"<<setw(6)<<"Rs 8.00"<<setw(12)<<"Rs "<<cost[49]<<"\a";
+if(a[62]>0)
+cout<<setw(12)<<"\nZEERA |\t"<<setw(6)<<"Rs 12.00"<<setw(12)<<"Rs "<<cost[50]<<"\a";
+if(a[63]>0)
+cout<<setw(12)<<"\nCLOVE |\t"<<setw(6)<<"Rs 20.00"<<setw(12)<<"Rs "<<cost[51]<<"\a";
+if(a[64]>0)
+cout<<setw(12)<<"\nELAICHI |\t"<<setw(6)<<"Rs 25.00"<<setw(12)<<"Rs "<<cost[52]<<"\a";
+}
+//FUNTION DEFINITION OF FUNCTION dry_fruits()
+void goods::dry_fruits()
+{
+if(a[66]>0)
+cout<<setw(12)<<"\nALMOND |\t"<<setw(6)<<"Rs 300.00"<<setw(12)<<"Rs "<<cost[53]<<"\a";
+if(a[67]>0)
+cout<<setw(12)<<"\nCASHEWNUT |\t"<<setw(6)<<"Rs350.00"<<setw(12)<<"Rs "<<cost[54]<<"\a";
+if(a[68]>0)
+cout<<setw(12)<<"\nAPRICOT |\t"<<setw(6)<<"Rs400.00"<<setw(12)<<"Rs "<<cost[55]<<"\a";
+if(a[69]>0)
+cout<<setw(12)<<"\nKISMISH |\t"<<setw(6)<<"Rs320.00"<<setw(12)<<"Rs "<<cost[56]<<"\a";
+}
+//FUNCTION DEFINITION OF FUNCTION namkeen()
+void goods::namkeen()
+{
+if(a[71]>0)
+cout<<setw(12)<<"\nBHUJIA |\t"<<setw(6)<<"Rs 16.00"<<setw(12)<<"Rs "<<cost[57]<<"\a";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(a[72]>0)
+cout<<setw(12)<<"\nDAL_BHIJI |\t"<<setw(6)<<"Rs 17.00"<<setw(12)<<"Rs "<<cost[58]<<"\a";
+if(a[73]>0)
+cout<<setw(12)<<"\nNAVRATAN |\t"<<setw(6)<<"Rs 16.00"<<setw(12)<<"Rs "<<cost[59]<<"\a";
+if(a[74]>0)
+cout<<setw(12)<<"\nNUTCRACKER |\t"<<setw(6)<<"Rs 18.00"<<setw(12)<<"Rs "<<cost[60]<<"\a";
+}
+//FUNCTION DEFINITIOIN OF total()
+void goods::total()
+{
+tt=0;
+for(i=1;i<70;i++)
+tt+=cost[i];
+cout<<"\n=======================================================\n";
+cout<<setw(12)<<"TOTAL \t\a\a"<<setw(6)<<"Rs "<<tt;
+if(tt>4999)
+cout<<"\n FOR PURCHASE OF OVER 5000 BUCKS YOU GET **A GOLD COIN** FREE";
+else if(tt>1999)
+cout<<"\n FOR PURCHASE OF OVER 2000 BUCKS YOU GET **A SILVER COIN** FREE";
+else if(tt>499)
+cout<<"\n FOR YOUR PURCHASE OF OVER 500 BUCKS YOU GET **A EXOTICA TIN** FREE";
+else if(tt>399)
+cout<<"\n FOR YOUR PURCHASE OF OVER 400 BUCKS YOU GET **5 FRUIT&NUT CHOCOLATE** FREE";
+else if(tt>299)
+cout<<"\n FOR YOUR PURCHASE OF OVER 300 BUCKS YOU GET **1 DAIRYMILK** FREE";
+else if(tt>199)
+cout<<"\n FOR YOUR PURCHASE OF OVER 200 BUCKS YOU GET **A PACK OF CHICKLETS** FREE";
+cout<<"\n\a\a PLEASE VISIT: ";
+cout<<"\n ^^^^^ KENIMA DEPARTMENTAL STORE^^^^^ \n\a";
+cout<<" CYBER_MARKET, KENDRIYA VIDYALAYA, \n\a";
+cout<<" AMBHIKA VIHAR,PASCHIM VIHAR,NEW_DELHI-110041. \n\a";
+cout<<" Ph No.:5471123,5473651. \n\n\n";
+cout<<"\a\n ##goods once sold cannot be returned## \n";
+}
+void logo()
+{
+int mode,driver=DETECT;
+initgraph(&driver,&mode,"\\tc\\bgi\\");
+int
+xCO=100,yCO=125,font=GOTHIC_FONT,direction=HORIZ_DIR,usersize=4,color=WHITE,horzjustify=LEFT_TEX
+T,vertjustify=TOP_TEXT,multx=3,divx=2,multy=3,divy=1;
+char str[]=" KENIMA SHOPPE ";
+moveto(xCO,yCO);
+settextstyle(font,direction,usersize);
+setcolor(color);
+settextjustify(horzjustify,vertjustify);
+setusercharsize(multx,divx,multy,divy);
+outtext(str);
+getch();
+closegraph();
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+clrscr();
+}
+void logo1()
+{
+_setcursortype(_NOCURSOR);
+clrscr();
+int i=2,k=63;
+char a[80]={" *** KENIMA DEPARTMENTAL STORE *** "};
+gotoxy(30,7);
+cout<<" THIS PROGRAM IS MADE BY :";
+while(i<24)
+{
+sound(100);
+gotoxy(i,11);
+cout<<" AUSHIM KHULLAR \n\a";
+cout<<" ** HAVE A NICE DAY!!! ** \n\a";
+gotoxy(k,11);
+i=i+6;
+k=k-6;
+}
+gotoxy(i,11);
+for(k=2;k<33;k++)
+{
+gotoxy(i,11);
+down(a[k],i);
+i++;
+}
+delay(1500);
+}
+void down(char s,int x)
+{
+_setcursortype(_NOCURSOR);
+int y;
+for(y=11;y<17;y++)
+{
+sound(100);
+gotoxy(x,y);
+cout<<s;
+delay(20);
+gotoxy(x,y);
+cout<<' ';
+nosound();
+}
+gotoxy(x,y);
+cout<<s;
+}
+void ti()
+{
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+time_t t;
+time(&t);
+cout<<ctime(&t);
+}
+int Menu()
+{
+int nAction;
+struct date CurrentDate;
+getdate(&CurrentDate);
+do
+{
+clrscr();
+printf("\t\t\t\t\t\t\t\tDate :%d",CurrentDate.da_day);
+printf("\t\t\t\t\t\t\t\t\tMonth :%d",CurrentDate.da_mon);
+printf("\t\t\t\t\t\t\t\t\tYear :%d",CurrentDate.da_year);
+cout<<"\n\n";
+cout<<"\n\t\t\t-----------\n";
+cout<<"\n\t\t\tMAIN MENU \n";
+cout<<"\n\t\t\t-----------\n";
+cout<<"\n\t\t\t\t1.Data Entry\n";
+cout<<"\n\t\t\t\t2.Billing\n";
+cout<<"\n\t\t\t\t3.Display all stock\n";
+cout<<"\n\t\t\t\t4.Search\n";
+cout<<"\n\t\t\t\t5.edit\n";
+cout<<"\n\t\t\t\t0.Exit\n";
+cout<<"\n\n\t\tyour choice";
+cin>>nAction;
+} while(nAction<0||nAction>4);
+if(nAction==0){
+logo();
+exit(0);}
+if(nAction==3){
+cout<<" \n";
+cout<<" STOCK AVAILABLE \n\n\n"
+<<"--------------------------------------->>\n"
+<<" * ITEMS STOCK *\n"
+<<" * ----- ----- *\n"
+<<" * 1. SOAPS : 100 *\n"
+<<" * 2. TEA : 20Kg *\n"
+<<" * 3. BISCUITS : 100 *\n"
+<<" * 4. FLOUR : 200Kg *\n"
+<<" * 5. TOOTHPASTE : 100 *\n"
+<<" * 6. GHEE : 500Kg *\n"
+<<" * 7. TALCUM POWDER : 20 *\n"
+<<" * 8. CHOCOLATES : 250 *\n"
+<<" * 9. CHEWING_GUM : 500 *\n"
+<<" * 10. COFFEE : 20Kg *\n"
+<<" * 11. RICE : 100Kg *\n"
+<<" * 12. SPICES : 2000gms *\n"
+<<" * 13. DRY FRUIT : 10Kg *\n"
+<<" * 14. NAMKEEN : 250 *\n"
+<<" ------------------------------------ \n";
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+getch();
+delay(1000);
+}
+if(nAction==4){
+fstream f;char r;
+f.open("instock.cpp",ios::in||ios::out);
+if(!f){
+cout<<"file not found";}
+cout<<" __________________________ >>\n";
+cout<<" * MAIN MENU *\n";
+cout<<" * _________ *\n";
+cout<<" * 1. SOAPS *\n";
+cout<<" * 2. TEA *\n";
+cout<<" * 3. BISCUITS *\n";
+cout<<" * 4. FLOUR *\n";
+cout<<" * 5. TOOTHPASTE *\n";
+cout<<" * 6. GHEE *\n";
+cout<<" * 7. TALCUM POWDER *\n";
+cout<<" * 8. CHOCOLATES *\n";
+cout<<" * 9. CHEWING_GUM *\n";
+cout<<" * 10. COFFEE *\n";
+cout<<" * 11. RICE *\n";
+cout<<" * 12. SPICES *\n";
+cout<<" * 13. DRY FRUITS *\n";
+cout<<" * 14. NAMKEEN *\n";
+cout<<" ------------------------\n";
+cout<<"enter the number of the good whose price is to be searched";
+int x;
+cin>>x;
+f.seekg(0,ios::beg);
+while(!f.eof()){
+if(x==1){
+cout<<"1 LUX(8.00), 2 GANGA(6.00), 3 DETTOL(10.00)";
+cout<<", 4 CINTHOL(13.00)\n\a";break;}
+if(x==2){ cout<<"PRICES FOR one Kg ARE AS UNDER: \n\a";
+cout<<"\n1: TAJ MAHAL(Rs 72) 2: BROOKE BOND SPECIAL(Rs 68)";
+cout<<" \n\a"<<" 3: RED LABEL(Rs 76) 4: TATA TEA(Rs 66) \n\a";break; }
+if(x==3){ cout<<"1. BRITANIA GLUCOSE-D (Rs 5.00) ";
+cout<<"2. BRITANIA NICE (Rs 7.00) ";
+cout<<"3. BOURBON (Rs 10.000) ";
+cout<<"4. MONACO (Rs 8.00) \n\a";break;}
+if(x==4){ cout<<"1. BRITANIA GLUCOSE-D (Rs 5.00) ";
+cout<<"2. BRITANIA NICE (Rs 7.00) ";
+cout<<"3. BOURBON (Rs 10.000) ";
+cout<<"4. MONACO (Rs 8.00) \n\a";break;}
+if(x==5){cout<<"1. COLGATE(Rs 17.00) ,2. PEPSODENT(Rs18.00) ,";
+cout<<"3. CLOSE-UP(Rs 17.00) ,4. PROMISE(Rs 19.00) \n\a";break;}
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+if(x==6){cout<<"1. COLGATE(Rs 17.00) ,2. PEPSODENT(Rs18.00) ,";
+cout<<"3. CLOSE-UP(Rs 17.00) ,4. PROMISE(Rs 19.00) \n\a";break;}
+if(x==7){ cout<<"1. PONDS(RS 48), 2.ROSE TALC(RS 56),3.NYCIL(RS 45)";
+cout<<", 4.EXOTICA(Rs<<30.0)\n";break;}
+if(x==8){ cout<<"1.DAIRY MILK(Rs 10), 2.CRACKLE(Rs 12), 3.FRUIT&NUT";
+cout<<"(Rs 15), 4.PERK(Rs 8)\n\a";break;}
+if(x==9){ cout<<"1.BOOMER(Rs 1), 2.BIG BABOOL(Rs 1), 3.BROOKLYN(Rs 6)";
+cout<<",4.CHICKLETS(Rs 5)\n\a";break; }
+if(x==10){ cout<<"PRICES FOR 500 gm PACKS ARE \n\a";
+cout<<"1.TATA CAFE(Rs 28), 2.NESCAFE(Rs 52)";
+cout<<", 3.BRU INSTANT(Rs 48), 4.SUNRISE(Rs 40) \n\a";break;}
+if(x==11){ cout<<"PRICES FOR 1Kg ARE \n\a";
+cout<<"1.LAL MAHAL(Rs 45) ,2.LAL QILLA(Rs 40) ,3.RAJDHANI(Rs 60) ,4.KOHINOOR(Rs 50) \n\a";
+break; }
+if(x==12){ cout<<"THE COST OF 100gms ARE: \n";
+cout<<"1.MIRCHI POWDER(Rs 10) ,2.HALDI POWDER(Rs 12) ,3.SALT(1Kg:Rs 6) ,";
+cout<<"4.BLACK PEPPER(Rs 15) ,5.SAUNF(Rs 8) ,6.ZEERA(Rs 12)";
+cout<<"7.CLOVE(Rs 20) ,8.ELAICHI(Rs 25)";break;}
+if(x==13){ cout<<"PRICE FOR 1Kg ARE: ";
+cout<<"1.ALMOND(Rs300) ,2.CASHEW_NUT(Rs350) ,3.APRICOT(Rs400) \n";
+cout<<"4.KISHMISH(Rs320) \n";
+break;}
+if(x==14){ cout<<"PRICES OF 200gms ARE AS: \n";
+cout<<"1.BHUJIA(Rs16) ,2.DAL_BHIJI(Rs17) ,";
+cout<<"3.NAVRATAN(Rs16) ,4.NUTCRACKER(Rs18) \n";break; }
+}f.close(); getch(); }return nAction;}
+/*
+if(nAction==5){ int x;
+cout<<"goods number to be deleted";
+int d;
+cin>>d;
+ofstream edit;
+edit.open("instock.cpp",ios::in);
+fstream temp;
+temp.open("temp.cpp",ios::out);
+edit.seekg(0,ios::beg);
+while(!edit.eof()){
+if(edit.eof())
+break;
+if(itemno!=d){
+edit>>x;
+temp<<x;}
+edit.close();
+temp.close();
+file:///C/......Prateek/....Prateek/New%20folder/Net%20Shopping.txt[18-07-2016 19:55:17]
+edit.open(ios::out);
+temp.open(ios::in);
+temp.seekg(0,ios::beg);
+while(!temp.eof()){
+temp>>x;
+edit<<x;break;}
+edit.close();
+temp.close();
+}*/

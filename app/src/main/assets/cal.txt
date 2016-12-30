@@ -1,0 +1,1036 @@
+/*
+|~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|
+|$$$$$$$$ $$$$$$$$ $$$$$$$$$ $$$$$$$$$ $$$$$$$$ $$$$$$ $$$$$$$$|
+|$$ $$ $$ $$ $$ $$ $$ $$ $$ $$ |
+|$$ $$ $$ $$ $$ $$ $$ $$ $$ $$ |
+|$$$$$$$$ $$$$$$$$ $$ $$ $$ $$$$$ $$ $$ |
+|$$ $$ $$ $$ $$ $$ $$ $$ $$ |
+|$$ $$ $$ $$ $$ $$ $$ $$ $$ $$ |
+|$$ $$ $$ $$$$$$$$$ $$$$$$ $$$$$$$$ $$$$$$ $$ |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+/* SCIENTIFIC CALCULATOR */
+/* and */
+/* CONVERSIONS */
+/* by */
+/* Mayank Sharma */
+/* Header Files Included */
+#include<fstream.h> /* for file functions */
+#include<iostream.h> /* for I/O functions */
+#include<graphics.h> /* for graphics */
+#include<process.h> /* for exit function */
+#include<stdlib.h> /* for itoa function */
+#include<dos.h> /* for delay function */
+#include<conio.h> /* for getch,clrscr functions */
+#include<math.h> /* for mathematical operations */
+#include<string.h> /* for string manipulation conv */
+#include<stdio.h> /* for gets function */
+#include<ctype.h> /* for toacsii function */
+/* Global initialisation */
+int ch,f;
+char b[25];
+double n=0,k,i=1,s=1,p=22/7;
+/* Class initialisation for different funtions in calculator */
+class calculator
+{
+public:
+/* Code for storage funtion using files */
+int store(double n)
+{
+char ans='y';
+cout<<"\n Want to store...";
+cin>>ans;
+if (ans=='y'||ans=='Y')
+{
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+ofstream outfile("a.txt",ios::app|ios::out);
+outfile<<n<<"\n";
+outfile.close();
+cout<<"value stored\n";
+return 1;
+}
+else
+{
+return 0;
+}
+}
+/* Code for doing addition */
+void sum()
+{
+cout<<"\tEnter another number : ";
+cin>>k;
+n=n+k;
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for doing subtraction */
+void sub()
+{
+cout<<"\tEnter another number : ";
+cin>>k;
+n=n-k;
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for doing multiplication */
+void mul()
+{
+cout<<"\tEnter another number : ";
+cin>>k;
+n=n*k;
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for doing devision */
+void dev()
+{
+cout<<"\tEnter another number : ";
+cin>>k;
+n=n/k;
+cout<<"\tResult = "<<n;
+retrieve(n);
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+}
+/* Code for squaring */
+void square()
+{
+n=pow(n,2);
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for finding the square root*/
+void sqroot()
+{
+n=sqrt(n);
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for finding the inverse */
+void inv()
+{
+n=1/n;
+cout<<"\tResult = "<<n;
+retrieve(n);
+}
+/* Code for finding log to the base 10 */
+void log_10()
+{
+n=log10(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the antilog ( 10^x ) */
+void antilog()
+{
+n=pow(10,n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding natural log */
+void natural_log()
+{
+n=log(n);
+cout<<"\tResult = "<<n;
+}
+/* Code finding natural antilog (e^x ) */
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+void natural_antilog()
+{
+n=exp(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding a no. to the nth power */
+void nth_power()
+{
+cout<<"\tEnter the second number : ";
+cin>>k;
+n=pow(n,k);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the nth root of a number */
+void nth_root()
+{
+cout<<"\tEnter the second number : ";
+cin>>k;
+n=pow(n,1/k);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the sine of an angle(in degree)*/
+void sine()
+{
+n=n*p/180;
+n=sin(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the cos of an angle(in degree) */
+void cosine()
+{
+n=n*p/180;
+n=cos(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the tan of an angle(in degree) */
+void tangent()
+{
+n=n*p/180;
+n=tan(n);
+cout<<"\tResult = "<<n;
+}
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+/* Code for finding the sin inverse */
+void arc_sine()
+{
+n=asin(n);
+n=n*180/p;
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the cos inverse */
+void arc_cosine()
+{
+n=acos(n);
+n=n*180/p;
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the tan inverse */
+void arc_tangent()
+{
+n=atan(n);
+n=n*180/p;
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the hyperbolic sin */
+void hyperbolic_sine()
+{
+n=sinh(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the hyperbolic cos */
+void hyperbolic_cosine()
+{
+n=cosh(n);
+cout<<"\tResult = "<<n;
+}
+/* Code for finding the hyperbolic tan */
+void hyperbolic_tangent()
+{
+n=tanh(n);
+cout<<"\tResult = "<<n;
+}
+void retrieve(double n);
+void factorial();
+void decbin();
+void decoct();
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+void dechex(); /* Member */
+void bindec(); /* Functions */
+void binoct(); /* of class */
+void binhex(); /* declared */
+void octdec();
+void octbin();
+void octhex();
+void hexdec();
+void hexbin();
+void hexoct();
+void input();
+};
+calculator cal; /* Object of the class created */
+/* Definitions of the functions declared in the class */
+/* code for retrieval of a stored value */
+void calculator::retrieve(double n)
+{
+int f = cal.store(n);
+char ans = 'y';
+if (f==1)
+{
+cout<<"\n Want to retrieve... ";
+cin>>ans;
+if (ans=='y'||ans=='Y')
+{
+ifstream infile("a.txt",ios::in);
+infile>>n;
+while (!infile.eof())
+{
+cout<<n<<"\n";
+infile>>n;
+}
+infile.close();
+}
+}
+}
+/* code for finding the factorial of a number */
+void calculator::factorial()
+{
+for(i=1;i<=n;i++)
+s=s*i;
+n=s;
+cout<<"\tResult = "<<n;
+}
+/* Code to convert a decimal number to binary */
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+void calculator :: decbin()
+{
+int a[10],m[10];
+int i=0,f,x=0,j;
+while(n>=1)
+{
+f=n-(((int)(n/2))*2);
+n=n/2;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe binary number is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+cout<<m[i];
+}
+}
+/* Code to convert a decimal number to octal */
+void calculator ::decoct()
+{
+int a[10],m[10];
+int i=0,f,x=0,j;
+while(n>=1)
+{
+f=n - (((int)(n/8))*8);
+n=n/8;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe octal number is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+cout<<m[i];
+}
+}
+/*Code to convert a decimal number to hexadecimal*/
+void calculator ::dechex()
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+{
+int a[10],m[10];
+int i=0,f,x=0,j;
+while(n>=1)
+{
+f=n - (((int)(n/16))*16);
+n=n/16;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe hexadecimal number is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+if(a[j]>9)
+{
+char g=(char) (m[i]+55);
+cout<<g;
+}
+else
+{
+cout<<m[i];
+}
+}
+}
+/* Code to convert a binary number to decimal */
+void calculator ::bindec()
+{
+int a[10],s=0,i=0,j,x=0,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n - (((int)(n/10))*10);
+if(a[i]>1)
+{
+cout<<"\tThe no. you have entered is not binary ";
+flag=1;
+break;
+}
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+{
+cout<<"\tThe decimal number is ";
+for(i=0;i<x;i++)
+s=s+(a[i]*pow(2,i));
+cout<<s;
+}
+}
+/* Code to convert a binary number to octal */
+void calculator ::binoct()
+{
+int a[10],m[10],s=0,i=0,j,x=0,f,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n - (((int)(n/10))*10);
+if(a[i]>1)
+{
+cout<<"\tThe no. you have entered is not binary ";
+flag=1;
+break;
+}
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+{
+for(i=0;i<x;i++)
+s=s+(a[i]*pow(2,i));
+}
+x=0;
+i=0;
+while(s>=1)
+{
+f=s%8;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+s=s/8;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe octal number is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+cout<<m[i];
+}
+}
+/* Code to convert a binary numbre to hexadecimal */
+void calculator ::binhex()
+{
+int a[10],m[10],s=0,i=0,j,x=0,f,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n - (((int)(n/10))*10);
+if(a[i]>1)
+{
+cout<<"\tThe no. you have entered is not binary ";
+flag=1;
+break;
+}
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+{
+for(i=0;i<x;i++)
+{
+s=s+(a[i]*pow(2,i));
+}
+}
+x=0;
+i=0;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+while(s>=1)
+{
+f=s%16;
+s=s/16;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe hexadecimal number is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+if(a[j]>9)
+{
+char g=(char) (m[i]+55);
+cout<<g;
+}
+else
+{
+cout<<m[i];
+}
+}
+}
+/*Code to convert an octal number to decimal */
+void calculator ::octdec()
+{
+int a[10],s=0,i=0,j,x=0,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n -(((int)(n/10))*10);
+if(a[i]>7)
+{
+cout<<"\tThe no. you have entered is not an octal no.";
+flag=1;
+break;
+}
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+{
+for(i=0;i<x;i++)
+{
+s=s+(a[i]*pow(8,i));
+}
+}
+cout<<"\tThe decimal number is "<<s;
+}
+/*To convert an octal number to binary*/
+void calculator::octbin()
+{
+int a[10],m[10],s=0,i=0,j,x=0,f,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n -(((int)(n/10))*10);
+if(a[i]>7)
+{
+cout<<"\tThe no. you have entered is not octal ";
+flag=1;
+break;
+}
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+{
+for(i=0;i<x;i++)
+{
+s=s+(a[i]*pow(8,i));
+}
+}
+x=0;
+i=0;
+while(s>=1)
+{
+f=s%2;
+s=s/2;
+a[i]=f;
+x++;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+i++;
+}
+cout<<"\tThe binary no. is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+cout<<m[i];
+}
+}
+/* Code to convert an octal number to hexadecimal */
+void calculator ::octhex()
+{
+int a[10],m[10],s=0,i=0,j,x=0,f,flag=0;
+while(n>0)
+{
+if(i>9)
+{
+break;
+}
+a[i]=n -(((int)(n/10))*10);
+if(a[i]>7)
+{
+cout<<"\tThe no. you have entered is not octal";
+flag=1;
+break;
+}
+n=n/10;
+i++;
+x++;
+}
+if(flag==0)
+{
+for(i=0;i<x;i++)
+{
+s=s+(a[i]*pow(8,i));
+}
+}
+x=0;
+i=0;
+while(s>=1)
+{
+f=s%16;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+s=s/16;
+a[i]=f;
+x++;
+i++;
+}
+cout<<"\tThe hexadecimal no. is ";
+for(i=0,j=x-1;i<x;i++,j--)
+{
+m[i]=a[j];
+if(a[j]>9)
+{
+char g=(char) (m[i]+55);
+cout<<g;
+}
+else
+{
+cout<<m[i];
+}
+}
+}
+/* Code to convert a hexadecimal number to decimal */
+void calculator ::hexdec()
+{
+int i,j,l;
+int x,m[25];
+l=strlen(b);
+for(i=0,j=l-1;i<l;i++,j--)
+{
+if((toascii(b[i])>=48) && (toascii(b[i])<=57))
+{
+m[i]= (toascii(b[i])-38);
+}
+else
+{
+if((toascii(b[i])>=97) && (toascii(b[i])<=102))
+{
+m[i] = (toascii(b[i])-87);
+}
+}
+x=x+m[i]*pow(16,j);
+}
+cout<<"\tThe decimal number is : ";
+cout<<x;
+}
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+/* Code to convert a hexadecimal number to binary */
+void calculator ::hexbin()
+{
+int i,j,l,f,o,r=0,k=0;
+int x,m[10],n[25],d[25];
+l=strlen(b);
+for(i=0,j=l-1;i<l;i++,j--)
+{
+if((toascii(b[i])>=48) && (toascii(b[i])<=57))
+{
+m[i]= (toascii(b[i])-38);
+}
+else
+{
+if((toascii(b[i])>=97) && (toascii(b[i])<=102))
+{
+m[i] = (toascii(b[i])-87);
+}
+}
+x=x+m[i]*pow(16,j);
+}
+while(x>=1)
+{
+int z=x/2;
+f=x-(z*2);
+x=x/2;
+n[r]=f;
+k++;
+r++;
+}
+cout<<"The binary number is : ";
+for(r=0,o=k-1;r<k;r++,o--)
+{
+d[r]=n[o];
+cout<<d[r];
+}
+}
+/* Code to convert a hexadecimal number to octal */
+void calculator ::hexoct()
+{
+int i,j,l,f,o,r=0,k=0;
+int x,m[25],d[25],n[25];
+l=strlen(b);
+for(i=0,j=l-1;i<l;i++,j--)
+{
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+if((toascii(b[i])>=48) && (toascii(b[i])<=57))
+{
+m[i]= (toascii(b[i])-38);
+}
+else
+{
+if((toascii(b[i])>=97) && (toascii(b[i])<=102))
+{
+m[i] = (toascii(b[i])-87);
+}
+}
+x=x+m[i]*pow(16,j);
+}
+while(x>=1)
+{
+int z=x/8;
+f=x-(z*8);
+x=x/8;
+n[r]=f;
+k++;
+r++;
+}
+cout<<"The octal no.is : ";
+for(r=0,o=k-1;r<k;r++,o--)
+{
+d[r]=n[o];
+cout<<d[r];
+}
+}
+/* Code to accept a number*/
+/*for doing operations on the calculator*/
+/*or for doing the conversions*/
+void calculator :: input()
+{
+cout<<"\tEnter a number : ";
+cin>>n;
+}
+/*DISPLAYING FIRST GRAPHICS SCREEN*/
+void display()
+{
+int gdriver = DETECT, gmode;
+initgraph(&gdriver, &gmode, "d:\\tc\\bgi");
+setbkcolor(WHITE);
+setlinestyle(0,1,3);
+setcolor(4);
+rectangle(10,10,getmaxx()-10,getmaxy()-10);
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+setcolor(9);
+rectangle(20,20,getmaxx()-20,getmaxy()-20);
+settextstyle(8,0,6);
+setcolor(2);
+outtextxy(160,100," PROJECT ");
+setcolor(12);
+line(190,165,480,165);
+settextstyle(8,0,5);
+setcolor(6);
+outtextxy(50,200," Scientific Calculator");
+setcolor(12);
+line(30,250,610,250);
+settextstyle(8,0,5);
+setcolor(11);
+outtextxy(30,300," MADE BY :- Abhishek ");
+setcolor(12);
+line(30,350,610,350);
+settextstyle(8,0,3);
+setcolor(3);
+outtextxy(300,400,"Press Enter To Continue");
+setcolor(12);
+line(300,430,615,430);
+if(getch()!='\r')
+exit(1);
+}
+/* SECOND GRAPHICS SCREEN */
+void process()
+{
+setcolor(4);
+cleardevice();
+setlinestyle(0,1,1);
+setfillstyle(1,1);
+floodfill(2,2,4);
+rectangle(65,76,545,100);
+setfillstyle(1,9);
+floodfill(76,77,4);
+int n=77;
+char c[2];
+settextstyle(7,0,5);
+for(int i=1;i<=20;i++)
+{
+int nu;
+nu=i*5;
+itoa(nu,c,10);
+if(i==1)
+{
+delay(500);
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+moveto(65,200);
+setcolor(5);
+outtext("Process");
+settextstyle(10,0,2);
+moveto(230,203);
+outtext("=>");
+settextstyle(7,0,5);
+moveto(345,200);
+outtext("%");
+}
+setcolor(4);
+circle(n,88,10);
+if(i==16)
+setfillstyle(1,0);
+else
+setfillstyle(1,i);
+floodfill(n+1,90,4);
+setcolor(4);
+moveto(265,200);
+outtext(c);
+n=n+24;
+delay(200);
+if(i!=20)
+{
+moveto(265,200);
+setcolor(1);
+outtext(c);
+}
+}
+getch();
+}
+/* THIRD GRAPHICS SCREEN */
+void welcome()
+{
+cleardevice();
+setlinestyle(0,1,3);
+setcolor(4);
+rectangle(0,0,getmaxx(),getmaxy());
+rectangle(50,50,getmaxx()-50,getmaxy()-50);
+setfillstyle(1,2);
+floodfill(2,2,4);
+while(!kbhit())
+{
+for(int i=1;i<10;i++)
+{
+setcolor(i);
+settextstyle(7,0,7);
+moveto(160,190);
+outtext("WELCOME");
+delay(100);
+}
+}
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+closegraph();
+}
+/* LAST GRAPHICS SCREEN */
+void the_end()
+{
+int gdriver = DETECT, gmode;
+initgraph(&gdriver, &gmode, "d:\\tc\\bgi");
+setbkcolor(WHITE);
+cleardevice();
+setlinestyle(0,1,3);
+setcolor(4);
+rectangle(0,0,getmaxx(),getmaxy());
+rectangle(50,50,getmaxx()-50,getmaxy()-50);
+setfillstyle(1,2);
+floodfill(2,2,4);
+while(!kbhit())
+{
+for(int i=1;i<10;i++)
+{
+setcolor(i);
+settextstyle(7,0,7);
+moveto(170,150);
+outtext(" THE ");
+moveto(170,250);
+outtext(" END ");
+delay(100);
+}
+}
+}
+/*Beginning of main()*/
+void main()
+{
+clrscr();
+display();
+process();
+welcome();
+do
+{
+/*Menu of operations*/
+getch();
+clrscr();
+cout<<"\n\t1.Use the calculator\n\t2.Do the conversions\n";
+cout<<"\n\tEnter your choice : ";
+cin>>f;
+if(f==0)
+{
+cout<<"\n\n\n\t\tWRONG CHOICE !!! ";
+getch();
+break;
+}
+if(f==1) /*Menu for calculator*/
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+{
+clrscr();
+cout<<"\n\tMenu for a calculator\n";
+cout<<"\n\n\tChoose among the following operations\n\n";
+cout<<"\tGeneral Functions\n\t1.`+'\t2.`-'\t\t3.`*'\t4.`/'\t";
+cout<<"\t5.x^2\t6.x^1/2\t7.1/x\n";
+cout<<"\t8.log\t9.anti-log\t10.ln\t11.n-anti-log\t12.x!\t13.x^n\t";
+cout<<"14.x^1/n\t\n";
+cout<<"\n\tTrigonometric Functions\n\t15.sin\t\t16.cos\t\t";
+cout<<"17.tan\n";
+cout<<"\t18.sin inv \t19.cos inv\t20.tan inv\n";
+cout<<"\n\tHyperbolic : \n\t21.sin\t\t22.cos\t\t23.tan\n";
+cout<<"\n\tEnter 0 to get final result\n";
+}
+else /*menu for conversions*/
+{
+if(f==2)
+{
+clrscr();
+cout<<"\n\tMenu for conversions\n";
+cout<<"\n\tConversions\n\t24.dec to bin\t";
+cout<<"25.dec to oct\t26.dec to hex\n";
+cout<<"\t27.bin to dec\t28.bin to oct\t";
+cout<<"29.bin to hex\n\t30.oct to dec";
+cout<<"\t31.oct to bin\t32.oct to hex\n\t";
+cout<<"33.hex to dec\t34.hex to bin";
+cout<<"\t35.hex to oct\n";
+cout<<"\n\tEnter 0 to get final result\n";
+}
+}
+cout<<"\n\n\tOperation : ";
+cin>>ch;
+if((ch>=1)&&(ch<=32))
+{
+cal.input(); /*call of input function*/
+}
+else
+{
+if((ch>=33)&&(ch<=35))
+{
+cout<<"\tEnter a hexadecimal number : ";
+gets(b);
+}
+}
+switch(ch)
+{
+case 0:
+remove("a.txt"); // for deleting the file
+// created for storage function
+break;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+case 1: // calling sum function
+cal.sum();
+break;
+case 2: // calling sub function
+cal.sub();
+break;
+case 3: // calling mul function
+cal.mul();
+break;
+case 4: // calling dev function
+cal.dev();
+break;
+case 5: // calling square function
+cal.square();
+break;
+case 6: // calling sqroot function
+cal.sqroot();
+break;
+case 7: // calling inv function
+cal.inv();
+break;
+case 8: // calling log_10 function
+cal.log_10();
+break;
+case 9: // calling antilog function
+cal.antilog();
+break;
+case 10: // calling natural_log function
+cal.natural_log();
+break;
+case 11: // calling natural_antilog function
+cal.natural_antilog();
+break;
+case 12: // calling factorial function
+cal.factorial();
+break;
+case 13: //calling nth_power function
+cal.nth_power();
+break;
+case 14: // calling nth_root function
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+cal.nth_root();
+break;
+case 15: // calling sine function
+cal.sine();
+break;
+case 16: // calling cosine function
+cal.cosine();
+break;
+case 17: // calling tangent function
+cal.tangent();
+break;
+case 18: // calling arc_sine function
+cal.arc_sine();
+break;
+case 19: // calling arc_cosine function
+cal.arc_cosine();
+break;
+case 20: // calling arc_tangent function
+cal.arc_tangent();
+break;
+case 21: // calling hyperbolic_sine function
+cal.hyperbolic_sine();
+break;
+case 22: // calling hyperbolic_cosine function
+cal.hyperbolic_cosine();
+break;
+case 23: //calling hyperbolic_tangent function
+cal.hyperbolic_tangent();
+break;
+case 24:
+cal.decbin(); /*call of function decbin*/
+break;
+case 25:
+cal.decoct(); /*call of function decoct*/
+break;
+case 26:
+cal.dechex(); /*call of function dechex*/
+break;
+case 27:
+cal.bindec(); /*call of function bindec*/
+break;
+file:///C/......Prateek/....Prateek/New%20folder/CAL.txt[18-07-2016 19:53:15]
+case 28:
+cal.binoct(); /*call of function binoct*/
+break;
+case 29:
+cal.binhex(); /*call of function binhex*/
+break;
+case 30:
+cal.octdec(); /*call of function octdec*/
+break;
+case 31:
+cal.octbin(); /*call of function octbin*/
+break;
+case 32:
+cal.octhex(); /*call of function octhex*/
+break;
+case 33:
+cal.hexdec(); /*call of function hexdec*/
+break;
+case 34:
+cal.hexbin(); /*call of function hexbin*/
+break;
+case 35:
+cal.hexoct(); /*call of function hexoct*/
+break;
+}
+/*end of switch*/
+}while(ch!=0);
+/*end of do-while*/
+if(ch==0)
+{
+cout<<"\n\tThe final result = "<<n;
+}
+the_end();
+closegraph();
+getch();
+}
+/* End of Main*/

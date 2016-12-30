@@ -1,0 +1,698 @@
+// PROJECT CYBER CAFE
+//**********************************************************
+//**********************************************************
+// INCLUDED HEADER FILES
+//**********************************************************
+#include <iostream.h>
+#include <fstream.h>
+#include <process.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <dos.h>
+#include <time.h>
+# include <iomanip.h>
+#include<graphics.h>
+//**********************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS IN THE MENU
+//**********************************************************
+class MENU
+{
+public :
+void main_menu(void) ;
+} ;
+//**********************************************************
+// THIS CLASS CONTAINS FUNCTIONS RELATED TO BOOKS
+//**********************************************************
+class user
+{
+public :
+void list(void) ;
+protected :
+void add_new_user(int, char tuserno[15], int, int) ;
+int username_found(char []) ;
+int recordno(int) ;
+int reccount(void) ;
+void delete_rec(int) ;
+int tno;
+char userno[15];
+int hh,mm;
+} ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+class WORKING : public user
+{
+public :
+void returnuser(void) ;
+void add_user(void) ;
+} ;
+//**********************************************************
+// THIS CLASS CONTAINS FUNCTIONS RELATED TIME & FINE
+//**********************************************************
+struct mytime{
+int hr;
+int min;
+};
+mytime t1,t2;
+//**********************************************************
+// THIS FUNCTION RETURN THE DIFFERENCE BETWEEN TWO GIVEN
+// TIMES
+//**********************************************************
+//**********************************************************
+// FUNCTION TO DISPLAY MAIN MENU & CONTROL ALL THE FUNCTION
+// IN THE MAIN MENU.
+//**********************************************************
+void MENU :: main_menu(void)
+{
+char ch ;
+while (1)
+{
+clrscr() ;
+gotoxy(24,6) ;
+cout <<"A L O K C Y B E R C A F E " ;
+gotoxy(24,7) ;
+cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ;
+gotoxy(30,11) ;
+cout <<"1. USER REGISTER" ;
+gotoxy(30,13) ;
+cout <<"2. USER BILLING" ;
+gotoxy(30,15) ;
+cout <<"3. USER LIST" ;
+gotoxy(30,17) ;
+cout <<"0. QUIT" ;
+gotoxy(30,20) ;
+cout <<"Enter your choice : " ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+ch = getche() ;
+if (ch == 27)
+break ;
+else
+if (ch == '1')
+{
+WORKING W ;
+W.add_user() ;
+}
+else
+if (ch == '2')
+{
+WORKING W ;
+W.returnuser() ;
+}
+else
+if (ch == '3')
+{
+user C ;
+C.list() ;
+}
+else
+if (ch == '0'){gotoxy(20,23);
+cout<<"Thanks for using the programme!!!";
+gotoxy(20,25);
+delay(4000);
+cout<<"Leaving..........";
+delay(2000);
+break ;
+}
+}
+}
+int user :: username_found(char t1code[15])
+{
+fstream file ;
+file.open("user.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+int found=0 ;
+while (file.read((char *) this, sizeof(user)))
+{
+if (!strcmpi(userno,t1code))
+{
+found = tno ;
+break ;
+}
+}
+file.close() ;
+return found ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+int user :: recordno(int tcode)
+{
+fstream file ;
+file.open("user.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+int count=0 ;
+while (file.read((char *) this, sizeof(user)))
+{
+count++ ;
+if (tno == tcode)
+break ;
+}
+file.close() ;
+return count ;
+}
+int user :: reccount(void)
+{
+fstream file ;
+file.open("user.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+int count=0 ;
+while (file.read((char *) this, sizeof(user)))
+count++ ;
+file.close() ;
+return count ;
+}
+void user :: delete_rec(int tcode)
+{
+fstream file ;
+file.open("user.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+file.seekg(0,ios::beg) ;
+while ( !file.eof() )
+{
+file.read((char *) this, sizeof(user)) ;
+if ( file.eof() )
+break ;
+if ( tno != tcode )
+temp.write((char *) this, sizeof(user)) ;
+}
+file.close() ;
+temp.close() ;
+file.open("user.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+temp.seekg(0,ios::beg) ;
+while ( !temp.eof() )
+{
+temp.read((char *) this, sizeof(user)) ;
+if ( temp.eof() )
+break ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+file.write((char *) this, sizeof(user)) ;
+}
+file.close() ;
+temp.close() ;
+}
+void user :: add_new_user(int tcode,char tuserno[15], int thh, int tmm)
+{
+fstream file ;
+file.open("user.DAT", ios::app) ;
+tno = tcode ;
+strcpy(userno,tuserno) ;
+hh=thh;
+mm=tmm;
+file.write((char *) this, sizeof(user)) ;
+file.close() ;
+}
+//**********************************************************
+// THIS FUNCTION DISPLAY THE LIST OF USERS.
+//**********************************************************
+void user :: list(void)
+{
+clrscr() ;
+int row = 6 , found=0, flag=0 ;
+char ch ;
+gotoxy(20,2) ;
+cout <<"LIST OF USERS" ;
+gotoxy(20,3) ;
+cout <<"~~~~~~~~~~~" ;
+gotoxy(1,4) ;
+cout <<"Token No. USER NO SITTING TIME ";
+gotoxy(1,5) ;
+cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+fstream file ;
+file.open("user.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+while (file.read((char *) this, sizeof(user)))
+{
+flag = 0 ;
+delay(20) ;
+found = 1 ;
+gotoxy(5,row) ;
+cout <<tno ;
+gotoxy(17,row) ;
+cout <<userno ;
+gotoxy(35,row) ;
+cout<<hh<<":"<<mm;
+if ( row == 22 )
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+{
+flag = 1 ;
+row = 6 ;
+gotoxy(1,25) ;
+cout <<"Press any key to continue or Press <ESC> to exit" ;
+ch = getch() ;
+if (ch == 27)
+break ;
+clrscr() ;
+gotoxy(33,2) ;
+cout <<"LIST OF USER" ;
+gotoxy(32,3) ;
+cout <<"~~~~~~~~~~~~~~~" ;
+gotoxy(1,4) ;
+cout <<"Token No. USER NO USING TIME ";
+gotoxy(1,5) ;
+cout <<"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ;
+}
+else
+row = row + 1 ;
+}
+if (!found)
+{
+gotoxy(5,10) ;
+cout <<"\7Records not found" ;
+}
+if (!flag)
+{
+gotoxy(1,25) ;
+cout <<"Press any key to continue..." ;
+getche() ;
+}
+file.close () ;
+};
+void WORKING :: add_user(void)
+{
+if (!reccount()) // MEMBER FUNCTION OF user
+{
+add_new_user(0,"null",0,0) ;
+user::delete_rec(0) ;
+};
+clrscr();
+struct time t;
+int m1,m2;
+gettime(&t);
+t1.min = t.ti_min ;
+t1.hr = t.ti_hour;
+m1=t1.min;
+m2=t1.hr;
+gotoxy(55,2) ;
+cout <<"time : " <<t1.hr<<":" <<t1.min;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+char ch ;
+int tcode ;
+char tname[15];
+do
+{
+int valid=0 ;
+int tc,r ;
+int rec;
+char t[20], t1[10] ;
+gotoxy(29,3) ;
+cout <<"Registration of user" ;
+gotoxy(29,4) ;
+cout <<"~~~~~~~~~~~~~~~~~~~" ;
+gotoxy(72,1) ;
+cout <<"<0>=Exit" ;
+gotoxy(5,5) ;
+cout <<"Token No. " ;
+rec=reccount();
+r=rec+1;
+tc = r ;
+tcode = tc ;
+gotoxy(15,5);
+cout<<"User No."<<tcode;
+valid = 0 ;
+while (!valid )
+{
+valid = 1 ;
+gotoxy(5,8) ; clreol() ;
+cout <<"Computer No.";
+gotoxy(19,8) ; clreol() ;
+gets(tname) ;
+strupr(tname) ;
+if (tname[0] == '0')
+return ;
+if (strlen(tname) < 1 || strlen(tname) > 14)
+{
+valid = 0 ;
+gotoxy(5,22) ; clreol() ;
+cout <<"\7Enter correctly (Range: 1..14)" ;
+getch() ;
+}
+if(username_found(tname))
+{
+cout<<"The user already exists in the using";
+getch();
+return;
+}
+}
+do
+{
+gotoxy(5,15) ; clreol() ;
+cout <<"Do you want to save (y/n) : " ;
+ch = getche() ;
+ch = toupper(ch) ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+} while (ch != 'Y' && ch != 'N') ;
+if (ch == 'Y')
+{
+add_new_user(tcode,tname,m2,m1) ;
+}
+do
+{
+gotoxy(5,17) ; clreol() ;
+cout <<"Do you want to add more (y/n) : " ;
+ch = getche() ;
+ch = toupper(ch) ;
+} while (ch != 'Y' && ch != 'N') ;
+}
+while (ch == 'Y') ;
+};
+//**********************************************************
+// THIS FUNCTION RETURNS THE USER
+//**********************************************************
+void WORKING :: returnuser(void)
+{
+user C;
+char* t1code;
+char ch ;
+int t2code=0, mcode=0, valid ;
+struct time t;
+gettime(&t);
+t2.hr= t.ti_hour ;
+t2.min= t.ti_min ;
+do
+{
+valid = 1 ;
+while (1)
+{
+clrscr() ;
+gotoxy(72,1) ;
+cout <<"<0>=Exit" ;
+gotoxy(5,2) ;
+cout <<"time : " <<t2.hr <<":" <<t2.min;
+gotoxy(5,7) ;
+cout <<"Enter user No. " ;
+gotoxy(5,8) ;
+cout <<" or " ;
+gotoxy(5,9) ;
+cout <<"Press <ENTER> for help " ;
+gets(t1code) ;
+if (t1code[0] == '0')
+return ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+if (strlen(t1code) == 0)
+C.list() ;
+else
+break ;
+}
+t2code = username_found(t1code) ;
+mcode = t2code ;
+if (mcode == 0)
+{
+valid = 0 ;
+gotoxy(5,25) ;
+cout <<"\7Enter Correctly" ;
+getch() ;
+}
+if (mcode<1 && valid)
+{
+valid = 0 ;
+gotoxy(5,13) ;
+cout <<"\7Record not found" ;
+gotoxy(5,14) ;
+cout <<"Press <ESC> to exit or any other key to continue..." ;
+ch = getch() ;
+if (ch == 27)
+return ;
+}
+} while (!valid) ;
+gotoxy(5,12) ;
+cout <<"Token No : " <<tno ;
+gotoxy(5,13) ;
+cout <<"user No : " <<userno ;
+gotoxy(5,14) ;
+cout <<"Current Time:- "<<t2.hr<<":"<<t2.min<<"\n";
+cout <<"Sitting Time:- "<<t1.hr<<":"<<t1.min<<"\n";
+int f,x ;
+f =((t2.hr-t1.hr)*60+(t2.min-t1.min));
+if((f>0)&&(f<30))
+x=15;
+else if((f>30)&&(f<60))
+x=20;
+else{
+x=50;
+};
+delete_rec(mcode);
+if (f != 0)
+{
+gotoxy(5,16) ;
+cout <<"You have to pay a using Charge : Rs." <<x ;
+gotoxy(5,17) ;
+cout <<"Thanking You." ;
+}
+gotoxy(5,19) ;
+cout <<"\7user has been returned" ;
+getch() ;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+}
+int GraphDriver; /* The Graphics device driver */
+int GraphMode; /* The Graphics mode value */
+double AspectRatio; /* Aspect ratio of a pixel on the screen*/
+int MaxX, MaxY; /* The maximum resolution of the screen */
+int MaxColors; /* The maximum # of colors available */
+int ErrorCode; /* Reports any graphics errors */
+struct palettetype palette; /* Used to read palette info */
+// Function prototypes
+char menu();
+mainscreen(); // Main screen
+logo(); // Authors menu
+void security();
+void operate();
+void Initialize(void); // Initialize the graphics mode
+void MainWindow(char *header); // Display messages
+void StatusLine(char *msg); // Display prompt message
+void DrawBorder(void); // Drawing window in screen
+// Changing the text style using function
+void changetextstyle(int font, int direction, int charsize);
+//**********************************************************
+// MAIN FUNCTION CALLING INTRODUCTION AND MAIN MENU
+//**********************************************************
+void main(void)
+{
+clrscr() ;
+char choice;
+int gm = DETECT, gd = CGA;
+// Initialise the graphics system for using graphics
+initgraph (&gd, &gm, "");
+mainscreen();
+closegraph(); // Close the graphics mode
+initgraph (&gd, &gm, "");
+logo();
+closegraph();
+security();
+MENU menu ;
+menu.main_menu() ;
+}
+/* The main function body of main screen which displays the main screen
+creating the opening screen display */
+mainscreen()
+{
+int maxx, maxy, in, area;
+void *l;
+// Get maximum x, y coordinates of the screen
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+maxx = getmaxx();
+maxy = getmaxy();
+// setbkcolor sets the current background color using the palette
+setbkcolor(5);
+// Draws a rectangle (graphics mode)
+rectangle(0, 0, maxx, maxy);
+// Finds area to fix the image in memory screen
+area = imagesize(0, 0, 637, 177);
+// Display the contents of allocated memory on the screen
+putimage(1, 11, l, COPY_PUT);
+// Sets the line style and text justification in screen
+settextstyle(1, HORIZ_DIR, 0);
+// Displaying the output text on main screen
+outtextxy(100, 20," G.I.S");
+outtextxy(70,60," CYBER ");
+outtextxy(90,100,"CAFE");
+settextstyle(7, HORIZ_DIR, 1);
+outtextxy(20, 150, "Press any key to continue...");
+getch();
+// Clear the viewport area
+clearviewport();
+}
+// Function to display the introduction about the author
+logo()
+{
+int maxx, maxy, in, area;
+void *l;
+// Get maximum x, y coordinates of the screen
+maxx = getmaxx();
+maxy = getmaxy();
+// setbkcolor sets the current background color using the palette
+setbkcolor(6);
+// Draws a rectangle (graphics mode)
+rectangle(0, 0, maxx, maxy);
+// Finds area to fix the image in memory screen
+area = imagesize(0, 0, 637, 177);
+// Display the contents of allocated memory on the screen
+putimage(1, 11, l, COPY_PUT);
+// Sets the line style and text justification in screen
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+settextstyle(3, HORIZ_DIR, 2);
+textcolor(WHITE);
+// Displaying the output text on main screen
+outtextxy(30, 20, "The Cyber Cafe");
+outtextxy(60,70,"G.I.S");
+outtextxy(60,90,"BY Alok Dhari Singh");
+settextstyle(7, HORIZ_DIR, 1);
+outtextxy(20, 150, "Press any key to continue...");
+getch();
+// Clear the viewport area
+clearviewport();
+}
+/* */
+/* INITIALIZE: Initializes the graphics system and reports */
+/* any errors which occured. */
+/* */
+void Initialize(void)
+{
+int xasp, yasp; /* Used to read the aspect ratio*/
+GraphDriver = DETECT; /* Request auto-detection */
+initgraph( &GraphDriver, &GraphMode, "" );
+ErrorCode = graphresult(); /* Read result of initialization*/
+if( ErrorCode != grOk )
+{ /* Error occured during init */
+printf(" Graphics System Error: %s\n", grapherrormsg( ErrorCode ) );
+exit( 1 );
+}
+getpalette( &palette ); /* Read the palette from board */
+MaxColors = getmaxcolor() + 1; /* Read maximum number of colors*/
+MaxX = getmaxx();
+MaxY = getmaxy(); /* Read size of screen */
+getaspectratio( &xasp, &yasp ); /* Read the hardware aspect */
+AspectRatio = (double)xasp / (double)yasp; /* Get correction factor */
+}
+/* */
+/* SAYGOODBYE: Give a closing screen to the user before leaving. */
+/* */
+void SayGoodbye(void)
+{
+struct viewporttype viewinfo; /* Structure to read viewport */
+int h, w;
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+MainWindow( "== Session End ==" );
+getviewsettings( &viewinfo ); /* Read viewport settings */
+changetextstyle( TRIPLEX_FONT, HORIZ_DIR, 3 );
+settextjustify( CENTER_TEXT, CENTER_TEXT );
+h = viewinfo.bottom - viewinfo.top;
+w = viewinfo.right - viewinfo.left;
+outtextxy( w/2, h/2, "Come Again and have a nice day...." );
+StatusLine( "Press any key to log out...." );
+getch();
+cleardevice(); /* Clear the graphics screen */
+}
+/* */
+/* MAINWINDOW: Establish the main window for the demo and set */
+/* a viewport for the demo code. */
+/* */
+void MainWindow( char *header )
+{
+int height;
+cleardevice(); /* Clear graphics screen */
+setcolor( MaxColors - 1 ); /* Set current color to white */
+setviewport( 0, 0, MaxX, MaxY, 1 ); /* Open port to full screen */
+height = textheight( "H" ); /* Get basic text height */
+changetextstyle( DEFAULT_FONT, HORIZ_DIR, 1 );
+settextjustify( CENTER_TEXT, TOP_TEXT );
+outtextxy( MaxX/2, 2, header );
+setviewport( 0, height+4, MaxX, MaxY-(height+4), 1 );
+DrawBorder();
+setviewport( 1, height+5, MaxX-1, MaxY-(height+5), 1 );
+}
+/* */
+/* STATUSLINE: Display a status line at the bottom of the screen. */
+/* */
+void StatusLine( char *msg )
+{
+int height;
+setviewport( 0, 0, MaxX, MaxY, 1 ); /* Open port to full screen */
+setcolor( MaxColors - 1 ); /* Set current color to white */
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+changetextstyle( DEFAULT_FONT, HORIZ_DIR, 1 );
+settextjustify( CENTER_TEXT, TOP_TEXT );
+setlinestyle( SOLID_LINE, 0, NORM_WIDTH );
+setfillstyle( EMPTY_FILL, 0 );
+height = textheight( "H" ); /* Detemine current height */
+bar( 0, MaxY-(height+4), MaxX, MaxY );
+rectangle( 0, MaxY-(height+4), MaxX, MaxY );
+outtextxy( MaxX/2, MaxY-(height+2), msg );
+setviewport( 1, height+5, MaxX-1, MaxY-(height+5), 1 );
+}
+/* */
+/* DRAWBORDER: Draw a solid single line around the current */
+/* viewport. */
+/* */
+void DrawBorder(void)
+{
+struct viewporttype vp;
+setcolor( MaxColors - 1 ); /* Set current color to white */
+setlinestyle( SOLID_LINE, 0, NORM_WIDTH );
+getviewsettings( &vp );
+rectangle( 0, 0, vp.right-vp.left, vp.bottom-vp.top );
+}
+/* */
+/* CHANGETEXTSTYLE: similar to settextstyle, but checks for */
+/* errors that might occur whil loading the font file. */
+/* */
+void changetextstyle(int font, int direction, int charsize)
+{
+int ErrorCode;
+graphresult(); /*Clear error code */
+settextstyle(font, direction, charsize);
+ErrorCode = graphresult(); /* Check result */
+if ( ErrorCode != grOk )
+{ /* If error occured */
+closegraph();
+printf(" Graphics System Error: %s\n", grapherrormsg( ErrorCode ) );
+exit( 1 );
+}
+}
+void security(void)
+{
+file:///C/......Prateek/....Prateek/New%20folder/cyber.txt[18-07-2016 19:55:09]
+clrscr();
+char pass[20];
+char username[20];
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(20,12);
+cout<<"USER NAME : ";
+gets(username);
+if(!(strcmp(username,"Alok"))||!(strcmp(username,"Alok")))
+{
+for(int i=0;i<5;i++)
+{
+gotoxy(1,20);
+clreol();
+gotoxy(1,22);
+clreol();
+gotoxy(20,14);
+clreol();
+cout<<"ENTER USER PASSWORD : ";
+gets(pass);
+if((strcmp(pass,"Alok"))&&(strcmp(pass,"Alok")))
+{
+if(i<3)
+{
+gotoxy(15,20);
+cout<<" INCORRECT PASSWORD !!! TRY AGAIN !!!";
+getch();
+}
+if(i==3)
+{
+gotoxy(25,20);
+cout<<" INCORRECT PASSWORD !!!";
+gotoxy(15,22);
+cout<<"TRY AGAIN !!! BUT THIS IS YOUR LAST CHANCE!!!" ;
+getch();
+}
+if(i==4)
+{
+exit(0);
+}
+}
+}
+}
+}

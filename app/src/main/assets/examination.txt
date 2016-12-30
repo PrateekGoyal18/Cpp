@@ -1,0 +1,2160 @@
+#include <iostream.h>
+#include <fstream.h>
+#include <process.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <dos.h>
+struct s_date
+{
+int dd,mm,yy;
+};
+class student
+{
+public:
+void add_student(int, char s_name[], char s_address[], char s_fname[], s_date s_dob, char s_class[]);
+void display_student(void);
+int autogen_stuno(void);
+int retu_stuno(int);
+void get_student(void);
+void delete_student(int);
+void modify_student(int, char s_name[], char s_address[], char s_fname[]);
+void mod_new(void);
+int found_student(int);
+char clas[4];
+char name[30];
+private:
+int redgno;
+char address[30], f_name[30];
+s_date dob;
+};
+class marks
+{
+int redgno, sub1,sub2,sub3,sub4,sub5, total;
+char division[10], st_code[3];
+float per;
+public:
+void read_marks();
+void show_marks(int);
+void delete_marks(int);
+void display_marks();
+void modify_marks(int t_redg, int m1, int m2, int m3, int m4, int m5, int tot, char div[]);
+void mod_marks();
+int found_marks(int);
+};
+class menu
+{
+public:
+void main_menu();
+void stud_menu();
+void mark_menu();
+void password(void);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+void line_hor(int , int , int , char );
+void line_ver(int , int , int , char );
+void box_fill(int , int , int , int , char );
+};
+void menu :: line_hor(int column1, int column2, int row, char c)
+{
+for ( column1; column1<=column2; column1++ )
+{
+gotoxy(column1,row) ;
+cout <<c ;
+}
+}
+void menu :: line_ver(int row1, int row2, int column, char c)
+{
+for ( row1; row1<=row2; row1++ )
+{
+gotoxy(column,row1) ;
+cout <<c ;
+}
+}
+void menu::box_fill(int column1, int row1, int column2, int row2, char c)
+{
+char ch=218 ;
+char c1, c2, c3, c4 ;
+char l1=196, l2=179 ;
+if (c == ch)
+{
+c1=218 ;
+c2=191 ;
+c3=192 ;
+c4=217 ;
+l1 = 196 ;
+l2 = 179 ;
+}
+else
+{
+c1=c ;
+c2=c ;
+c3=c ;
+c4=c ;
+l1 = c ;
+l2 = c ;
+}
+gotoxy(column1,row1) ;
+cout <<c1 ;
+gotoxy(column2,row1) ;
+cout <<c2 ;
+gotoxy(column1,row2) ;
+cout <<c3 ;
+gotoxy(column2,row2) ;
+cout <<c4 ;
+column1++ ;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+column2-- ;
+line_hor(column1,column2,row1,l1) ;
+line_hor(column1,column2,row2,l1) ;
+column1-- ;
+column2++ ;
+row1++ ;
+row2-- ;
+line_ver(row1,row2,column1,l2) ;
+line_ver(row1,row2,column2,l2) ;
+}
+void menu::password(void)
+{
+menu m;
+char *pass,ch;
+int flag=0;
+for(int k=0;k<3;k++)
+{
+clrscr();
+box_fill(20,10,55,14,219);
+gotoxy(25,12);
+pass=getpass("Enter Password : ");
+if((strcmp(strlwr(pass),"kk")==0))
+{
+flag=1;
+break;
+}
+else
+{
+gotoxy(30,25);
+textbackground(BLUE);
+textcolor(WHITE+BLINK);
+cout<<" Try Your Password Again\a ";
+delay(1000);
+textbackground(BLACK);
+textcolor(WHITE);
+//gotoxy(40,12);
+//clreol();
+continue;
+}
+}
+if(flag==0)
+{
+char mess[]={"To become authorise user please contact AAKASH or AJAY(XII)"};
+char mess2[]={" Ganga International school"};
+clrscr();
+for(int i=15,j=0;mess[j]!='\0';j++,i++)
+{
+gotoxy(i,3);
+delay(40);
+cout<<mess[j];
+}
+for(i=20,j=0;mess2[j]!='\0';j++,i++)
+{
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(i,5);
+delay(40);
+cout<<mess2[j];
+}
+delay(1000);
+box_fill(20,10,55,14,219);
+gotoxy(28,12);
+cout<<" Have a nice day ";
+gotoxy(30,14);
+textbackground(YELLOW);
+textcolor(BLUE+BLINK);
+cout<<" Good Bye.....!! ";
+textbackground(BLACK);
+textcolor(WHITE);
+delay(3000);
+}
+else
+m.main_menu();
+}
+int student::retu_stuno(int t_redg)
+{
+fstream efile;
+efile.open("STUD.DAT",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+int en=0;
+while(efile.read((char *)this,sizeof(student)))
+{
+if(t_redg==redgno)
+{
+en=1;
+break;
+}
+}
+efile.close();
+return en;
+}
+int student::autogen_stuno(void)
+{
+fstream efile;
+efile.open("STUD.DAT",ios::in|ios::binary);
+efile.seekg(0,ios::beg);
+int count=0;
+while(efile.read((char *)this,sizeof(student)))
+count=redgno;
+efile.close();
+return count;
+}
+void student::get_student(void)
+{
+menu m;
+char ch,t_name[30],t_address[30],t_fname[30];
+s_date t_dob;
+char t_class[4];
+int treg;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+do
+{
+clrscr();
+m.box_fill(1,1,79,24,219);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(25,5);
+cout<<" Student Data Entry Form ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(25,6);
+cout<<"*****************************";
+treg=autogen_stuno()+1;
+gotoxy(20,8);
+cout<<"Student Reg. No. ";
+gotoxy(35,8);
+cout<<":";
+gotoxy(40,8);
+cout<<treg;
+while(1)
+{
+int fl=0;
+gotoxy(20,10);
+cout<<"Name ";
+gotoxy(35,10);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Name as Characters only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,10);
+gets(t_name);
+strupr(t_name);
+if(strlen(t_name)==0)
+fl=1;
+for(int i=0;t_name[i]!='\0';i++)
+{
+if(t_name[i]>='0'&&t_name[i]<='9')
+{
+fl=1;
+break;
+}
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entey, Enter Again \a";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,10);
+delay(1000);
+clreol();
+m.box_fill(1,1,79,24,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,12);
+cout<<"Address ";
+gotoxy(35,12);
+cout<<":";
+gotoxy(15,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Address (upto 30 Characters only) ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,12);
+gets(t_address);
+strupr(t_address);
+int len=strlen(t_address);
+if(len==0)
+fl=1;
+else
+{
+int di=0;
+for(int i=0;t_address[i]!='\0';i++)
+{
+if(t_address[i]>='0'&&t_address[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invaild Entry, Enter Again....!! \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,12);
+clreol();
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+delay(1000);
+m.box_fill(1,1,79,24,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,14);
+cout<<"Father's Name ";
+gotoxy(35,14);
+cout<<":";
+gotoxy(40,14);
+cout<<"Mr.";
+gotoxy(15,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Father's Name as Characters only) ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(44,14);
+gets(t_fname);
+strupr(t_fname);
+int len=strlen(t_fname);
+if(len==0)
+fl=1;
+else
+{
+int di=0;
+for(int i=0;t_fname[i]!='\0';i++)
+{
+if(t_fname[i]>='0'&&t_fname[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invaild Entry, Enter Again....!! \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,14);
+clreol();
+delay(1000);
+m.box_fill(1,1,79,24,219);
+continue;
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,16);
+cout<<"Class";
+gotoxy(35,16);
+cout<<":";
+gotoxy(15,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<"Enter Student's Class as Roman Number only(e.g. I,II,IX,XII) ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,16);
+gets(t_class);
+strupr(t_class);
+int len=strlen(t_class);
+if(len==0||len>3)
+fl=1;
+else
+{
+int di=0;
+for(int i=0;t_class[i]!='\0';i++)
+{
+if(t_class[i]>='0'&&t_class[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invaild Entry, Enter Again....!! \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,16);
+clreol();
+delay(1000);
+m.box_fill(1,1,79,24,219);
+continue;
+}
+else
+break;
+}
+while(1)
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+{
+int fl=0;
+gotoxy(20,18);
+cout<<"Date of Birth";
+gotoxy(35,18);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Date of Birth as dd/mm/yyyy ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,18);
+cin>>t_dob.dd;
+gotoxy(42,18);
+cout<<"/";
+gotoxy(43,18);
+cin>>t_dob.mm;
+gotoxy(45,18);
+cout<<"/";
+gotoxy(46,18);
+cin>>t_dob.yy;
+if((t_dob.mm>=1)&&(t_dob.mm<=12))
+{
+if((t_dob.dd>=1)&&(t_dob.dd<=31))
+fl=0;
+else
+fl=1;
+}
+else
+fl=1;
+if(!(t_dob.yy>=1950 && t_dob.yy<=2000))
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Date Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,18);
+delay(1000);
+clreol();
+m.box_fill(1,1,79,24,219);
+continue;
+}
+else
+break;
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(10,25);
+clreol();
+char wish='y';
+gotoxy(20,22);
+cout<<" Do You Want to Save this Record : \t";
+wish=getch();
+if(wish=='y'||wish=='Y')
+add_student(treg,t_name,t_address,t_fname,t_dob,t_class);
+gotoxy(10,24);
+cout<<" Want More Records ?: ";
+ch=getch();
+}while(ch=='y'||ch=='Y');
+}
+void student:: add_student(int t_redg, char s_name[], char s_address[], char s_fname[], s_date s_dob, char s_class[])
+{
+redgno=t_redg;
+strcpy(name,s_name);
+strcpy(address, s_address);
+strcpy(f_name, s_fname);
+strcpy(clas,s_class);
+dob=s_dob;
+fstream sfile;
+sfile.open("STUD.DAT", ios::out|ios::app|ios::binary);
+if(!sfile)
+{
+cout<<"File cannot open...\a";
+getch();
+exit(1);
+}
+sfile.write((char *)this,sizeof(student));
+sfile.close();
+}
+int student::found_student(int t_redg)
+{
+fstream sfile;
+sfile.open("STUD.DAT",ios::in|ios::binary);
+sfile.seekg(0,ios::beg);
+int count=0;
+while(sfile.read((char*)this, sizeof(student)))
+{
+if(t_redg==redgno)
+{
+count=redgno;
+break;
+}
+}
+sfile.close();
+return count;
+}
+void student::mod_new(void)
+{
+menu m;
+int t_redg, flag=0;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+char t_name[30], t_address[30], t_class[4];
+clrscr();
+m.box_fill(15,8,65,12,219);
+gotoxy(20,10);
+cout<<"Enter Student Registration Number :\t";
+cin>>t_redg;
+fstream sfile;
+sfile.open("STUD.DAT", ios ::in|ios::binary);
+sfile.seekg(0,ios::beg);
+while(sfile.read((char*)this,sizeof(student)))
+{
+if(t_redg==redgno)
+{
+clrscr();
+m.box_fill(20,5,65,18,219);
+gotoxy(35,5);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+cout<<" Current Data ";
+textcolor(WHITE);
+textbackground(BLACK);
+gotoxy(30,8);
+cout<<"Name is ";
+gotoxy(40,8);
+cout<<":";
+gotoxy(45,8);
+cout<<name;
+gotoxy(30,11);
+cout<<"Address is ";
+gotoxy(40,11);
+cout<<":";
+gotoxy(45,11);
+cout<<address;
+gotoxy(30,14);
+cout<<"Class is ";
+gotoxy(40,14);
+cout<<":";
+gotoxy(45,14);
+cout<<clas;
+flag=1;
+getch();
+clrscr();
+m.box_fill(14,5,65,18,219);
+gotoxy(30,5);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+cout<<(" Enter New Data ");
+textcolor(WHITE);
+textbackground(BLACK);
+while(1)
+{
+int fl=0;
+gotoxy(25,8);
+cout<<"Name";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(38,8);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Name as Characters only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,8);
+gets(t_name);
+strupr(t_name);
+if(strlen(t_name)==0)
+{
+gotoxy(45,8);
+cout<<name;
+strcpy(t_name,name);
+}
+for(int i=0;t_name[i]!='\0';i++)
+{
+if(t_name[i]>='0'&&t_name[i]<='9')
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entey, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,8);
+delay(1000);
+clreol();
+m.box_fill(14,5,65,18,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(25,10);
+cout<<"Address";
+gotoxy(38,10);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Address (upto 30 Characters only) ";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,10);
+gets(t_address);
+strupr(t_address);
+int len=strlen(t_address);
+if(len==0)
+{
+gotoxy(45,10);
+cout<<address;
+strcpy(t_address,address);
+}
+else
+{
+int di=0;
+for(int i=0;t_address[i]!='\0';i++)
+{
+if(t_address[i]>='0'&&t_address[i]<='9')
+di++;
+}
+if(di==i)
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invaild Entry, Enter Again....!! \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,10);
+clreol();
+delay(1000);
+m.box_fill(14,5,65,18,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(25,12);
+cout<<"Class";
+gotoxy(38,12);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Student's Class as Roman Numbers(e.g. I,VI,IX,XII) only ";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+gets(t_class);
+strupr(t_class);
+if(strlen(t_class)==0)
+{
+gotoxy(45,12);
+cout<<clas;
+strcpy(t_class,clas);
+}
+if(strlen(t_class)>3)
+fl=1;
+for(int i=0;t_class[i]!='\0';i++)
+{
+if(t_class[i]>='0'&&t_class[i]<='9')
+fl=1;
+}
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(40,12);
+delay(1000);
+clreol();
+m.box_fill(14,5,65,18,219);
+continue;
+}
+else
+break;
+}
+gotoxy(10,25);
+textbackground(BLACK);
+textcolor(WHITE);
+clreol();
+}
+}
+sfile.close();
+if(flag==1)
+{
+gotoxy(30,23);
+cout<<"Recourd modified ";
+modify_student(t_redg, t_name, t_address, t_class);
+}
+else
+{
+gotoxy(30,14);
+cout<<"Record not modified";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+}
+gotoxy(30,25);
+cout<<"Press any key to continue......";
+getch();
+}
+void student::modify_student(int t_redg,char t_name[], char t_address[], char t_class[])
+{
+int find_rec;
+find_rec=found_student(t_redg);
+fstream sfile;
+sfile.open("STUD.DAT",ios::out|ios::ate|ios::binary);
+strcpy(name, t_name);
+strcpy(address, t_address);
+strcpy(clas, t_class);
+int location;
+location=(find_rec-1)*sizeof(student);
+sfile.seekp(location);
+sfile.write((char*)this, sizeof(student));
+sfile.close();
+return;
+}
+void student::delete_student(int t_redg)
+{
+fstream sfile;
+marks m1;
+sfile.open("STUD.DAT",ios::in|ios::binary);
+fstream temp;
+temp.open("TEMP.DAT",ios::out|ios::binary);
+sfile.seekg(0,ios::beg);
+while(!sfile.eof())
+{
+sfile.read((char *)this, sizeof(student));
+if(sfile.eof())
+break;
+if(redgno!=t_redg)
+temp.write((char*)this,sizeof(student));
+}
+sfile.close();
+temp.close();
+sfile.open("STUD.DAT",ios::out|ios::binary);
+temp.open("TEMP.DAT",ios::in|ios::binary);
+temp.seekg(0,ios::beg);
+while(!temp.eof())
+{
+temp.read((char*)this,sizeof(student));
+if(temp.eof())
+break;
+if(redgno!=t_redg)
+sfile.write((char*)this,sizeof(student));
+}
+sfile.close();
+temp.close();
+m1.delete_marks(t_redg);
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+void student::display_student(void)
+{
+menu m;
+clrscr();
+int flag;
+fstream sfile;
+m.box_fill(1,1,79,24,219);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(25,2);
+cout<<" Students Registration List ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(25,3);
+cout<<"컴컴컴컴컴컴컴컴컴컴컴컴컴�";
+int d1,m1,y1;
+struct date d;
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+gotoxy(62,3);
+cout<<"Date :"<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(2,4);
+for (int j=2;j<=78;j++)
+cout<<"�";
+gotoxy(2,5);
+cout<<"Redg #";
+gotoxy(10,5);
+cout<<"Name :";
+gotoxy(25,5);
+cout<<"Address";
+gotoxy(45,5);
+cout<<"Father's Name";
+gotoxy(60,5);
+cout<<"DOB";
+gotoxy(70,5);
+cout<<"Class";
+gotoxy(2,6);
+for(j=2;j<=78;j++)
+cout<<"�";
+sfile.open("STUD.DAT",ios::in|ios::binary);
+sfile.seekg(0,ios::beg);
+int row=7;
+while(sfile.read((char *)this, sizeof(student)))
+{
+flag=0;
+delay(2);
+gotoxy(3,row);
+cout<<redgno;
+gotoxy(10,row);
+puts(name);
+gotoxy(25,row);
+puts(address);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(45,row);
+puts(f_name);
+gotoxy(60,row);
+cout<<dob.dd<<"/"<<dob.mm<<"/"<<dob.yy;
+gotoxy(70,row);
+puts(clas);
+if(row==23)
+{
+flag=1;
+row=6;
+gotoxy(4,24);
+cout<<"Press any key to continue.....\a";
+getch();
+clrscr();
+}
+row++;
+}
+gotoxy(2,row);
+for(j=2;j<=78;j++)
+cout<<"�";
+sfile.close();
+if(!flag)
+{
+gotoxy(4,24);
+cout<<"Press any key to continue......\a";
+getch();
+}
+}
+void marks::read_marks()
+{
+menu m;
+char *Subject1="English";
+char *Subject2="Mathematics";
+char *Subject3="Chemistry";
+char *Subject4="Physics";
+char *Subject5="Biology/Computer Sc.";
+char *Subject6="History";
+char *Subject7="Political Science";
+char *Subject8="Hindi/Punjabi";
+char *Subject9="Economics";
+char *Subject10="Accounts";
+char *Subject11="Business Studies";
+char *Subject12="Computers";
+student s;
+int tempno, fa=0;
+char ch='Y';
+fstream file;
+do
+{
+clrscr();
+m.box_fill(13,5,65,23,219);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(30,6);
+cout<<" Marks Data Entry Form ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(29,6);
+gotoxy(20,8);
+cout<<"Registration Number";
+gotoxy(40,8);
+cout<<":";
+gotoxy(45,8);
+cin>>tempno;
+file.open("MARKS.DAT",ios::in|ios::binary);
+file.seekg(0,ios::beg);
+while(file.read((char*)this,sizeof(marks)))
+{
+if(redgno==tempno)
+{
+fa=1;
+break;
+}
+}
+file.close();
+if (fa==1)
+{
+gotoxy(30,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cout<<" Already Exist....!!\a ";
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+break;
+}
+int flag=0;
+flag=s.retu_stuno(tempno);
+if(flag==1)
+{
+redgno=tempno;
+while(1)
+{
+int fl=0;
+gotoxy(20,10);
+cout<<"Stream Code";
+gotoxy(40,10);
+cout<<":";
+gotoxy(2,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Stream Code as 'sc' for Science, 'co' for Commerece and 'ar' for Arts ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,10);
+cin>>st_code;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+int len=strlen(st_code);
+if(len==0||len>3)
+fl=1;
+if(fl==1)
+{
+gotoxy(2,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,10);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+gotoxy(2,25);
+clreol();
+break;
+}
+while(1)
+{
+int fl=0;
+gotoxy(20,12);
+cout<<Subject1;
+gotoxy(40,12);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter English Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+cin>>sub1;
+if(sub1<0||sub1>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+delay(1000);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(strlwr(st_code),"sc")==0)
+{
+gotoxy(20,14);
+cout<<Subject2;
+}
+else
+{
+gotoxy(20,14);
+cout<<Subject9;
+}
+gotoxy(40,14);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,14);
+cin>>sub2;
+if(sub2<0||sub2>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,14);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+int fl=0;
+if(strcmp(strlwr(st_code),"sc")==0)
+{
+gotoxy(20,16);
+cout<<Subject4;
+}
+else if(strcmp(strlwr(st_code),"co")==0)
+{
+gotoxy(20,16);
+cout<<Subject10;
+}
+else
+{
+gotoxy(20,16);
+cout<<Subject6;
+}
+gotoxy(40,16);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,16);
+cin>>sub3;
+if(sub3<0||sub3>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,16);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(strlwr(st_code),"sc")==0)
+{
+gotoxy(20,18);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+cout<<Subject3;
+}
+else if(strcmp(strlwr(st_code),"co")==0)
+{
+gotoxy(20,18);
+cout<<Subject11;
+}
+else
+{
+gotoxy(20,18);
+cout<<Subject7;
+}
+gotoxy(40,18);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,18);
+cin>>sub4;
+if(sub4<0||sub4>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,18);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(strlwr(st_code),"sc")==0)
+{
+gotoxy(20,20);
+cout<<Subject5;
+}
+else if(strcmp(strlwr(st_code),"co")==0)
+{
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(20,20);
+cout<<Subject12;
+}
+else
+{
+gotoxy(20,20);
+cout<<Subject8;
+}
+gotoxy(40,20);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,20);
+cin>>sub5;
+if(sub5<0||sub5>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,20);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+total =sub1+sub2+sub3+sub4+sub5;
+per=total/5;
+if (per>=60)
+strcpy(division,"First");
+else
+if ((per<60)&&(per>=50))
+strcpy(division,"Second");
+else
+if ((per<50)&&(per>=33))
+strcpy(division,"Third");
+else
+strcpy(division,"Fail");
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+}
+else
+{
+gotoxy(25,25);
+textbackground(WHITE);
+textcolor(BLACK+BLINK);
+cout<<" Student Reg. Number Doesn't Exist....\a ";
+delay(2000);
+textbackground(BLACK);
+textcolor(WHITE);
+break;
+}
+file.open("MARKS.DAT",ios::out|ios::app|ios::binary);
+file.write((char*)this,sizeof(marks));
+file.close();
+gotoxy(1,25);
+clreol();
+gotoxy(30,25);
+cout<<"Want More Record ?:";
+ch=getch();
+}while(ch=='y'||ch=='Y');
+file.close();
+}
+void marks::display_marks()
+{
+menu m;
+clrscr();
+int flag;
+fstream file;
+m.box_fill(1,1,79,25,219);
+gotoxy(30,2);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+cout<<" Marks List ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(30,3);
+cout<<"컴컴컴컴컴컴컴";
+int d1,m1,y1;
+struct date d;
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+gotoxy(62,3);
+cout<<"Date : "<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(2,4);
+for (int j=2;j<=78;j++)
+cout<<"�";
+gotoxy(3,5);
+cout<<"Redg #";
+gotoxy(9,5);
+cout<<"Subject1";
+gotoxy(20,5);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+cout<<"Subject2";
+gotoxy(31,5);
+cout<<"Subject3";
+gotoxy(42,5);
+cout<<"Subject4";
+gotoxy(53,5);
+cout<<"Subject5";
+gotoxy(63,5);
+cout<<"Total ";
+gotoxy(70,5);
+cout<<"Division ";
+gotoxy(2,6);
+for(j=2;j<=78;j++)
+cout<<"�";
+file.open("MARKS.DAT",ios::in|ios::binary);
+file.seekg(0,ios::beg);
+int row=7;
+while(file.read((char *)this, sizeof(marks)))
+{
+flag=0;
+delay(2);
+gotoxy(3,row);
+cout<<redgno;
+gotoxy(9,row);
+cout<<sub1;
+gotoxy(20,row);
+cout<<sub2;
+gotoxy(31,row);
+cout<<sub3;
+gotoxy(42,row);
+cout<<sub4;
+gotoxy(53,row);
+cout<<sub5;
+gotoxy(64,row);
+cout<<total;
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(70,row);
+cout<<" %s "<<division;
+textbackground(BLACK);
+textcolor(WHITE);
+if(row==23)
+{
+flag=1;
+row=6;
+gotoxy(4,25);
+cout<<"Press any key to continue.....\a";
+getch();
+clrscr();
+}
+row++;
+}
+gotoxy(2,row);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+for(j=2;j<=78;j++)
+cout<<"�";
+file.close();
+if(!flag)
+{
+gotoxy(4,25);
+cout<<" Press any key to continue......\a ";
+getch();
+}
+}
+void marks::show_marks(int t_reg)
+{
+menu m;
+fstream file;
+file.open("MARKS.DAT",ios::in|ios::binary);
+file.seekg(0,ios::beg);
+while(file)
+{
+file.read((char *)this,sizeof(marks));
+if(t_reg==redgno)
+{
+clrscr();
+m.box_fill(15,2,66,24,219);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(32,3);
+cout<<"Ganga International School";
+gotoxy(30,4);
+cout<<" Examination 2004 - 2005 ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(18,6);
+cout<<"Registration Number : "<<redgno;
+gotoxy(18,9);
+cout<<"Stream";
+gotoxy(25,9);
+cout<<":";
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(28,9);
+cout<<"Science Stream";
+}
+if(strcmp(st_code,"co")==0)
+{
+gotoxy(28,9);
+cout<<"Commerce Stream";
+}
+if(strcmp(st_code,"ar")==0)
+{
+gotoxy(28,9);
+cout<<"Arts Stream";
+}
+int d1,m1,y1;
+struct date d;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+getdate(&d);
+d1=d.da_day;
+m1=d.da_mon;
+y1=d.da_year;
+gotoxy(48,9);
+cout<<"Date : "<<d1<<"/"<<m1<<"/"<<y1;
+gotoxy(18,10);
+cout<<"컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴-";
+gotoxy(18,11);
+cout<<"Subject " ;
+gotoxy(42,11);
+cout<<"Maximum ";
+gotoxy(42,12);
+cout<<"Marks ";
+gotoxy(52,11);
+cout<<"Marks ";
+gotoxy(52,12);
+cout<<"Obtained";
+gotoxy(18,13);
+cout<<"컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴-";
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(18,14);
+cout<<"English ";
+gotoxy(39,14);
+cout<<":";
+gotoxy(18,15);
+cout<<"Mathematics";
+gotoxy(39,15);
+cout<<":";
+gotoxy(18,16);
+cout<<"Physics";
+gotoxy(39,16);
+cout<<":";
+gotoxy(18,17);
+cout<<"Chemistry";
+gotoxy(39,17);
+cout<<":";
+gotoxy(18,18);
+cout<<"Biology/Computer Sc.";
+gotoxy(39,18);
+cout<<":";
+}
+if(strcmp(st_code,"co")==0)
+{
+gotoxy(18,14);
+cout<<"Accounts";
+gotoxy(39,14);
+cout<<":";
+gotoxy(18,15);
+cout<<"Business Studies";
+gotoxy(39,15);
+cout<<":";
+gotoxy(18,16);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+cout<<"English";
+gotoxy(39,16);
+cout<<":";
+gotoxy(18,17);
+cout<<"Economics";
+gotoxy(39,17);
+cout<<":";
+gotoxy(18,18);
+cout<<"Computers";
+gotoxy(39,18);
+cout<<":";
+}
+if(strcmp(st_code,"ar")==0)
+{
+gotoxy(18,14);
+cout<<"History";
+gotoxy(39,14);
+cout<<":";
+gotoxy(18,15);
+cout<<"Political Science ";
+gotoxy(39,15);
+cout<<":";
+gotoxy(18,16);
+cout<<"Hindi/Punjabi";
+gotoxy(39,16);
+cout<<":";
+gotoxy(18,17);
+cout<<"English";
+gotoxy(39,17);
+cout<<":";
+gotoxy(18,18);
+cout<<"Economics";
+gotoxy(39,18);
+cout<<":";
+}
+gotoxy(54,14);
+cout<<sub1;
+gotoxy(54,15);
+cout<<sub2;
+gotoxy(54,16);
+cout<<sub3;
+gotoxy(54,17);
+cout<<sub4;
+gotoxy(54,18);
+cout<<sub5;
+int col,row,i,j;
+col=44;
+row=14;
+for(i=0;i<5;i++)
+{
+gotoxy(col,row);
+cout<<"100";
+row++;
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+gotoxy(18,19);
+cout<<"컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴컴-";
+gotoxy(18,20);
+cout<<"Total :";
+gotoxy(44,20);
+cout<<"500";
+gotoxy(54,20);
+cout<<total;
+gotoxy(18,21);
+cout<<"Percentage : ";
+gotoxy(34,21);
+cout<<per;
+cout<<"%";
+gotoxy(18,22);
+cout<<"Division : ";
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(32,22);
+cout<<" %s "<<division;
+textbackground(BLACK);
+textcolor(WHITE);
+fstream afile;
+afile.open("STUD.DAT",ios::in);
+student stud;
+while(afile.read((char *)&stud,sizeof(student)))
+{
+if(stud.found_student(t_reg)!=0)
+{
+gotoxy(18,8);
+cout<<"Class";
+gotoxy(25,8);
+cout<<":";
+gotoxy(28,8);
+cout<<stud.clas;
+gotoxy(18,7);
+cout<<"Name ";
+gotoxy(25,7);
+cout<<":";
+gotoxy(28,7);
+cout<<stud.name;
+}
+}
+afile.close();
+}
+}
+gotoxy(4,25);
+cout<<" Press any key to continue......\a ";
+getch();
+}
+void marks::delete_marks(int t_redg)
+{
+fstream file,temp;
+file.open("MARKS.DAT",ios::in);
+temp.open("TEMP.DAT",ios::out);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+file.seekg(0,ios::beg);
+while(!file.eof())
+{
+file.read((char*)this,sizeof(marks));
+if(file.eof())
+break;
+if(redgno!=t_redg)
+temp.write((char*)this,sizeof(marks));
+}
+file.close();
+temp.close();
+file.open("MARKS.DAT",ios::out);
+temp.open("TEMP.DAT",ios::in);
+temp.seekg(0,ios::beg);
+while(!temp.eof())
+{
+temp.read((char*)this,sizeof(marks));
+if(temp.eof())
+break;
+if(redgno!=t_redg)
+file.write((char*)this,sizeof(marks));
+}
+file.close();
+temp.close();
+}
+int marks:: found_marks(int t_redg)
+{
+fstream file;
+file.open("MARKS.DAT",ios::in);
+file.seekg(0,ios::beg);
+int count=0;
+while(file.read((char*)this,sizeof(marks)))
+{
+count++;
+if(t_redg==redgno)
+break;
+}
+file.close();
+return count;
+}
+void marks::mod_marks(void)
+{
+menu m;
+char *Subject1="English";
+char *Subject2="Mathematics";
+char *Subject3="Chemistry";
+char *Subject4="Physics";
+char *Subject5="Biology/Computer Sc.";
+char *Subject6="History";
+char *Subject7="Political Science";
+char *Subject8="Hindi/Punjabi";
+char *Subject9="Economics";
+char *Subject10="Accounts";
+char *Subject11="Business Studies";
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+char *Subject12="Computers";
+int t_redg,flag=0;
+int m1,m2,m3,m4,m5;
+int tot;
+char div[10];
+float p;
+m.box_fill(15,8,68,12,219);
+gotoxy(20,10);
+cout<<"Enter Student Registration Number :";
+cin>>t_redg;
+fstream sfile;
+sfile.open("MARKS.DAT",ios::in);
+sfile.seekg(0,ios::beg);
+while(sfile.read((char*)this,sizeof(marks)))
+{
+if(t_redg==redgno)
+{
+clrscr();
+m.box_fill(13,5,65,23,219);
+gotoxy(30,6);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+cout<<" MODIFICATION SCREEN ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(20,8);
+cout<<"Current Total is";
+gotoxy(40,8);
+cout<<":";
+gotoxy(45,8);
+cout<<total;
+gotoxy(20,10);
+cout<<"Current Division is";
+gotoxy(40,10);
+cout<<":";
+gotoxy(45,10);
+cout<<division;
+flag=1;
+while(1)
+{
+int fl=0;
+gotoxy(20,12);
+cout<<Subject1;
+gotoxy(40,12);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter English Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+cin>>m1;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+if(m1<0||m1>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,12);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(20,14);
+cout<<Subject2;
+}
+else
+{
+gotoxy(20,14);
+cout<<Subject9;
+}
+gotoxy(40,14);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,14);
+cin>>m2;
+if(m2<0||m2>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,14);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(20,16);
+cout<<Subject4;
+}
+else if(strcmp(st_code,"co")==0)
+{
+gotoxy(20,16);
+cout<<Subject10;
+}
+else
+{
+gotoxy(20,16);
+cout<<Subject6;
+}
+gotoxy(40,16);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,16);
+cin>>m3;
+if(m3<0||m3>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,16);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(20,18);
+cout<<Subject3;
+}
+else if(strcmp(st_code,"co")==0)
+{
+gotoxy(20,18);
+cout<<Subject11;
+}
+else
+{
+gotoxy(20,18);
+cout<<Subject7;
+}
+gotoxy(40,18);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,18);
+cin>>m4;
+if(m4<0||m4>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,18);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+}
+else
+break;
+}
+while(1)
+{
+int fl=0;
+if(strcmp(st_code,"sc")==0)
+{
+gotoxy(20,20);
+cout<<Subject5;
+}
+else if(strcmp(st_code,"co")==0)
+{
+gotoxy(20,20);
+cout<<Subject12;
+}
+else
+{
+gotoxy(20,20);
+cout<<Subject8;
+}
+gotoxy(40,20);
+cout<<":";
+gotoxy(10,25);
+textbackground(WHITE);
+textcolor(BLACK);
+clreol();
+cout<<" Enter Marks as digit between 0 to 100 only ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,20);
+cin>>m5;
+if(m5<0||m5>100)
+fl=1;
+if(fl==1)
+{
+gotoxy(8,25);
+clreol();
+textbackground(WHITE);
+textcolor(BLACK);
+gotoxy(20,25);
+cout<<" Invalid Entry, Enter Again \a";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(45,20);
+delay(1000);
+clreol();
+m.box_fill(13,5,65,23,219);
+continue;
+}
+else
+break;
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+tot=m1+m2+m3+m4+m5;
+p=tot/5;
+if(p>=60)
+strcpy(div,"First");
+else
+if((p<60)&&(p>=50))
+strcpy(div,"Second");
+else
+if((p<50)&&(p>=33))
+strcpy(div,"Third");
+else
+strcpy(div,"Fail");
+break;
+}
+}
+sfile.close();
+if(flag==1)
+{
+gotoxy(2,25);
+clreol();
+gotoxy(20,23);
+cout<<"Record Modified";
+gotoxy(20,25);
+textcolor(WHITE+BLINK);
+cout<<"Press any key to continue....\a";
+textcolor(WHITE);
+modify_marks(t_redg,m1,m2,m3,m4,m5,tot,div);
+getch();
+}
+else
+{
+gotoxy(2,25);
+clreol();
+gotoxy(20,23);
+cout<<"Record Not Modified";
+gotoxy(20,25);
+textcolor(WHITE+BLINK);
+cout<<"Press any key to continue....\a";
+textcolor(WHITE);
+getch();
+}
+}
+void marks::modify_marks(int t_redg, int m1, int m2, int m3, int m4, int m5, int tot, char div[10])
+{
+int find_rec;
+find_rec=found_marks(t_redg);
+fstream sfile;
+sfile.open("MARKS.DAT",ios::out|ios::ate);
+sub1=m1;
+sub2=m2;
+sub3=m3;
+sub4=m4;
+sub5=m5;
+total=tot;
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+strcpy(division,div);
+int location;
+location=(find_rec-1)*sizeof(marks);
+sfile.seekp(location);
+sfile.write((char *)this,sizeof(marks));
+sfile.close();
+return;
+}
+void menu::main_menu()
+{
+char ch1,ch='Y';
+clrscr();
+do
+{
+clrscr();
+box_fill(20,5,60,18,219);
+gotoxy(25,5);
+textcolor(YELLOW +BLINK);
+textbackground(BLUE);
+cout<<" STUDENTS' INFORMATION SYSTEM ";
+textcolor(WHITE);
+gotoxy(35,8);
+textcolor(10+BLINK);
+cout<<" MAIN MENU ";
+textcolor(WHITE);
+textbackground(BLACK);
+gotoxy(30,10);
+cout<<"1. For Student";
+gotoxy(30,12);
+cout<<"2. For Marks";
+gotoxy(30,14);
+cout<<"0. For Exit";
+gotoxy(30,16);
+cout<<"Enter Your Choice : ";
+ch1=getch();
+switch(ch1)
+{
+case '1' : clrscr();
+stud_menu();
+break;
+case '2' : clrscr();
+mark_menu();
+break;
+case '0' : exit(1);
+default : gotoxy(30,25);
+textbackground(WHITE);
+textcolor(BLACK);
+cout<<" Invaild Choice... \a";
+textbackground(BLACK);
+textcolor(WHITE);
+continue;
+}
+}while(ch!='0');
+}
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+void menu::stud_menu()
+{
+char ch1;
+int tredg;
+student stud;
+clrscr();
+do
+{
+clrscr();
+box_fill(22,5,60,20,219);
+gotoxy(35,5);
+textcolor(YELLOW +BLINK);
+textbackground(BLUE);
+cout<<" STUDENT MENU ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(30,8);
+cout<<"1. For Addition";
+gotoxy(30,10);
+cout<<"2. For Modification";
+gotoxy(30,12);
+cout<<"3. For Deletion";
+gotoxy(30,14);
+cout<<"4. For Display Students";
+gotoxy(30,16);
+cout<<"0. Return to Main Menu";
+gotoxy(30,18);
+cout<<"Enter Your Choice : ";
+ch1=getch();
+switch(ch1)
+{
+case '1' : stud.get_student();
+break;
+case '2' : clrscr();
+stud.mod_new();
+break;
+case '3' : clrscr();
+box_fill(15,8,68,12,219);
+gotoxy(20,10);
+cout<<"Enter Registration Number to be delete : ";
+cin>>tredg;
+stud.delete_student(tredg);
+break;
+case '4' : clrscr();
+stud.display_student();
+getch();
+break;
+case '0' : main_menu();
+break;
+default : gotoxy(30,25);
+textbackground(WHITE);
+textcolor(BLACK);
+cout<<" Invaild Choice... \a";
+textbackground(BLACK);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+textcolor(WHITE);
+continue;
+}
+}while(ch1!='0');
+}
+void menu::mark_menu()
+{
+char opt;
+menu me;
+marks ma;
+int tredg;
+do
+{
+clrscr();
+box_fill(20,5,71,22,219);
+textbackground(BLUE);
+textcolor(YELLOW+BLINK);
+gotoxy(35,5);
+cout<<" MENU FOR MARKS ";
+textbackground(BLACK);
+textcolor(WHITE);
+gotoxy(25,8);
+cout<<"1. For add marks";
+gotoxy(25,10);
+cout<<"2. For Display Marks of all Students";
+gotoxy(25,12);
+cout<<"3. For Displaying marks of single Student";
+gotoxy(25,14);
+cout<<"4. For Delete marks";
+gotoxy(25,16);
+cout<<"5. For Modification of marks";
+gotoxy(25,18);
+cout<<"0. Return to Main Menu";
+gotoxy(25,20);
+cout<<"Enter Your Choice : ";
+opt=getch();
+switch(opt)
+{
+case '1' : clrscr();
+ma.read_marks();
+break;
+case '2' : clrscr();
+ma.display_marks();
+break;
+case '3' : clrscr();
+box_fill(15,8,68,12,219);
+gotoxy(20,10);
+cout<<"Enter the Registration Number of Student : ";
+cin>>tredg;
+ma.show_marks(tredg);
+break;
+case '4' : clrscr();
+box_fill(15,8,68,12,219);
+gotoxy(20,10);
+file:///C/......Prateek/....Prateek/New%20folder/Examinationsystem.txt[18-07-2016 19:55:11]
+cout<<"Enter the Registration Number of Student : ";
+cin>>tredg;
+ma.delete_marks(tredg);
+break;
+case '5' : clrscr();
+ma.mod_marks();
+break;
+case '0' : me.main_menu();
+break;
+default : gotoxy(30,25);
+textbackground(WHITE);
+textcolor(BLACK);
+cout<<" Invaild Choice... \a";
+textbackground(BLACK);
+textcolor(WHITE);
+continue;
+}
+}while(opt!='0');
+}
+void main()
+{
+menu m_menu;
+m_menu.password();
+clrscr();
+}

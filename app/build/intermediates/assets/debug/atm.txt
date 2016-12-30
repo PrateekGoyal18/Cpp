@@ -1,0 +1,919 @@
+// AUTOMATIC TELLER MACHINE
+// By - Mayank Sharma
+//**********************************************************
+#include <iostream.h>
+#include <fstream.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <dos.h>
+#include<graphics.h>
+//**********************************************************
+// CARD CLASS
+//**********************************************************
+class CARD
+{
+public:
+void addition(void);
+void list(void);
+void deletion(void);
+void modification(void);
+void check_balance(void);
+void withdraw_money(void);
+void change_password(void);
+void reload_card(void);
+void ack(void);
+private :
+int last_cardno(void);
+int cardno;
+char password[10];
+char name[30];
+char father[30];
+int age;
+char address[50];
+char phone[15];
+float minbalance, balance;
+} ;
+//**********************************************************
+// FUNCTION TO RETURN THE LAST CARD NO. IN THE CARD FILE
+//**********************************************************
+int CARD :: last_cardno(void)
+{
+int tcardno=0;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+ifstream f;
+f.open("card.dat",ios::in);
+while (f.read((char*) this, sizeof(CARD)))
+tcardno = cardno;
+f.close();
+return tcardno;
+}
+//**********************************************************
+// FUNCTION TO ADD NEW RECORD IN CARD FILE
+//**********************************************************
+void CARD :: addition(void)
+{
+char ch ;
+int tcardno;
+tcardno = last_cardno() + 1;
+do
+{
+clrscr() ;
+gotoxy(30,3) ;
+cout<<"ADDITION OF NEW CARD" ;
+gotoxy(30,4) ;
+cout<<"********************" ;
+gotoxy(5,6) ;
+cout<<"Card no. " <<tcardno;
+gotoxy(5,7) ;
+cout<<"Password (not shown) : " ;
+textcolor(BLACK);
+cscanf("%s",&password);
+textcolor(LIGHTGRAY);
+gotoxy(5,8) ;
+cout<<"Customer Name : " ;
+gets(name);
+gotoxy(5,9) ;
+cout <<"Father's Name : " ;
+gets(father);
+gotoxy(5,10) ;
+cout<<"Address : " ;
+gets(address);
+do
+{
+gotoxy(5,11) ;
+clreol();
+cout<<"Age : " ;
+cin>>age;
+} while (age<18 || age>100);
+gotoxy(5,12);
+cout<<"Phone : ";
+gets(phone);
+do
+{
+gotoxy(5,13);
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+clreol();
+cout<<"Minimum Balance (should not less than 2000) : ";
+cin>>minbalance;
+} while (minbalance<2000);
+balance = minbalance;
+do
+{
+gotoxy(5,16) ;
+cout<<"Do you want to save (y/n) : " ;
+cin>>ch;
+ch = toupper(ch) ;
+} while (ch != 'Y' && ch != 'N') ;
+if (ch == 'Y')
+{
+cardno = tcardno;
+fstream f;
+f.open("card.dat",ios::app);
+if (!f)
+{
+cout<<"\nCannot open file to write";
+exit(0);
+}
+f.write((char*) this, sizeof(CARD));
+f.close();
+tcardno++;
+}
+do
+{
+gotoxy(5,18);
+cout <<"Do you want to add more (y/n) : " ;
+cin>>ch;
+ch = toupper(ch) ;
+} while (ch != 'Y' && ch != 'N') ;
+} while (ch == 'Y') ;
+fflush(stdin);
+fflush(stdout);
+}
+//**********************************************************
+// FUNCTION TO DISPLAY LIST OF ALL THE CUSTOMERS
+//**********************************************************
+void CARD :: list(void)
+{
+clrscr() ;
+int row=6 , found=0 ;
+char ch ;
+gotoxy(33,1) ;
+cout<<"LIST OF CUSTOMERS" ;
+gotoxy(32,2) ;
+cout<<"*****************" ;
+gotoxy(1,4) ;
+cout<<"CARD.NO. NAME FATHER'S NAME AGE PHONE BALANCE" ;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+gotoxy(1,5) ;
+cout<<"******************************************************************************" ;
+ifstream f;
+f.open("card.dat", ios::in) ;
+if (!f)
+{
+cout<<"\nCannot open file to read";
+exit(0);
+}
+while (f.read((char *) this, sizeof(CARD)))
+{
+found = 1 ;
+gotoxy(2,row);
+cout<<cardno;
+gotoxy(11,row);
+cout<<name;
+gotoxy(27,row);
+cout<<father;
+gotoxy(49,row);
+cout<<age;
+gotoxy(58,row);
+cout<<phone;
+gotoxy(70,row);
+cout<<balance;
+if (row == 23)
+{
+row = 6 ;
+gotoxy(1,25) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+clrscr() ;
+gotoxy(33,1) ;
+cout<<"LIST OF CUSTOMERS" ;
+gotoxy(32,2) ;
+cout<<"*****************" ;
+gotoxy(1,4) ;
+cout<<"CARD.NO. NAME FATHER'S NAME AGE PHONE BALANCE" ;
+gotoxy(1,5) ;
+cout<<"******************************************************************************" ;
+}
+else
+row = row + 1 ;
+}
+if (!found)
+{
+gotoxy(5,10) ;
+cout <<"\7Records not found" ;
+}
+f.close () ;
+getch();
+}
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+//*************************************************************
+// FUNCTION TO DISPLAY BALANCE LEFT ON THE CARD OF THE CUSTOMER
+//*************************************************************
+void CARD :: check_balance(void)
+{
+clrscr() ;
+int found=0, tcardno;
+char ch ;
+do
+{
+clrscr();
+found = 0;
+cout<<" CARD BALANCE";
+cout<<"\n\nEnter card no. of the Customer : ";
+cin>>tcardno;
+ifstream f;
+f.open("card.dat", ios::in) ;
+while (f.read((char *) this, sizeof(CARD)))
+{
+if (cardno == tcardno)
+{
+found = 1 ;
+cout<<"\n\nCard no. : "<<cardno;
+cout<<"\n\nName : "<<name;
+cout<<"\nAddress : "<<address;
+cout<<"\n\nBalance : "<<balance;
+break;
+}
+}
+if (!found)
+cout<<"\n\n\nRecords not found";
+f.close();
+cout<<"\n\nContinue (y/n) : ";
+cin>>ch;
+} while (toupper(ch) == 'Y');
+}
+//**********************************************************
+// FUNCTION TO WITHDRAW THE MONEY FROM THE CARD
+//**********************************************************
+void CARD :: withdraw_money(void)
+{
+int tcardno, found=0, pass=0;
+float amount;
+char tpassword[10], ch;
+do
+{
+clrscr();
+cout<<" WITHDRAW MONEY";
+cout<<"\n\nEnter Card no. : ";
+cin>>tcardno;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+cout<<"\nEnter Password : ";
+textcolor(BLACK);
+cscanf("%s",tpassword);
+textcolor(LIGHTGRAY);
+fstream f;
+f.open("card.dat", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+found = 0;
+while (f.read((char*) this, sizeof(CARD)))
+{
+if (cardno != tcardno)
+temp.write((char *) this, sizeof(CARD));
+else
+{
+found = 1;
+if (!strcmp(tpassword,password))
+{
+pass = 1;
+cout<<"\nName : "<<name ;
+cout<<"\nMinimum Balance : 2000";
+cout<<"\nBalance : "<<balance<<"\n\n";
+do
+{
+cout<<"Enter Amount to withdraw : ";
+cin>>amount;
+} while ((balance-amount) < 2000);
+cout<<"\nDo want to withdraw the amount (y/n) : ";
+cin>>ch;
+if (toupper(ch) == 'N')
+temp.write((char *) this, sizeof(CARD));
+else
+{
+balance = balance - amount;
+temp.write((char *) this, sizeof(CARD));
+}
+}
+}
+}
+f.close() ;
+temp.close() ;
+if (found && pass && toupper(ch) != 'N')
+{
+f.open("CARD.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+while (temp.read((char*) this, sizeof(CARD)))
+f.write((char *) this, sizeof(CARD)) ;
+f.close() ;
+temp.close() ;
+cout<<"\n\nMoney Withdraw";
+}
+if (!found)
+cout<<"\n\nInvalid Card no.";
+if (found && !pass)
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+cout<<"\n\nInvalid Password";
+cout<<"\n\nDo you want to withdraw for another card (y/n) ";
+cin>>ch;
+} while (toupper(ch) == 'Y');
+}
+//**********************************************************
+// FUNCTION TO MODIFY THE RECORD OF THE CUSTOMER
+//**********************************************************
+void CARD :: modification(void)
+{
+int tcardno, found=0;
+char ch;
+do
+{
+clrscr();
+cout<<" MODIFICATION";
+cout<<"\n\nEnter Card no. : ";
+cin>>tcardno;
+fstream f;
+f.open("card.dat", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+found = 0;
+while (f.read((char*) this, sizeof(CARD)))
+{
+if (cardno != tcardno)
+temp.write((char *) this, sizeof(CARD));
+else
+{
+found = 1;
+cout<<"\nName : "<<name;
+cout<<"\nFather's Name : "<<father;
+cout<<"\nAddress : "<<address;
+cout<<"\nAge : "<<age;
+cout<<"\nPhone : "<<phone;
+cout<<"\n\nInput new Data -----";
+cout<<"\n\nCustomer Name : " ;
+gets(name);
+cout <<"Father's Name : " ;
+gets(father);
+cout<<"Address : " ;
+gets(address);
+do
+{
+cout<<"Age : " ;
+cin>>age;
+} while (age<18 && age>100);
+cout<<"Phone : ";
+gets(phone);
+cout<<"\nDo want to modify the record (y/n) : ";
+cin>>ch;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+temp.write((char *) this, sizeof(CARD));
+}
+}
+f.close() ;
+temp.close() ;
+if (found && toupper(ch) != 'N')
+{
+f.open("CARD.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+while (temp.read((char*) this, sizeof(CARD)))
+f.write((char *) this, sizeof(CARD)) ;
+f.close() ;
+temp.close() ;
+cout<<"\n\nRecord Modified";
+}
+if (!found)
+cout<<"\n\nInvalid Card no.";
+cout<<"\n\nDo you want to Modify more records (y/n) ";
+cin>>ch;
+} while (toupper(ch) == 'Y');
+}
+//**********************************************************
+// FUNCTION TO DELETE CUSTOMER RECORD
+//**********************************************************
+void CARD :: deletion(void)
+{
+int tcardno, found=0, pass=0;
+char ch, tpassword[10];
+do
+{
+clrscr();
+cout<<" DELETION OF CUSTOMER REECORD";
+cout<<"\n\nEnter Card no. to be deleted : ";
+cin>>tcardno;
+cout<<"\nEnter Password : ";
+textcolor(BLACK);
+cscanf("%s",tpassword);
+textcolor(LIGHTGRAY);
+fstream f;
+f.open("CARD.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+found = 0;
+pass = 0;
+while (f.read((char*) this, sizeof(CARD)))
+{
+if (cardno != tcardno)
+temp.write((char *) this, sizeof(CARD));
+else
+{
+found = 1;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+if (!strcmp(tpassword,password))
+{
+pass = 1;
+cout<<"\nName : "<<name;
+cout<<"\nFather's Name : "<<father;
+cout<<"\nAddress : "<<address;
+cout<<"\nAge : "<<age;
+cout<<"\nPhone : "<<phone;
+cout<<"\n\nDo want to delete this record (y/n) : ";
+cin>>ch;
+if (toupper(ch) == 'N')
+temp.write((char *) this, sizeof(CARD));
+}
+}
+}
+f.close() ;
+temp.close() ;
+if (found && pass && toupper(ch) != 'N')
+{
+f.open("CARD.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+while (temp.read((char*) this, sizeof(CARD)))
+f.write((char *) this, sizeof(CARD)) ;
+f.close() ;
+temp.close() ;
+cout<<"\n\nRecord Deleted";
+}
+if (!found)
+cout<<"\n\nInvalid Card no.";
+if (found && !pass)
+cout<<"\n\nInvalid Password";
+cout<<"\n\nDo you want to delete more (y/n) ";
+cin>>ch;
+} while (toupper(ch) == 'Y');
+}
+//**********************************************************
+// FUNCTION TO CHANGE THE PASSWORD
+//**********************************************************
+void CARD :: change_password(void)
+{
+int tcardno, found=0, pass=0;
+char oldpassword[10], newpassword[10], conpassword[10], ch;
+clrscr();
+cout<<" CHANGE PASSWORD";
+cout<<"\n\nEnter Card no. : ";
+cin>>tcardno;
+cout<<"\nEnter Old Password : ";
+textcolor(BLACK);
+cscanf("%s",oldpassword);
+textcolor(LIGHTGRAY);
+cout<<"\nEnter New Password : ";
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+textcolor(BLACK);
+cscanf("%s",newpassword);
+textcolor(LIGHTGRAY);
+textcolor(LIGHTGRAY);
+cout<<"\nConfirm New Password : ";
+textcolor(BLACK);
+cscanf("%s",conpassword);
+textcolor(LIGHTGRAY);
+if (strcmp(newpassword,conpassword))
+{
+cout<<"\aNew password and Confirm Password does not match";
+getch();
+return;
+}
+fstream f;
+f.open("card.dat", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+found = 0;
+while (f.read((char*) this, sizeof(CARD)))
+{
+if (cardno != tcardno)
+temp.write((char *) this, sizeof(CARD));
+else
+{
+found = 1;
+if (!strcmp(oldpassword,password))
+{
+pass = 1;
+strcpy(password,conpassword);
+temp.write((char *) this, sizeof(CARD));
+}
+}
+}
+f.close() ;
+temp.close() ;
+if (found && pass)
+{
+f.open("CARD.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+while (temp.read((char*) this, sizeof(CARD)))
+f.write((char *) this, sizeof(CARD)) ;
+f.close() ;
+temp.close() ;
+cout<<"\n\nPassword Changed.";
+}
+if (!found)
+cout<<"\n\nInvalid Card no.";
+if (found && !pass)
+cout<<"\n\nInvalid Password";
+}
+//**********************************************************
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+// FUNCTION TO RELOAD THE MONEY ON THE CARD
+//**********************************************************
+void CARD :: reload_card(void)
+{
+int tcardno, found=0, pass=0;
+float amount;
+char tpassword[10], ch;
+do
+{
+clrscr();
+cout<<" RELOAD CARD";
+cout<<"\n\nEnter Card no. : ";
+cin>>tcardno;
+cout<<"\nEnter Password : ";
+textcolor(BLACK);
+cscanf("%s",tpassword);
+textcolor(LIGHTGRAY);
+fstream f;
+f.open("card.dat", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+found = 0;
+while (f.read((char*) this, sizeof(CARD)))
+{
+if (cardno != tcardno)
+temp.write((char *) this, sizeof(CARD));
+else
+{
+found = 1;
+if (!strcmp(tpassword,password))
+{
+pass = 1;
+cout<<"\nName : "<<name ;
+cout<<"\nMinimum Balance : 2000";
+cout<<"\nBalance : "<<balance<<"\n\n";
+cout<<"Enter Amount to add in balance : ";
+cin>>amount;
+cout<<"\nDo want to reload the card (y/n) : ";
+cin>>ch;
+if (toupper(ch) == 'N')
+temp.write((char *) this, sizeof(CARD));
+else
+{
+balance = balance + amount;
+temp.write((char *) this, sizeof(CARD));
+}
+}
+}
+}
+f.close() ;
+temp.close() ;
+if (found && pass && toupper(ch) != 'N')
+{
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+f.open("CARD.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+while (temp.read((char*) this, sizeof(CARD)))
+f.write((char *) this, sizeof(CARD)) ;
+f.close() ;
+temp.close() ;
+cout<<"\n\nCard Reloaded.";
+}
+if (!found)
+cout<<"\n\nInvalid Card no.";
+if (found && !pass)
+cout<<"\n\nInvalid Password";
+cout<<"\n\nDo you want to Reload another card (y/n) ";
+cin>>ch;
+} while (toupper(ch) == 'Y');
+}
+void CARD::ack()
+{ int gdriver = DETECT, gmode, errorcode;
+initgraph(&gdriver, &gmode, "c:\\tc\\bgi");
+cleardevice();
+setcolor(14);
+setfillstyle(9,13);
+bar(5,85,630,91);
+setcolor(13);
+settextstyle(7,0,6);
+outtextxy(100,20,"ACKNOWLEDGMENT");
+setcolor(15);
+settextstyle(2,0,6);
+outtextxy(10,120,"We gracefully wish to thank all those who helped us ");
+outtextxy(10,150,"during various stages of preperation of our project.");
+outtextxy(10,180,"In particular, We are grateful to our computer teacher ");
+setcolor(13);
+outtextxy(12,210,"MR.DEEPU");
+setcolor(15);
+outtextxy(250,210,"for her guidance, help and");
+outtextxy(10,240,"encouragement throughout our work on the project.");
+setcolor(13);
+outtextxy(350,380," AUSHIM KHULLAR ");
+outtextxy(350,450," XII-A ");
+getch();
+cleardevice();
+}
+//**********************************************************
+// MAIN FUNCTION
+//**********************************************************
+void main(void)
+{
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+char ch, ch1, ch2;
+CARD c;
+c.ack();
+int gdriver = DETECT, gmode, errorcode;
+int xmax, ymax;
+/* initialize graphics and local variables */
+initgraph(&gdriver, &gmode, "c:\\tc\\bgi");
+/* read result of initialization */
+errorcode = graphresult();
+/* an error occurred */
+if (errorcode != grOk)
+{
+printf("Graphics error: %s\n", grapherrormsg(errorcode));
+printf("Press any key to halt:");
+getch();
+exit(1);
+}
+xmax = getmaxx();
+ymax = getmaxy();
+/* draw a diagonal line */
+line(0,0,0,(ymax/2));
+int p=0;
+for(p=0;p<(xmax/2);p++)
+{
+setcolor(YELLOW);
+line(p,0,p,(ymax/2));
+delay(2);
+}
+delay(3);
+int s=0;
+for(s=xmax;s>(xmax/2);s--)
+{
+setcolor(RED);
+line(s,0,s,(ymax/2));
+delay(2);
+}
+int r;
+for(r=xmax;r>(xmax/2);r--)
+{
+setcolor(YELLOW);
+line(r,(ymax/2),r,ymax);
+delay(2);
+}
+int q;
+for(q=0;q<(xmax/2);q++)
+{
+setcolor(RED);
+line(q,(ymax/2),q,ymax);
+delay(2);
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+}
+setcolor(BLACK);
+settextstyle(TRIPLEX_FONT,0,8);
+outtextxy(220,40,"A");
+delay(300);
+outtextxy(270,40,"T");
+delay(300);
+outtextxy(320,40,"M");
+delay(300);
+setcolor(3 + 128);
+settextstyle(SANS_SERIF_FONT,0,5);
+outtextxy(20,170,"AUTOMATIC");
+delay(300);
+outtextxy(210,260,"TELLER");
+delay(300);
+outtextxy(325,340,"MACHINE");
+delay(300);
+for(int b=0;b<=280;b+=5)
+{
+setcolor(YELLOW);
+settextstyle(3,0,2);
+outtextxy(b,450,"ATM");
+delay(50);
+setcolor(RED);
+settextstyle(3,0,2);
+outtextxy(b,450,"ATM");
+}
+for(int z=320;z<=600;z+=5)
+{
+setcolor(RED);
+settextstyle(3,0,2);
+outtextxy(z,450,"ATM");
+delay(50);
+setcolor(YELLOW);
+settextstyle(3,0,2);
+outtextxy(z,450,"ATM");
+}
+getch();
+cleardevice();
+/*for(int i=0;i<=500;i++)
+{
+int x=random(640);
+int y=random(480);
+int col=random(15);
+delay(5);
+setcolor(col);
+putpixel(x,y,col);
+} */
+setcolor(YELLOW);
+ellipse(350,250,0,360,100,150);
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+setfillstyle(1,YELLOW);
+floodfill(350,200,YELLOW);
+setcolor(RED);
+//arc(350,420,90,270,25);
+int y=250;
+for(int x=0;x<=200;x+=5)
+{
+setcolor(RED);
+line(x,y,x+50,y);
+delay(50);
+setcolor(0);
+line(x,y,x+50,y);
+}
+for(y=250;y>=0;y-=5)
+{
+setcolor(YELLOW);
+ellipse(350,y,0,180,100,150);
+line(250,y,450,y);
+setfillstyle(1,YELLOW);
+floodfill(350,y-10,YELLOW);
+delay(5);
+setcolor(0);
+ellipse(350,y,0,180,100,150);
+line(250,y,450,y);
+setfillstyle(1,0);
+floodfill(350,y-10,0);
+}
+//arc(350,420,90,270,25);
+for(y=250;y<=550;y+=5)
+{
+setcolor(YELLOW);
+ellipse(350,y,180,360,100,150);
+line(250,y,450,y);
+setfillstyle(1,YELLOW);
+floodfill(350,y+10,YELLOW);
+delay(5);
+setcolor(0);
+ellipse(350,y,180,360,100,150);
+line(250,y,450,y);
+setfillstyle(1,0);
+floodfill(350,y+10,0);
+}
+for(int i=0;i<=400;i++)
+{
+int x=random(640);
+int y=random(480);
+int col=random(15);
+delay(20);
+setcolor(col);
+circle(x,y,2);
+}
+for(y=0;y<=50;y+=5)
+{
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+setcolor(9);
+settextstyle(3,0,6);
+outtextxy(x+90,y,"MADE BY:");
+delay(50);
+setcolor(0);
+settextstyle(3,0,6);
+outtextxy(x+90,y,"MADE BY:");
+}
+setcolor(GREEN);
+outtextxy(x+50,20,"MADE BY :");
+delay(500);
+for(x=0;x<=300;x+=5)
+{
+setcolor(RED);
+settextstyle(3,0,8);
+outtextxy(x,y,"AUSHIM");
+delay(50);
+setcolor(0);
+settextstyle(3,0,8);
+outtextxy(x,y,"AUSHIM");
+}
+setcolor(CYAN);
+settextstyle(3,0,8);
+outtextxy(100,100,"AUSHIM");
+delay(500);
+for(x=0;x<=300;x+=5)
+{
+setcolor(YELLOW);
+settextstyle(3,0,8);
+outtextxy(x,300,"KHULLAR");
+delay(50);
+setcolor(0);
+settextstyle(3,0,8);
+outtextxy(x,300,"KHULLAR");
+}
+delay(100);
+setcolor(5);
+outtextxy(200,200,"KHULLAR");
+delay(500);
+do
+{
+textmode(C40);
+clrscr() ;
+gotoxy(12,6) ;
+outtextxy(230,50,"AUTOMATIC TELLER MACHINE") ;
+gotoxy(12,7) ;
+cout<<"~~~~~~~~~~~~~~~~~~~~~~~~" ;
+gotoxy(12,10) ;
+cout<<"1. Online Transaction" ;
+gotoxy(12,11);
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+cout<<"2. Create Account";
+gotoxy(12,12) ;
+cout<<"3. House keeping Menu" ;
+gotoxy(12,13) ;
+cout<<"4. Reload Card" ;
+gotoxy(12,14) ;
+cout<<"0. Quit" ;
+gotoxy(12,17) ;
+cout<<"Enter your choice : " ;
+cin>>ch;
+textmode(C80);
+switch(ch)
+{
+case '1':
+do
+{
+textmode(C40);
+clrscr() ;
+gotoxy(13,8) ;
+cout<<"ONLINE TRANSACTION MENU" ;
+gotoxy(13,9) ;
+cout<<"~~~~~~~~~~~~~~~~~~~~~~~" ;
+gotoxy(13,11) ;
+cout<<"1. Check Balance" ;
+gotoxy(13,12) ;
+cout<<"2. Withdraw Money" ;
+gotoxy(13,13) ;
+cout<<"0. EXIT" ;
+gotoxy(13,15) ;
+cout<<"Enter your choice : " ;
+cin>>ch1;
+textmode(C80);
+switch(ch1)
+{
+case '1':
+c.check_balance();
+break;
+case '2':
+c.withdraw_money();
+break;
+}
+} while (ch1 != '0');
+break;
+case '2':
+c.addition();
+break;
+case '3':
+do
+{
+textmode(C40);
+clrscr() ;
+gotoxy(13,8) ;
+cout<<"HOUSE KEEPING MENU" ;
+gotoxy(13,9) ;
+file:///C/......Prateek/....Prateek/New%20folder/ATMM.txt[09-07-2016 20:54:12]
+cout<<"~~~~~~~~~~~~~~~~~~" ;
+gotoxy(13,11) ;
+cout<<"1. Modify Customer Record" ;
+gotoxy(13,12) ;
+cout<<"2. Delete Customer Record" ;
+gotoxy(13,13) ;
+cout<<"3. Change Password" ;
+gotoxy(13,14) ;
+cout<<"4. List of all Customers" ;
+gotoxy(13,15) ;
+cout<<"0. EXIT" ;
+gotoxy(13,17) ;
+cout<<"Enter your choice : " ;
+cin>>ch1;
+textmode(C80);
+switch(ch1)
+{
+case '1':
+c.modification();
+break;
+case '2':
+c.deletion();
+break;
+case '3':
+c.change_password();
+break;
+case '4':
+c.list();
+break;
+}
+} while (ch1 != '0');
+break;
+case '4':
+c.reload_card();
+break;
+}
+} while (ch != '0');
+getch();
+closegraph();
+}

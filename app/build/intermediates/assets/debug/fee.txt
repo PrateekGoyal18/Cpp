@@ -1,0 +1,645 @@
+// PROJECT SCHOOL FEE ENQUIRY
+//**********************************************************
+//**********************************************************
+// INCLUDED HEADER FILES
+//**********************************************************
+#include<iostream.h>
+#include <fstream.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <conio.h>
+#include <dos.h>
+#include <iomanip.h>
+//*********************************************************
+// THIS CLASS DRAW LINES, BOXES, ETC.
+//**********************************************************
+class DRAW
+{
+public :
+void LINE_HOR(int, int, int, char) ;
+void LINE_VER(int, int, int, char) ;
+void BOX(int,int,int,int,char) ;
+} ;
+//**********************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS RELATED TO FEES
+//**********************************************************
+class FEE
+{
+public :
+void ADDITION(void) ;
+void MODIFICATION(void) ;
+void FEE_SLIP(void) ;
+void LIST(void) ;
+private :
+void DISPLAY(int) ;
+void MODIFY_RECORD(int, float, float, float, float, float) ;
+int Class ;
+float tution, pta, science, computer, activity ;
+} ;
+//**********************************************************
+// FUNCTION TO DRAW HORIZONTAL LINE
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+//**********************************************************
+void DRAW :: LINE_HOR(int column1, int column2, int row, char c)
+{
+for ( column1; column1<=column2; column1++ )
+{
+gotoxy(column1,row) ;
+cout <<c ;
+}
+}
+//**********************************************************
+// FUNCTION TO DRAW VERTICAL LINE
+//**********************************************************
+void DRAW :: LINE_VER(int row1, int row2, int column, char c)
+{
+for ( row1; row1<=row2; row1++ )
+{
+gotoxy(column,row1) ;
+cout <<c ;
+}
+}
+//**********************************************************
+// FUNCTION TO DRAW BOX LINE
+//**********************************************************
+void DRAW :: BOX(int column1, int row1, int column2, int row2, char c)
+{
+char ch=218 ;
+char c1, c2, c3, c4 ;
+char l1=196, l2=179 ;
+if (c == ch)
+{
+c1=218 ;
+c2=191 ;
+c3=192 ;
+c4=217 ;
+l1 = 196 ;
+l2 = 179 ;
+}
+else
+{
+c1=c ;
+c2=c ;
+c3=c ;
+c4=c ;
+l1 = c ;
+l2 = c ;
+}
+gotoxy(column1,row1) ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+cout <<c1 ;
+gotoxy(column2,row1) ;
+cout <<c2 ;
+gotoxy(column1,row2) ;
+cout <<c3 ;
+gotoxy(column2,row2) ;
+cout <<c4 ;
+column1++ ;
+column2-- ;
+LINE_HOR(column1,column2,row1,l1) ;
+LINE_HOR(column1,column2,row2,l1) ;
+column1-- ;
+column2++ ;
+row1++ ;
+row2-- ;
+LINE_VER(row1,row2,column1,l2) ;
+LINE_VER(row1,row2,column2,l2) ;
+}
+//**********************************************************
+// FUNCTION TO ADD FEE STRUCTURE IN FEE FILE
+//**********************************************************
+void FEE :: ADDITION(void)
+{
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+if (!file.fail())
+return ;
+file.close() ;
+file.open("FEE.DAT", ios::app) ;
+for (int i=1; i<=12; i++)
+{
+Class = i ;
+tution = 0.0 ;
+pta = 0.0 ;
+science = 0.0 ;
+computer= 0.0 ;
+activity= 0.0 ;
+file.write((char *) this, sizeof(FEE)) ;
+}
+file.close() ;
+MODIFY_RECORD(12,450,50,60,60,50) ;
+MODIFY_RECORD(11,450,50,60,60,50) ;
+MODIFY_RECORD(10,350,50,30,60,50) ;
+MODIFY_RECORD(9,350,50,20,60,50) ;
+MODIFY_RECORD(8,300,50,20,40,50) ;
+MODIFY_RECORD(7,300,50,20,40,50) ;
+MODIFY_RECORD(6,300,50,20,40,50) ;
+MODIFY_RECORD(5,250,50,0,40,40) ;
+MODIFY_RECORD(4,250,50,0,40,40) ;
+MODIFY_RECORD(3,250,50,0,40,40) ;
+MODIFY_RECORD(2,250,50,0,40,40) ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+MODIFY_RECORD(1,250,50,0,40,40) ;
+}
+//**********************************************************
+// FUNCTION TO DISPLAY TOTAL FEE AS LIST
+//**********************************************************
+void FEE :: LIST(void)
+{
+clrscr() ;
+DRAW d ;
+d.BOX(1,2,80,24,218) ;
+gotoxy(27,3) ;
+cout <<"TOTAL FEES FOR THE CLASSES" ;
+d.LINE_HOR(2,79,4,196) ;
+gotoxy(5,5) ;
+cout <<"CLASS TOTAL FEES" ;
+d.LINE_HOR(2,79,6,196) ;
+d.LINE_HOR(2,79,22,196) ;
+float total ;
+int row=8 ;
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(FEE)))
+{
+total = tution + pta + science + computer + activity ;
+gotoxy(6,row) ;
+cout <<Class ;
+gotoxy(23,row) ;
+cout <<total ;
+row++ ;
+}
+file.close() ;
+gotoxy(5,23) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+//**********************************************************
+// FUNCTION TO DISPLAY THE RECORD FOR THE GIVEN CLASS
+//**********************************************************
+void FEE :: DISPLAY(int tclass)
+{
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(FEE)))
+{
+if (Class == tclass)
+{
+gotoxy(5,5) ;
+cout <<"Class : " <<Class ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+gotoxy(5,6) ;
+cout <<"~~~~~~~~~~~~" ;
+gotoxy(5,7) ;
+cout <<"Tution Fee : " <<tution ;
+gotoxy(5,8) ;
+cout <<"P.T.A. Fee : " <<pta ;
+gotoxy(5,9) ;
+cout <<"Science Fee : " <<science ;
+gotoxy(5,10) ;
+cout <<"Computer Fee: " <<computer ;
+gotoxy(5,11) ;
+cout <<"Activity Fee : " <<activity ;
+break ;
+}
+}
+file.close() ;
+}
+//**********************************************************
+// FUNCTION TO MODIFY THE FEE RECORD FOR THE GIVEN DATA
+//**********************************************************
+void FEE :: MODIFY_RECORD(int tclass, float ttution, float tpta, float tscience, float tcomputer, float tactivity)
+{
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+file.seekg(0,ios::beg) ;
+while (!file.eof())
+{
+file.read((char *) this, sizeof(FEE)) ;
+if (file.eof())
+break ;
+if (tclass == Class)
+{
+Class = tclass ;
+tution = ttution ;
+pta = tpta ;
+science = tscience ;
+computer= tcomputer ;
+activity= tactivity ;
+temp.write((char *) this, sizeof(FEE)) ;
+}
+else
+temp.write((char *) this, sizeof(FEE)) ;
+}
+file.close() ;
+temp.close() ;
+file.open("FEE.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+temp.seekg(0,ios::beg) ;
+while (!temp.eof())
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+{
+temp.read((char *) this, sizeof(FEE)) ;
+if (temp.eof())
+break ;
+file.write((char *) this, sizeof(FEE)) ;
+}
+file.close() ;
+temp.close() ;
+}
+//**********************************************************
+// FUNCTION TO GIVE DATA TO MODIFY THE FEE RECORD
+//**********************************************************
+void FEE :: MODIFICATION(void)
+{
+clrscr() ;
+char ch, t1[10] ;
+int valid=0, t=0, tclass=0 ;
+float t2=0 ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Press <ENTER> for EXIT" ;
+gotoxy(5,5) ; clreol() ;
+cout <<"Enter Class for the Modification of the Fee Structure : " ;
+gets(t1) ;
+t = atoi(t1) ;
+tclass = t ;
+if (strlen(t1) == 0)
+return ;
+if (tclass < 1 || tclass > 12)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+gotoxy(71,1) ;
+cout <<"<0>=Exit" ;
+DISPLAY(tclass) ;
+gotoxy(5,25) ; clreol() ;
+do
+{
+gotoxy(5,13) ; clreol() ;
+cout <<"Do you want to modify the fee structure (y/n) : " ;
+ch = getche() ;
+if (ch == '0')
+return ;
+ch = toupper(ch) ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+} while (ch != 'N' && ch != 'Y') ;
+if (ch == 'N')
+return ;
+float ttution=0.0, tpta=0.0, tscience=0.0, tcomputer=0.0, tactivity=0.0 ;
+gotoxy(5,13) ; clreol() ;
+gotoxy(5,15) ;
+cout <<"Tution Fee : " ;
+gotoxy(5,16) ;
+cout <<"P.T.A. Fee : " ;
+gotoxy(5,17) ;
+cout <<"Science Fee : " ;
+gotoxy(5,18) ;
+cout <<"Computer Fee: " ;
+gotoxy(5,19) ;
+cout <<"Activity Fee: " ;
+int modified = 5 ;
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(FEE)))
+if (Class == tclass)
+break ;
+file.close() ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Enter Tution fee or Press <ENTER> for no change" ;
+gotoxy(19,15) ; clreol() ;
+gets(t1) ;
+t2 = atof(t1) ;
+ttution = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+break ;
+if (ttution > 1000)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(t1) == 0)
+{
+modified-- ;
+ttution = tution ;
+gotoxy(19,15) ;
+cout <<ttution ;
+}
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+cout <<"Enter P.T.A. fee or Press <ENTER> for no change" ;
+gotoxy(19,16) ; clreol() ;
+gets(t1) ;
+t2 = atof(t1) ;
+tpta = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+break ;
+if (tpta > 1000)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(t1) == 0)
+{
+modified-- ;
+tpta = pta ;
+gotoxy(19,16) ;
+cout <<tpta ;
+}
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Enter Science fee or Press <ENTER> for no change" ;
+gotoxy(19,17) ; clreol() ;
+gets(t1) ;
+t2 = atof(t1) ;
+tscience = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+break ;
+if (tscience > 1000)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(t1) == 0)
+{
+modified-- ;
+tscience = science ;
+gotoxy(19,17) ;
+cout <<tscience ;
+}
+do
+{
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Enter Computer Fee or Press <ENTER> for no change" ;
+gotoxy(19,18) ; clreol() ;
+gets(t1) ;
+t2 = atof(t1) ;
+tcomputer = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+break ;
+if (tcomputer > 1000)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(t1) == 0)
+{
+modified-- ;
+tcomputer = computer ;
+gotoxy(19,18) ;
+cout <<tcomputer ;
+}
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Enter Activity fee or Press <ENTER> for no change" ;
+gotoxy(19,19) ; clreol() ;
+gets(t1) ;
+t2 = atof(t1) ;
+tactivity = t2 ;
+if (t1[0] == '0')
+return ;
+if (strlen(t1) == 0)
+break ;
+if (tactivity > 1000)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(t1) == 0)
+{
+modified-- ;
+tactivity = activity ;
+gotoxy(19,19) ;
+cout <<tactivity ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+if (!modified)
+return ;
+gotoxy(5,25) ; clreol() ;
+do
+{
+gotoxy(5,21) ; clreol() ;
+cout <<"Do you want to save (y/n) : " ;
+ch = getche() ;
+if (ch == '0')
+return ;
+ch = toupper(ch) ;
+} while (ch != 'N' && ch != 'Y') ;
+if (ch == 'N')
+return ;
+MODIFY_RECORD(tclass,ttution,tpta,tscience,tcomputer,tactivity);
+gotoxy(5,23) ;
+cout <<"\7Record Modified" ;
+gotoxy(5,25) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+//**********************************************************
+// FUNCTION TO DISPLAY THE FEE SLIP FOR THE CLASS
+//**********************************************************
+void FEE :: FEE_SLIP(void)
+{
+clrscr() ;
+char ch, t1[10] ;
+int valid=0, t=0, tclass=0 ;
+do
+{
+valid = 1 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"Press <ENTER> for EXIT" ;
+gotoxy(5,5) ; clreol() ;
+cout <<"Enter Class to see the Fee Structure : " ;
+gets(t1) ;
+t = atoi(t1) ;
+tclass = t ;
+if (strlen(t1) == 0)
+return ;
+if (tclass < 1 || tclass > 12)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7Enter correctly" ;
+getch() ;
+}
+} while (!valid) ;
+char name[26] ;
+do
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+{
+gotoxy(5,25) ; clreol() ;
+cout <<"ENTER NAME OF THE STUDENT" ;
+valid = 1 ;
+gotoxy(5,7) ; clreol() ;
+cout <<"Name : " ;
+gets(name) ;
+if (strlen(name) < 1 || strlen(name) > 25)
+{
+valid = 0 ;
+gotoxy(5,25) ; clreol() ;
+cout <<"\7NAME SHOULD NOT GREATER THAN 25" ;
+getch() ;
+}
+} while (!valid) ;
+clrscr() ;
+DRAW d ;
+d.BOX(20,2,61,24,987) ;
+gotoxy(24,3) ;
+cout <<" BAL BHAVAN PUBLIC SCHOOL" ;
+int d1, m1, y1 ;
+struct date dt;
+getdate(&dt);
+d1 = dt.da_day ;
+m1 = dt.da_mon ;
+y1 = dt.da_year ;
+gotoxy(45,4) ;
+cout <<"Date: " <<d1 <<"/" <<m1 <<"/" <<y1 ;
+d.LINE_HOR(21,60,5,196) ;
+gotoxy(22,6) ;
+cout <<"NAME : " <<name ;
+gotoxy(22,7) ;
+cout <<"CLASS : " <<tclass ;
+d.LINE_HOR(21,60,8,196) ;
+gotoxy(21,9) ;
+cout <<" PARTICULAR AMOUNT" ;
+d.LINE_HOR(21,60,10,196) ;
+d.LINE_HOR(21,60,22,196) ;
+d.LINE_HOR(46,60,20,196) ;
+gotoxy(25,21) ;
+cout <<"TOTAL" ;
+gotoxy(54,23) ;
+cout <<"CASHIER" ;
+fstream file ;
+file.open("FEE.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(FEE)))
+if (Class == tclass)
+break ;
+file.close() ;
+float total=0.0 ;
+gotoxy(23,12) ;
+cout <<"Tution fees " <<setprecision(2) <<tution ;
+total = total+tution ;
+gotoxy(23,13) ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+cout <<"P.T.A. fees " <<setprecision(2) <<pta ;
+total = total+pta ;
+gotoxy(23,14) ;
+cout <<"Science fees " <<setprecision(2) <<science ;
+total = total+science ;
+gotoxy(23,15) ;
+cout <<"computer fee " <<setprecision(2) <<computer ;
+total = total+computer ;
+gotoxy(23,16) ;
+cout <<"activity " <<setprecision(2) <<activity ;
+total = total+activity ;
+d.LINE_VER(9,21,46,179) ;
+char tt[15] ;
+sprintf(tt,"%f",total) ;
+gotoxy(49,21) ;
+cout <<tt ;
+getch() ;
+}
+//**********************************************************
+// MAIN FUNCTION TO CREATE MENU AND CALL OTHER FUNCTIONS
+//**********************************************************
+void main(void)
+{ clrscr();
+textcolor(BLACK) ;
+textbackground(WHITE) ;
+gotoxy(16,16);
+delay(1400);
+cprintf(" PUNEET RUSTAGI & ABHIJAT BHARDWAJ \a");
+gotoxy(18,18);
+delay(2000);
+cprintf(" PRESENTS \a");
+gotoxy(20,20);
+delay(2000);
+cprintf("\7 SCHOOL FEES ENQUIRY...\a");
+delay(1400);
+textcolor(WHITE) ;
+textbackground(BLACK) ;
+clrscr();
+FEE fee ;
+fee.ADDITION() ;
+char ch ;
+while (1)
+{
+clrscr() ;
+textcolor(BLACK) ;
+textbackground(WHITE) ;
+gotoxy(33,8) ;
+cprintf(" FEE ENQUIRY ") ;
+gotoxy(35,11) ;
+cprintf(" OPTIONS ") ;
+textcolor(LIGHTGRAY) ;
+file:///C/......Prateek/....Prateek/New%20folder/fee.txt[18-07-2016 19:55:12]
+textbackground(BLACK) ;
+gotoxy(35,14) ;
+cout <<"1: FEE SLIP" ;
+gotoxy(35,15) ;
+cout <<"2: MODIFY" ;
+gotoxy(35,16) ;
+cout <<"3: LIST" ;
+gotoxy(35,17) ;
+cout <<"0: QUIT" ;
+gotoxy(32,19) ;
+cout <<"Enter your choice : " ;
+ch = getche() ;
+if (ch == 27 || ch == '0')
+break ;
+else
+if (ch == '1')
+fee.FEE_SLIP() ;
+else
+if (ch == '2')
+fee.MODIFICATION() ;
+else
+if (ch == '3')
+fee.LIST() ;
+}
+}

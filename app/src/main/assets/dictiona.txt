@@ -1,0 +1,591 @@
+// P R O J E C T D I C T I O N A R Y
+// BY - PRATEEK GOYAL
+//**********************************************************
+//**********************************************************
+// I N C L U D E D H E A D E R F I L E S
+//**********************************************************
+#include <iostream.h>
+#include <conio.h>
+#include <dos.h>
+#include <string.h>
+#include <fstream.h>
+#include <stdio.h>
+#include <ctype.h>
+//**********************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS IN THE MENU
+//**********************************************************
+class MENU
+{
+public :
+void MENU1(void) ;
+} ;
+//**********************************************************
+// THIS CLASS CONTROL ALL THE FUNCTIONS RELATED TO
+// DICTIONARY
+//**********************************************************
+class DICTIONARY
+{
+private :
+void ADD_RECORD() ;
+void DELETE_RECORD(char[]) ;
+int RECORDS(void) ;
+int FOUND(char []) ;
+void DISPLAY(char []) ;
+char word[30], meaning[80], adjective[50], noun[50] ;
+char adverb[50], antonym[50] ;
+public :
+void ADDITION(void) ;
+void DELETION(void) ;
+void LIST(void) ;
+void INTRODUCTION(void) ;
+} ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+//**********************************************************
+// FUNCTION TO DISPLAY MAIN MENU AND CALL OTHER FUNCTIONS
+//**********************************************************
+void MENU :: MENU1(void)
+{
+char ch ;
+while (1)
+{
+clrscr() ;
+gotoxy(26,7) ;
+cprintf(" D I C T I O N A R Y ") ;
+gotoxy(35,9) ;
+cprintf(" OPTIONS ") ;
+gotoxy(30,12) ;
+cout <<"1: MEANING" ;
+gotoxy(30,13) ;
+cout <<"2: ADD WORDS" ;
+gotoxy(30,14) ;
+cout <<"3: DELETE WORDS" ;
+gotoxy(30,15) ;
+cout <<"4: INTRODUCTION" ;
+gotoxy(30,16);
+cout <<"5: HELP";
+gotoxy(30,17) ;
+cout <<"0: QUIT" ;
+gotoxy(30,19) ;
+cout <<"ENTER YOUR CHOICE........" ;
+ch=getche();
+if (ch==27||ch=='0')
+break ;
+else
+if (ch=='1')
+{
+DICTIONARY D ;
+D.LIST() ;
+}
+else
+if (ch=='2')
+{
+DICTIONARY D ;
+D.ADDITION() ;
+}
+else
+if (ch=='3')
+{
+DICTIONARY D ;
+D.DELETION() ;
+}
+else
+if (ch=='4')
+{
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+DICTIONARY D ;
+D.INTRODUCTION() ;
+}
+}
+}
+//**********************************************************
+// THIS FUNCTION DISPLAY THE INTRODUCTION OF THE PROJECT
+//**********************************************************
+void DICTIONARY :: INTRODUCTION(void)
+{
+clrscr() ;
+gotoxy(34,6) ;
+cprintf(" D I C T I O N A R Y ") ;
+gotoxy(23,9) ;
+cout <<"IN THIS PROJECT YOU CAN STORE MORE...." ;
+gotoxy(23,10) ;
+cout <<"THAN 10,000 RECORDS OF WORDS WITH...." ;
+gotoxy(23,11) ;
+cout <<"THEIR MEANING...." ;
+gotoxy(23,13) ;
+cout <<"YOU CAN EVEN SEE...." ;
+gotoxy(23,15) ;
+cout <<"WORDS WITH THEIR MEANING..." ;
+gotoxy(23,16) ;
+cout <<"AND YOU CAN ALSO SEE WHETHER A WORD IS...";
+gotoxy(23,17) ;
+cout <<"ADLECTIVE,.." ;
+gotoxy(23,18) ;
+cout <<"NOUN,...." ;
+gotoxy(23,19) ;
+cout <<"ADVERB,..." ;
+gotoxy(23,20) ;
+cout<<"OR....";
+gotoxy(23,21) ;
+cout <<"IT IS A ANTONYM......." ;
+gotoxy(5,24) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+//**********************************************************
+// THIS FUNCTION RETURNS THE TOTAL NO. OF RECORDS IN THE
+// FILE (DIC.DAT)
+//**********************************************************
+int DICTIONARY :: RECORDS(void)
+{
+int count=0 ;
+fstream file ;
+file.open("DIC.DAT", ios::in) ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+while (file.read((char *) this, sizeof(DICTIONARY)))
+count++ ;
+file.close() ;
+return count ;
+}
+//**********************************************************
+// THIS FUNCTION RETURNS 0 IF THE GIVEN WORD NOT FOUND IN
+// FILE (DIC.DAT)
+//**********************************************************
+int DICTIONARY :: FOUND(char dword[30])
+{
+int found=0 ;
+fstream file ;
+file.open("DIC.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(DICTIONARY)))
+{
+if (!strcmpi(dword,word))
+{
+found = 1 ;
+break ;
+}
+}
+file.close() ;
+return found ;
+}
+//**********************************************************
+// THIS FUNCTION ADDS RECORDS IN THE FILE (DIC.DAT)
+//**********************************************************
+void DICTIONARY :: ADDITION(void)
+{
+char ch ;
+char dword[30], dmeaning[80], dadjective[50], dnoun[50] ;
+char dadverb[50], dantonym[50] ;
+int valid=1 ;
+clrscr() ;
+if (RECORDS() == 0)
+{
+fstream file ;
+file.open("DIC.DAT", ios::app) ;
+strcpy(word,"null") ;
+strcpy(meaning,"null") ;
+strcpy(adjective,"null") ;
+strcpy(noun,"null") ;
+strcpy(adverb,"null") ;
+strcpy(antonym,"null") ;
+file.write((char *) this, sizeof(DICTIONARY)) ;
+file.close() ;
+DELETE_RECORD("null") ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+}
+gotoxy(71,1) ;
+cout <<"<0>=Exit" ;
+gotoxy(26,2) ;
+cout <<"ADDITION OF WORD AND MEANING" ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER WORD TO ADDED TO THE DICTIONARY" ;
+gotoxy(1,5) ; clreol() ;
+cout <<"Word : " ;
+gets(dword) ;
+strupr(dword) ;
+if (dword[0] == '0')
+return ;
+if (strlen(dword) < 1 || strlen(dword) > 29)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7NAME SHOULD NOT BLANK OR GREATER THAN 29" ;
+getch() ;
+}
+if (FOUND(dword) && valid)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7WORD ALREADY EXIST" ;
+getch() ;
+}
+} while (!valid) ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER MEANING OF THE WORD" ;
+gotoxy(1,7) ;
+cout <<"Meaning" ;
+gotoxy(1,8) ; clreol() ;
+gets(dmeaning) ;
+strupr(dmeaning) ;
+if (dmeaning[0] == '0')
+return ;
+if (strlen(dmeaning) < 1 || strlen(dmeaning) > 79)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7IT SHOULD NOT BLANK OR GREATER THAN 79" ;
+getch() ;
+}
+} while (!valid) ;
+gotoxy(1,10) ;
+cout <<"ADJECTIVE:" ;
+gotoxy(1,11) ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+cout <<"NOUN:" ;
+gotoxy(1,12) ;
+cout <<"ADVERB:" ;
+gotoxy(1,13) ;
+cout <<"ANTONYM:" ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER ADJECTIVE or <ENTER> FOR BLANK" ;
+gotoxy(14,10) ; clreol() ;
+gets(dadjective) ;
+strupr(dadjective) ;
+if (dadjective[0] == '0')
+return ;
+if (strlen(dmeaning) > 49)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7IT SHOULD NOT GREATER THAN 49" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(dadjective) == 0)
+strcpy(dadjective,"null") ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER NOUN or <ENTER> FOR BLANK" ;
+gotoxy(14,11) ; clreol() ;
+gets(dnoun) ;
+strupr(dnoun) ;
+if (dnoun[0] == '0')
+return ;
+if (strlen(dnoun) > 49)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7IT SHOULD NOT GREATER THAN 49" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(dnoun) == 0)
+strcpy(dnoun,"null") ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER ADVERB or <ENTER> FOR BLANK" ;
+gotoxy(14,12) ; clreol() ;
+gets(dadverb) ;
+strupr(dadverb) ;
+if (dadverb[0] == '0')
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+return ;
+if (strlen(dadverb) > 49)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7IT SHOULD NOT GREATER THAN 49" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(dadverb) == 0)
+strcpy(dadverb,"null") ;
+do
+{
+valid = 1 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"ENTER ANTONYM or <ENTER> FOR BLANK" ;
+gotoxy(14,13) ; clreol() ;
+gets(dantonym) ;
+strupr(dantonym) ;
+if (dantonym[0] == '0')
+return ;
+if (strlen(dantonym) > 49)
+{
+valid = 0 ;
+gotoxy(1,25) ; clreol() ;
+cout <<"\7IT SHOULD NOT GREATER THAN 49" ;
+getch() ;
+}
+} while (!valid) ;
+if (strlen(dantonym) == 0)
+strcpy(dantonym,"null") ;
+gotoxy(1,25) ; clreol() ;
+do
+{
+gotoxy(1,17) ; clreol() ;
+cout <<"Do you want to save the record (y/n) : " ;
+ch = getche() ;
+if (ch == '0')
+return ;
+ch = toupper(ch) ;
+} while (ch != 'N' && ch != 'Y') ;
+if (ch == 'N')
+return ;
+fstream file ;
+file.open("DIC.DAT", ios::app) ;
+strcpy(word,dword) ;
+strcpy(meaning,dmeaning) ;
+strcpy(adjective,dadjective) ;
+strcpy(noun,dnoun) ;
+strcpy(adverb,dadverb) ;
+strcpy(antonym,dantonym) ;
+file.write((char *) this, sizeof(DICTIONARY)) ;
+file.close() ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+//**********************************************************
+// THIS FUNCTION DISPLAY LIST OF THE WORDS AND MEANING IN
+// THE DICTIONARY
+//**********************************************************
+void DICTIONARY :: LIST(void)
+{
+clrscr() ;
+MENU m ;
+char tword[30], t1word[30] ;
+gotoxy(3,5) ;
+cout <<"Enter character(s) for Meaning of a Word" ;
+gotoxy(3,6) ;
+cout <<"or press <ENTER> for whole list or `0' for exit : " ;
+gets(tword) ;
+if (tword[0] == '0')
+return ;
+int len = strlen(tword) ;
+clrscr() ;
+fstream file ;
+file.open("DIC.DAT", ios::in) ;
+file.seekg(0,ios::beg) ;
+int row = 4 ;
+int found = 0 ;
+int pageno = 1 ;
+int flag = 1 ;
+char ch ;
+gotoxy(34,2) ;
+cprintf(" D I C T I O N A R Y ") ;
+while (file.read((char *) this, sizeof(DICTIONARY)))
+{
+flag = 1 ;
+for (int i=0; i<len; i++)
+t1word[i] = word[i] ;
+t1word[len] = '\0' ;
+if (!strcmpi(tword,t1word))
+{
+delay(20) ;
+found = 1 ;
+gotoxy(1,row++) ;
+cprintf("Word : ") ;
+cout <<word ;
+gotoxy(1,row++) ;
+cprintf("%s",meaning) ;
+if (strcmpi(adjective,"null"))
+{
+gotoxy(1,row++) ;
+cprintf("Adjective : ") ;
+cout <<adjective ;
+}
+if (strcmpi(noun,"null"))
+{
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+gotoxy(1,row++) ;
+cprintf("Noun : ") ;
+cout <<noun ;
+}
+if (strcmpi(adverb,"null"))
+{
+gotoxy(1,row++) ;
+cprintf("Adverb : ") ;
+cout <<adverb ;
+}
+if (strcmpi(antonym,"null"))
+{
+gotoxy(1,row++) ;
+cprintf("Antonym : ") ;
+cout <<antonym ;
+}
+if (row >= 17)
+{
+flag = 0 ;
+row = 4 ;
+gotoxy(66,1) ;
+cout <<"Page no. : " <<pageno ;
+pageno++ ;
+gotoxy(1,25) ;
+cout <<"Press <ESC> to exit or any other key to continue..." ;
+ch = getch() ;
+if (ch == 27)
+return ;
+clrscr() ;
+gotoxy(34,2) ;
+cprintf(" DICTIONARY ") ;
+}
+else
+row++ ;
+}
+}
+if ( !found )
+{
+sound(5000) ;
+delay(1000) ;
+nosound() ;
+gotoxy(1,5) ;
+cout <<"WORD NOT PRESENT" ;
+}
+if (flag)
+{
+gotoxy(66,1) ;
+cout <<"Page no. : " <<pageno ;
+gotoxy(1,25) ;
+cout <<"Press any key to continue..." ;
+getch() ;
+}
+file.close() ;
+}
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+//**********************************************************
+// THIS FUNCTION DELETE RECORD FROM THE DICTIONARY
+//**********************************************************
+void DICTIONARY :: DELETE_RECORD(char dword[30])
+{
+fstream file ;
+file.open("DIC.DAT", ios::in) ;
+fstream temp ;
+temp.open("temp.dat", ios::out) ;
+file.seekg(0,ios::beg) ;
+while (!file.eof())
+{
+file.read((char *) this, sizeof(DICTIONARY)) ;
+if (file.eof())
+break ;
+if (strcmpi(word,dword))
+temp.write((char *) this, sizeof(DICTIONARY)) ;
+}
+file.close() ;
+temp.close() ;
+file.open("DIC.DAT", ios::out) ;
+temp.open("temp.dat", ios::in) ;
+temp.seekg(0,ios::beg) ;
+while ( !temp.eof() )
+{
+temp.read((char *) this, sizeof(DICTIONARY)) ;
+if ( temp.eof() )
+break ;
+file.write((char *) this, sizeof(DICTIONARY)) ;
+}
+file.close() ;
+temp.close() ;
+}
+//**********************************************************
+// THIS FUNCTION DISPLAY RECORD FOR THE GIVEN WORD IN
+// THE DICTIONARY
+//**********************************************************
+void DICTIONARY :: DISPLAY(char dword[30])
+{
+fstream file ;
+file.open("DIC.DAT", ios::in) ;
+while (file.read((char *) this, sizeof(DICTIONARY)))
+{
+if (!strcmpi(dword,word))
+{
+gotoxy(1,5) ;
+cout <<"Word : " <<word ;
+cout <<"\n\nMeaning \n" <<meaning ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+if (strcmpi(adjective,"null"))
+cout <<"\n\nAdjective : " <<adjective ;
+if (strcmpi(noun,"null"))
+cout <<"\nNoun : " <<noun ;
+if (strcmpi(adverb,"null"))
+cout <<"\nAdverb : " <<adverb ;
+if (strcmpi(antonym,"null"))
+cout <<"\nAntonym : " <<antonym ;
+break ;
+}
+}
+file.close() ;
+}
+//**********************************************************
+// THIS FUNCTION GIVE WORD TO DELETE RECORD FROM THE FILE
+//**********************************************************
+void DICTIONARY :: DELETION(void)
+{
+char ch, dword[30] ;
+MENU m ;
+int valid=0 ;
+do
+{
+valid = 1 ;
+clrscr() ;
+gotoxy(26,2) ;
+cprintf(" DELETION IN THE DICTIONARY ") ;
+gotoxy(71,1) ;
+cout <<"<0>=Exit" ;
+gotoxy(5,5) ;
+cout <<"Enter word or <ENTER> for Help : " ;
+gets(dword) ;
+if (dword[0] == '0')
+return ;
+if (strlen(dword) == 0)
+{
+valid = 0 ;
+LIST() ;
+}
+} while (!valid) ;
+if (!FOUND(dword))
+{
+gotoxy(5,10) ;
+cout <<"\n Word not found in dictionary" ;
+getch() ;
+return ;
+}
+clrscr() ;
+gotoxy(26,2) ;
+cprintf(" DELETION IN THE DICTIONARY ") ;
+gotoxy(71,1) ;
+file:///C/......Prateek/....Prateek/New%20folder/DICTIONA.txt[18-07-2016 19:55:10]
+cout <<"<0>=Exit" ;
+DISPLAY(dword) ;
+do
+{
+gotoxy(1,16) ; clreol() ;
+cout <<"Do you want to Delete this record (y/n) : " ;
+ch = getche() ;
+if (ch == '0')
+return ;
+ch = toupper(ch) ;
+} while (ch != 'N' && ch != 'Y') ;
+if (ch == 'N')
+return ;
+DELETE_RECORD(dword) ;
+gotoxy(1,20) ;
+cout <<"\nRecord Deleted" ;
+getch() ;
+}
+//**********************************************************
+// MAIN FUNCTION CALLING MAIN MENU
+//**********************************************************
+void main(void)
+{
+MENU menu ;
+menu.MENU1() ;
+}
