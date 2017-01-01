@@ -1,6 +1,6 @@
 # Cpp
 This is an app which has some inbuilt C++ projects.
-You may find many apps on play store which have inbuilt C/C++ programs but you may not find any app which has projects instead of programs. So a sincere effort was made to create such type of app.
+<br> You may find many apps on play store which have inbuilt C/C++ programs but you may not find any app which has projects instead of programs. So a sincere effort was made to create such type of app. </br>
 
 If you want to test this app, you can download the apk from app/build/outputs/apk/apk-debug.apk
 
